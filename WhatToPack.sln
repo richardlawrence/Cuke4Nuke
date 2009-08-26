@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{2C03538A-590B-481B-B347-4A79E7A6E078}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{AC9AAF26-E4EC-43A0-A458-96EEF2BE51D2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2C03538A-590B-481B-B347-4A79E7A6E078}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C03538A-590B-481B-B347-4A79E7A6E078}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C03538A-590B-481B-B347-4A79E7A6E078}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C03538A-590B-481B-B347-4A79E7A6E078}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC9AAF26-E4EC-43A0-A458-96EEF2BE51D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC9AAF26-E4EC-43A0-A458-96EEF2BE51D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC9AAF26-E4EC-43A0-A458-96EEF2BE51D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC9AAF26-E4EC-43A0-A458-96EEF2BE51D2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
