@@ -39,7 +39,7 @@ namespace CukeTests
 
         // option 1
         [Given(@"^a packing list with an? (.*)$")]
-        public void PackingListWitThing(string thing)
+        public void PackingListWithThing(string thing)
         {
         }
 
@@ -48,6 +48,8 @@ namespace CukeTests
         {
             Given(@"^a packing list with an? (.*)$", (string thing) => {
                 // lambda body
+
+                // TODO: figure out how to write assertions
             });
         }
 
