@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>9bcd9ddc-f265-46b4-b3f7-8e7e411c6ed4</ProjectGuid>
+    <ProjectGuid>{F033136A-F20B-4866-AB88-2939DAE53E56}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CukeTests</RootNamespace>
@@ -45,8 +45,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Steps.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="features\evaluate_packing_rules.feature" />
+    <None Include="features\step_definitions\steps.rb" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cuke4Nuke\Cuke4Nuke.csproj">
+      <Project>{8C373162-58F7-4DDD-A644-C8F458793BF1}</Project>
+      <Name>Cuke4Nuke</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

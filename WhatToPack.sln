@@ -5,6 +5,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{AC9AAF26-E4EC-43A0-A458-96EEF2BE51D2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CukeTests", "CukeTests\CukeTests.csproj", "{F033136A-F20B-4866-AB88-2939DAE53E56}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cuke4Nuke", "Cuke4Nuke\Cuke4Nuke.csproj", "{8C373162-58F7-4DDD-A644-C8F458793BF1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +23,14 @@ Global
 		{AC9AAF26-E4EC-43A0-A458-96EEF2BE51D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC9AAF26-E4EC-43A0-A458-96EEF2BE51D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC9AAF26-E4EC-43A0-A458-96EEF2BE51D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F033136A-F20B-4866-AB88-2939DAE53E56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F033136A-F20B-4866-AB88-2939DAE53E56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F033136A-F20B-4866-AB88-2939DAE53E56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F033136A-F20B-4866-AB88-2939DAE53E56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C373162-58F7-4DDD-A644-C8F458793BF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C373162-58F7-4DDD-A644-C8F458793BF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C373162-58F7-4DDD-A644-C8F458793BF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C373162-58F7-4DDD-A644-C8F458793BF1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
