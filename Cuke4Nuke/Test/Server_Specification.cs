@@ -23,14 +23,14 @@ namespace Test
             string serverExePath = @"..\..\..\Server\bin\Debug\Cuke4Nuke.Server.exe";
             serverProcess = Process.Start(serverExePath, "-p " + port);
 
-            // connect to the Cuke4Nuker server over TCP
+            // connect to the Cuke4Nuke server over TCP
             client = new TcpClient("localhost", port);
         }
 
         [TestFixtureTearDown]
         public void TestFixtureTeardown()
         {
-            // kill the Cuke4Nuker server process, swallowing the exception to avoid the 
+            // kill the Cuke4Nuke server process, swallowing the exception to avoid the 
             // uncaught exception dialog
             try
             {
