@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using System.Reflection;
 
 namespace Cuke4Nuke.Core.Test
 {
@@ -24,18 +25,21 @@ namespace Cuke4Nuke.Core.Test
         }
 
         [Test]
-        public void ShouldTakePatternInConstructor()
+        public void ShouldHaveMethodProperty()
         {
-            StepDefinition sd = new StepDefinition(".*");
-            Assert.That(sd.Pattern, Is.EqualTo(".*"));
+            StepDefinition sd = new StepDefinition();
+            Assert.That(sd, Has.Property("Method"));
         }
 
         [Test]
-        public void ShouldTakeIdAndPatternInConstructor()
+        public void ShouldTakePatternAndMethodInConstructor()
         {
-            StepDefinition sd = new StepDefinition("id", ".*");
-            Assert.That(sd.Id, Is.EqualTo("id"));
+            MethodInfo dummyMethod = this.GetType().GetMethod("DummyMethod");
+            StepDefinition sd = new StepDefinition(".*", dummyMethod);
             Assert.That(sd.Pattern, Is.EqualTo(".*"));
+            Assert.That(sd.Method, Is.EqualTo(dummyMethod));
         }
+
+        public void DummyMethod() { }
     }
 }

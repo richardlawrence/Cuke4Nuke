@@ -7,13 +7,13 @@ namespace Cuke4Nuke.TestStepDefinitions
     public class SimpleSteps
     {
         [Then("^it should pass.$")]
-        public void ItShouldPass()
+        public static void ItShouldPass()
         {
             Assert.Pass();
         }
 
         [Then("^it should fail.$")]
-        public void ItShouldFail()
+        public static void ItShouldFail()
         {
             Assert.Fail();
         }

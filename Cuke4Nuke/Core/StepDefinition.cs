@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 
 namespace Cuke4Nuke.Core
 {
@@ -26,12 +27,12 @@ namespace Cuke4Nuke.Core
         /// <summary>
         /// Initializes a new instance of the StepDefinition class.
         /// </summary>
-        /// <param name="id"></param>
         /// <param name="pattern"></param>
-        public StepDefinition(string id, string pattern)
+        /// <param name="method"></param>
+        public StepDefinition(string pattern, MethodInfo method)
         {
-            _id = id;
             _pattern = pattern;
+            _method = method;
         }
 
         private string _id;
@@ -53,5 +54,16 @@ namespace Cuke4Nuke.Core
                 _pattern = value;
             }
         }
+
+        private MethodInfo _method;
+        public MethodInfo Method
+        {
+            get { return _method; }
+            set
+            {
+                _method = value;
+            }
+        }
+        
     }
 }
