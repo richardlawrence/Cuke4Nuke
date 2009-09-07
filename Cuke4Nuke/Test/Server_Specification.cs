@@ -13,7 +13,7 @@ namespace Test
     public class Server_Specification
     {
         Process serverProcess;
-        int port = 3901;
+        int port = 3902;
         TcpClient client;
 
         [TestFixtureSetUp]
@@ -21,7 +21,7 @@ namespace Test
         {
             // launch the Cuke4Nuke server in a separate process
             string serverExePath = @"..\..\..\Server\bin\Debug\Cuke4Nuke.Server.exe";
-            serverProcess = Process.Start(serverExePath);
+            serverProcess = Process.Start(serverExePath, "-p " + port);
 
             // connect to the Cuke4Nuker server over TCP
             client = new TcpClient("localhost", port);
