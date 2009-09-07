@@ -11,28 +11,13 @@ namespace Cuke4Nuke.Core
         /// <summary>
         /// Initializes a new instance of the StepDefinition class.
         /// </summary>
-        public StepDefinition()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the StepDefinition class.
-        /// </summary>
-        /// <param name="pattern"></param>
-        public StepDefinition(string pattern)
-        {
-            _pattern = pattern;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the StepDefinition class.
-        /// </summary>
         /// <param name="pattern"></param>
         /// <param name="method"></param>
         public StepDefinition(string pattern, MethodInfo method)
         {
             _pattern = pattern;
             _method = method;
+            _id = GetHashCode().ToString();
         }
 
         private string _id;
@@ -44,7 +29,7 @@ namespace Cuke4Nuke.Core
                 _id = value;
             }
         }
-
+        
         private string _pattern;
         public string Pattern
         {
@@ -64,6 +49,10 @@ namespace Cuke4Nuke.Core
                 _method = value;
             }
         }
-        
+
+        public override int GetHashCode()
+        {
+            return _pattern.GetHashCode() ^ _method.GetHashCode();
+        }
     }
 }

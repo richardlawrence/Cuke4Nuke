@@ -13,21 +13,21 @@ namespace Cuke4Nuke.Core.Test
         [Test]
         public void ShouldHavePatternProperty()
         {
-            StepDefinition sd = new StepDefinition();
+            StepDefinition sd = CreateStepDefinition();
             Assert.That(sd, Has.Property("Pattern"));
         }
 
         [Test]
         public void ShouldHaveIdProperty()
         {
-            StepDefinition sd = new StepDefinition();
+            StepDefinition sd = CreateStepDefinition();
             Assert.That(sd, Has.Property("Id"));
         }
 
         [Test]
         public void ShouldHaveMethodProperty()
         {
-            StepDefinition sd = new StepDefinition();
+            StepDefinition sd = CreateStepDefinition();
             Assert.That(sd, Has.Property("Method"));
         }
 
@@ -38,6 +38,19 @@ namespace Cuke4Nuke.Core.Test
             StepDefinition sd = new StepDefinition(".*", dummyMethod);
             Assert.That(sd.Pattern, Is.EqualTo(".*"));
             Assert.That(sd.Method, Is.EqualTo(dummyMethod));
+        }
+
+        [Test]
+        public void ShouldAssignIdInConstructor()
+        {
+            StepDefinition sd = CreateStepDefinition();
+            Assert.That(sd.Id, Is.Not.Null & Is.Not.Empty);
+        }
+
+        private StepDefinition CreateStepDefinition()
+        {
+            MethodInfo dummyMethod = this.GetType().GetMethod("DummyMethod");
+            return new StepDefinition(".*", dummyMethod);
         }
 
         public void DummyMethod() { }
