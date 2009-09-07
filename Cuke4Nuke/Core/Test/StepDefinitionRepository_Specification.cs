@@ -34,6 +34,16 @@ namespace Cuke4Nuke.Core.Test
             Assert.That((string) data[0]["regexp"], Is.EqualTo(sd.Pattern));
         }
 
+        [Test]
+        public void ShouldLoadStepDefinitionsFromOutsideAssembly()
+        {
+            StepDefinitionRepository sdr = new StepDefinitionRepository();
+            string assemblyPath = @"..\..\..\TestStepDefinitions\bin\Debug\Cuke4Nuke.TestStepDefinitions.dll";
+            sdr.Load(assemblyPath);
+
+            Assert.That(sdr.StepDefinitions.Count, Is.EqualTo(2));
+        }
+
         private StepDefinition CreateStepDefinition()
         {
             MethodInfo dummyMethod = this.GetType().GetMethod("DummyMethod");
