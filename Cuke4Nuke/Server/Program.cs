@@ -5,6 +5,7 @@ using System.Text;
 using System.Net.Sockets;
 using System.Threading;
 using System.Net;
+using System.IO;
 
 namespace Cuke4Nuke.Server
 {
@@ -23,6 +24,7 @@ namespace Cuke4Nuke.Server
                 if (listener.Pending())
                 {
                     client = listener.AcceptTcpClient();
+                    Console.WriteLine("Connected to client.");
                     break;
                 }
                 else
@@ -30,8 +32,27 @@ namespace Cuke4Nuke.Server
                     Thread.Sleep(500);
                 }
             }
-            Console.WriteLine("Press Enter to exit.");
-            Console.ReadLine();
+
+            NetworkStream stream = client.GetStream();
+            StreamReader reader = new StreamReader(stream);
+            StreamWriter writer = new StreamWriter(stream);
+
+            while (true)
+            {
+                Console.WriteLine("Waiting for command.");
+                string command = reader.ReadLine();
+                Console.WriteLine("Received command <" + command + ">.");
+                switch (command)
+                {
+                    case "list_step_definitions":
+                        writer.WriteLine("[]");
+                        writer.Flush();
+                        break;
+                    default:
+                        writer.WriteLine("ERROR: Command not recognized.");
+                        break;
+                }
+            }
         }
     }
 }
