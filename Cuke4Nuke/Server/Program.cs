@@ -1,5 +1,6 @@
 ﻿using System;
 using NDesk.Options;
+using System.Collections.Generic;
 
 namespace Cuke4Nuke.Server
 {
@@ -9,6 +10,7 @@ namespace Cuke4Nuke.Server
         {
             int port = 3901;
             bool showHelp = false;
+            List<string> assemblyPaths = new List<string>();
 
             var p = new OptionSet()
             {
@@ -16,6 +18,11 @@ namespace Cuke4Nuke.Server
                     "p|port=", 
                     "the {PORT} the server should listen on.",
                     (int v) => port = v
+                },
+                {
+                    "a|assembly=",
+                    "an assembly to search for step definition methods.",
+                    v => assemblyPaths.Add(v)
                 },
                 {
                     "h|?|help",
@@ -31,7 +38,7 @@ namespace Cuke4Nuke.Server
                 return;
             }
 
-            Listener listener = new Listener(port);
+            Listener listener = new Listener(port, assemblyPaths.ToArray());
         }
 
         static void ShowHelp(OptionSet p)

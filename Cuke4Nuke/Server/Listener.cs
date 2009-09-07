@@ -3,16 +3,21 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using Cuke4Nuke.Core;
 
 namespace Cuke4Nuke.Server
 {
     public class Listener
     {
-        /// <summary>
-        /// Initializes a new instance of the Listener class.
-        /// </summary>
-        public Listener(int port)
+        StepDefinitionRepository _repository = new StepDefinitionRepository();
+
+        public Listener(int port, string[] assembliesToLoad)
         {
+            foreach (string assemblyPath in assembliesToLoad)
+            {
+                _repository.Load(assemblyPath);
+            }
+
             Start(port);
         }
 
@@ -49,7 +54,7 @@ namespace Cuke4Nuke.Server
                 switch (command)
                 {
                     case "list_step_definitions":
-                        writer.WriteLine("[]");
+                        writer.WriteLine(_repository.ListStepDefinitionsAsJson());
                         writer.Flush();
                         break;
                     default:
