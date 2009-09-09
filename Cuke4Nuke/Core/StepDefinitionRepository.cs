@@ -5,6 +5,7 @@ using System.Text;
 using LitJson;
 using System.Reflection;
 using Cuke4Nuke.Framework;
+using NUnit.Framework;
 
 namespace Cuke4Nuke.Core
 {
@@ -59,6 +60,36 @@ namespace Cuke4Nuke.Core
                     }
                 }
             }
+        }
+
+        public string InvokeStep(string invocationDetails)
+        {
+            string stepId = JsonMapper.ToObject(invocationDetails)["id"].ToString();
+            StepDefinition sd = _stepDefinitions.Find(s => s.Id == stepId);
+
+            try
+            {
+                sd.Method.Invoke(null, null);
+            }
+            catch (TargetInvocationException ex)
+            {
+                if (ex.InnerException.GetType() == typeof(SuccessException))
+                {
+                    return "OK";
+                }
+                else
+                {
+                    Exception e = ex.InnerException;
+                    string response = @"FAIL:{ ""message"" : """ + e.GetType().ToString() + ": " + e.Message + @""" }";
+                    return response;
+                }
+            }
+            catch (Exception ex)
+            {
+                string response = @"FAIL:{ ""message"" : """ + ex.GetType().ToString() + ": " + ex.Message + @""" }";
+                return response;
+            }
+            return "OK";
         }
     }
 }

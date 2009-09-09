@@ -51,16 +51,26 @@ namespace Cuke4Nuke.Server
                 Console.WriteLine("Waiting for command.");
                 string command = reader.ReadLine();
                 Console.WriteLine("Received command <" + command + ">.");
-                switch (command)
-                {
-                    case "list_step_definitions":
-                        writer.WriteLine(_repository.ListStepDefinitionsAsJson());
-                        writer.Flush();
-                        break;
-                    default:
-                        writer.WriteLine("ERROR: Command not recognized.");
-                        break;
-                }
+                string response = ProcessCommand(command);
+                writer.WriteLine(response);
+                writer.Flush();
+            }
+        }
+
+        private string ProcessCommand(string command)
+        {
+            if (command == "list_step_definitions")
+            {
+                return _repository.ListStepDefinitionsAsJson();
+            }
+            else if (command.StartsWith("invoke:"))
+            {
+                string invocationDetails = command.Substring(7);
+                return _repository.InvokeStep(invocationDetails);
+            }
+            else
+            {
+                return "ERROR: Command not recognized.";
             }
         }
     }
