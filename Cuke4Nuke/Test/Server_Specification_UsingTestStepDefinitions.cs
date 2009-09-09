@@ -66,11 +66,11 @@ namespace Test
 
         [Test]
         [Timeout(5000)]
-        public void ShouldRespondToListStepDefinitionsWithJsonArrayOf2Elements()
+        public void ShouldRespondToListStepDefinitionsWithJsonArrayOf3Elements()
         {
             string response = SendCommand("list_step_definitions");
             JsonData data = JsonMapper.ToObject(response);
-            Assert.AreEqual(2, data.Count);
+            Assert.AreEqual(3, data.Count);
         }
 
         [Test]
@@ -95,6 +95,54 @@ namespace Test
             string stepInvokeResponse = SendCommand(invokeCommand);
 
             Assert.That(stepInvokeResponse, Is.EqualTo("OK"));
+        }
+
+        [Test]
+        [Timeout(5000)]
+        public void ShouldInvokeNoAssertionStepWithOkResponse()
+        {
+            // get the id of the simple passing step definition
+            string stepListResponse = SendCommand("list_step_definitions");
+            JsonData stepListJson = JsonMapper.ToObject(stepListResponse);
+            string stepId = "";
+            for (int i = 0; i < stepListJson.Count; i++)
+            {
+                if (stepListJson[i]["regexp"].ToString() == "^nothing$")
+                {
+                    stepId = stepListJson[i]["id"].ToString();
+                    break;
+                }
+            }
+
+            // invoke that step definition and confirm response is OK
+            string invokeCommand = @"invoke:{ ""id"" : """ + stepId + @""" }";
+            string stepInvokeResponse = SendCommand(invokeCommand);
+
+            Assert.That(stepInvokeResponse, Is.EqualTo("OK"));
+        }
+
+        [Test]
+        [Timeout(5000)]
+        public void ShouldInvokeFailingStepWithFailResponse()
+        {
+            // get the id of the simple passing step definition
+            string stepListResponse = SendCommand("list_step_definitions");
+            JsonData stepListJson = JsonMapper.ToObject(stepListResponse);
+            string stepId = "";
+            for (int i = 0; i < stepListJson.Count; i++)
+            {
+                if (stepListJson[i]["regexp"].ToString() == "^it should fail.$")
+                {
+                    stepId = stepListJson[i]["id"].ToString();
+                    break;
+                }
+            }
+
+            // invoke that step definition and confirm response is OK
+            string invokeCommand = @"invoke:{ ""id"" : """ + stepId + @""" }";
+            string stepInvokeResponse = SendCommand(invokeCommand);
+
+            Assert.That(stepInvokeResponse, Is.StringStarting("FAIL:"));
         }
     }
 }

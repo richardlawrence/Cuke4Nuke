@@ -6,6 +6,11 @@ namespace Cuke4Nuke.TestStepDefinitions
 {
     public class SimpleSteps
     {
+        [Given("^nothing$")]
+        public static void DoNothing()
+        {
+        }
+
         [Then("^it should pass.$")]
         public static void ItShouldPass()
         {
