@@ -50,13 +50,6 @@ it should cause Cuke4Nuke to invoke your ItShouldPass() method and show a succes
 
 Currently, Cuke4Nuke can't handle step parameters, hooks, or shared state between steps, so you can't do anything very interesting with it yet. But soon...
 
-## Backlog
+## Contributing
 
-* Support for parameters on steps.
-* Support for hooks (i.e. Before, After, etc.).
-* Support for tables.
-* Shared state between steps.
-* Better feedback from failing steps.
-* An installer that gets all the dependencies so nobody has to know about Ruby unless they want to.
-* Support for assertions from test frameworks other than NUnit.
-* ?
+Of course, you're welcome to fork this repository, make changes, and send a pull request. But if you want to coordinate your work with the others contributing to the project, speak up on the [cukes mailing list](http://groups.google.com/group/cukes) with what you intend to work on, and I'll update the [Issues](http://github.com/richardlawrence/Cuke4Nuke/issues) list accordingly.
