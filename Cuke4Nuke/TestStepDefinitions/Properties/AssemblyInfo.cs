@@ -1,16 +1,15 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("TestStepDefiintions")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Specifications")]
+[assembly: AssemblyDescription("Cuke4Nuke Specifications")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("TestStepDefiintions")]
-[assembly: AssemblyCopyright("Copyright ©  2009")]
+[assembly: AssemblyProduct("Specifications")]
+[assembly: AssemblyCopyright("Copyright © 2009 Richard Laurence, Declan Whelan")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

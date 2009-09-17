@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{936E6D55-416C-4008-A682-84825AE0E4DB}</ProjectGuid>
     <OutputType>Exe</OutputType>
@@ -12,6 +12,7 @@
     <AssemblyName>Cuke4Nuke.Server</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <StartupObject>Cuke4Nuke.Server.NukeServer</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -49,14 +50,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Listener.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="NukeServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{3CF36FF9-CE32-4868-84EC-D76E1E75148C}</Project>
       <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestStepDefinitions\TestStepDefinitions.csproj">
+      <Project>{AE068AEA-645F-4DF7-BAD1-671B5DE5576D}</Project>
+      <Name>TestStepDefinitions</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

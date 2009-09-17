@@ -1,58 +1,66 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Reflection;
+
+using Cuke4Nuke.Framework;
 
 namespace Cuke4Nuke.Core
 {
-    public class StepDefinition
+    public class StepDefinition : IEquatable<StepDefinition>
     {
-        /// <summary>
-        /// Initializes a new instance of the StepDefinition class.
-        /// </summary>
-        /// <param name="pattern"></param>
-        /// <param name="method"></param>
-        public StepDefinition(string pattern, MethodInfo method)
+        public const BindingFlags MethodFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static;
+
+        public string Pattern { get; private set; }
+        public MethodInfo Method { get; private set; }
+        public string Id { get { return Method.DeclaringType.FullName + "." + Method.Name; } }
+
+        public StepDefinition(MethodInfo method)
         {
-            _pattern = pattern;
-            _method = method;
-            _id = GetHashCode().ToString();
+            if (!method.IsStatic)
+                throw new ArgumentException("method " + method + " must be static");
+
+            var attributes = GetStepDefinitionAttributes(method);
+
+            if (attributes.Length == 0)
+                throw new ArgumentException("method " + method + " does not have a step definition attribute");
+
+            Pattern = attributes[0].Pattern;
+            Method = method;
         }
 
-        private string _id;
-        public string Id
+        public static bool IsValidMethod(MethodInfo method)
         {
-            get { return _id; }
-            set
-            {
-                _id = value;
-            }
-        }
-        
-        private string _pattern;
-        public string Pattern
-        {
-            get { return _pattern; }
-            set
-            {
-                _pattern = value;
-            }
+            if (!method.IsStatic)
+                return false;
+
+            return GetStepDefinitionAttributes(method).Length == 1;
         }
 
-        private MethodInfo _method;
-        public MethodInfo Method
+        static StepDefinitionAttribute[] GetStepDefinitionAttributes(MethodInfo method)
         {
-            get { return _method; }
-            set
-            {
-                _method = value;
-            }
+            return (StepDefinitionAttribute[]) method.GetCustomAttributes(typeof (StepDefinitionAttribute), true);
+        }
+
+        public void Invoke(params string[] parameters)
+        {
+            Method.Invoke(null, parameters);
+        }
+
+        public bool Equals(StepDefinition other)
+        {
+            if (other == null)
+                return false;
+
+            return other.Id == Id;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as StepDefinition);
         }
 
         public override int GetHashCode()
         {
-            return _pattern.GetHashCode() ^ _method.GetHashCode();
+            return Id.GetHashCode();
         }
     }
 }

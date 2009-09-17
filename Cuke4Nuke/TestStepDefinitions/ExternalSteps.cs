@@ -1,10 +1,10 @@
 ﻿using System;
+
 using Cuke4Nuke.Framework;
-using NUnit.Framework;
 
 namespace Cuke4Nuke.TestStepDefinitions
 {
-    public class SimpleSteps
+    public class ExternalSteps
     {
         [Given("^nothing$")]
         public static void DoNothing()
@@ -14,13 +14,12 @@ namespace Cuke4Nuke.TestStepDefinitions
         [Then("^it should pass.$")]
         public static void ItShouldPass()
         {
-            Assert.Pass();
         }
 
         [Then("^it should fail.$")]
         public static void ItShouldFail()
         {
-            Assert.Fail();
+            throw new Exception("intentional");
         }
     }
 }
