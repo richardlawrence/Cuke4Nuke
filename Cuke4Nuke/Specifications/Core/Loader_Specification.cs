@@ -25,8 +25,8 @@ namespace Cuke4Nuke.Specifications.Core
         [Test]
         public void Should_load_step_definitions_from_external_assembly_in_options()
         {
-            var options = new Options("-a=Cuke4Nuke.TestStepDefinitions.dll");
-            var loader = new Loader(options);
+            var assemblyPaths = new List<string>{"Cuke4Nuke.TestStepDefinitions.dll"};
+            var loader = new Loader(assemblyPaths);
 
             _stepDefinitions = loader.Load();
 
@@ -36,8 +36,8 @@ namespace Cuke4Nuke.Specifications.Core
         [Test]
         public void Should_load_step_definitions_from_multiple_assemblies_in_options()
         {
-            var options = new Options("-a=Cuke4Nuke.TestStepDefinitions.dll", "-a=Cuke4Nuke.Specifications.dll");
-            var loader = new Loader(options);
+            var assemblyPaths = new List<string>{"Cuke4Nuke.TestStepDefinitions.dll", "Cuke4Nuke.Specifications.dll"};
+            var loader = new Loader(assemblyPaths);
 
             _stepDefinitions = loader.Load();
 

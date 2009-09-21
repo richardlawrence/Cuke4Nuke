@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
 
-using Cuke4Nuke.Core;
+using Cuke4Nuke.Server;
 
 using NUnit.Framework;
 
-namespace Cuke4Nuke.Specifications.Core
+namespace Cuke4Nuke.Specifications.Server
 {
     [TestFixture]
     public class Options_Specification

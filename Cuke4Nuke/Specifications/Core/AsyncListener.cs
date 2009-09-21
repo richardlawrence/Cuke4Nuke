@@ -10,8 +10,8 @@ namespace Cuke4Nuke.Specifications.Core
 
         public int ReadTimeout { get; set; }
 
-        public AsyncListener(IProcessor processor, Options options)
-            : base(processor, options)
+        public AsyncListener(IProcessor processor, int port)
+            : base(processor, port)
         {
             _thread = new Thread(Run) { Name = "AsyncListener" };
         }
@@ -32,15 +32,5 @@ namespace Cuke4Nuke.Specifications.Core
             Log("Waiting for listener thread to complete.");
             _thread.Join();
         }
-
-//        protected override TcpClient WaitForClientToConnect(TcpListener listener)
-//        {
-//            var client = base.WaitForClientToConnect(listener);
-//
-//            if (client != null && !Debugger.IsAttached)
-//                client.GetStream().ReadTimeout = 500;
-//
-//            return client;
-//        }
     }
 }

@@ -4,7 +4,7 @@ using System.IO;
 using NDesk.Options;
 using System.Collections.Generic;
 
-namespace Cuke4Nuke.Core
+namespace Cuke4Nuke.Server
 {
     public class Options
     {
@@ -25,7 +25,7 @@ namespace Cuke4Nuke.Core
                           {
                               {
                                   "p|port=",
-                                  "the {PORT} the server should listen on.",
+                                  "the {PORT} the server should listen on (default=" + DefaultPort + ").",
                                   (int v) => Port = v
                                   },
                               {

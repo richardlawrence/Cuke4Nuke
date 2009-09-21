@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
 using Cuke4Nuke.Core;
 
@@ -7,33 +6,34 @@ namespace Cuke4Nuke.Server
 {
     public class NukeServer
     {
+        private readonly Listener _listener;
         readonly TextWriter _output;
         readonly Options _options;
 
-        static void Main(string[] args)
+        public NukeServer(Listener listener, TextWriter output, Options options)
         {
-            new NukeServer(new Factory(new Options(args)), Console.Out);
-        }
-
-        public NukeServer(Factory factory, TextWriter output)
-        {
-            _options = factory.Options;
+            _listener = listener;
+            _options = options;
             _output = output;
-            if (_options.ShowHelp)
-                ShowHelp();
-            else
-                Run(factory);
         }
 
-        void Run(Factory factory)
+        public void Start()
         {
-            var stepDefinitions = factory.GetLoader().Load();
-            var processor = factory.GetProcessor(stepDefinitions);
-            var listener = factory.GetListener(processor);
+            if (_options.ShowHelp)
+            {
+                ShowHelp();
+            }
+            else
+            {
+                Run();
+            }
+        }
 
-            listener.MessageLogged += listener_LogMessage;
-            listener.Start();
-            listener.Stop();
+        void Run()
+        {
+            _listener.MessageLogged += listener_LogMessage;
+            _listener.Start();
+            _listener.Stop();
         }
 
         void ShowHelp()

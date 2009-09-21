@@ -9,7 +9,7 @@ namespace Cuke4Nuke.Core
     public class Listener
     {
         readonly IProcessor _processor;
-        readonly Options _options;
+        readonly int _port;
         bool _stopping;
 
         protected AutoResetEvent Started = new AutoResetEvent(false);
@@ -17,10 +17,10 @@ namespace Cuke4Nuke.Core
 
         public EventHandler<LogEventArgs> MessageLogged;
 
-        public Listener(IProcessor processor, Options options)
+        public Listener(IProcessor processor, int port)
         {
             _processor = processor;
-            _options = options;
+            _port = port;
         }
 
         public virtual void Start()
@@ -59,11 +59,11 @@ namespace Cuke4Nuke.Core
 
         TcpListener StartTcpListener()
         {
-            var endPoint = new IPEndPoint(IPAddress.Any, _options.Port);
+            var endPoint = new IPEndPoint(IPAddress.Any, _port);
             var listener = new TcpListener(endPoint);
 
             listener.Start(0);
-            Log("Listening on port " + _options.Port);
+            Log("Listening on port " + _port);
 
             return listener;
         }
@@ -135,7 +135,9 @@ namespace Cuke4Nuke.Core
             var handler = MessageLogged;
 
             if (handler != null)
+            {
                 handler(this, new LogEventArgs(message));
+            }
         }
     }
 }

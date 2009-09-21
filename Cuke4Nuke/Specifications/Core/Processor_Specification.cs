@@ -8,7 +8,6 @@ using LitJson;
 
 using NUnit.Framework;
 
-
 namespace Cuke4Nuke.Specifications.Core
 {
     [TestFixture]
@@ -27,9 +26,10 @@ namespace Cuke4Nuke.Specifications.Core
             _exceptionDefinition = new StepDefinition(Reflection.GetMethod(GetType(), "ThrowsException"));
             _stepDefinitions = new List<StepDefinition> { _stepDefinition, _exceptionDefinition };
 
-            _methodCalled = false;
+            var loader = new MockLoader(_stepDefinitions);
+            _processor = new Processor(loader);
 
-            _processor = new Processor(_stepDefinitions);
+            _methodCalled = false;
         }
 
         [Test]
@@ -126,6 +126,22 @@ namespace Cuke4Nuke.Specifications.Core
         public static void ThrowsException()
         {
             throw new Exception("inner test Exception");
+        }
+
+        class MockLoader : Loader
+        {
+            internal List<StepDefinition> StepDefinitions { get; private set; }
+
+            public MockLoader(List<StepDefinition> stepDefinitions)
+                : base(null)
+            {
+                StepDefinitions = stepDefinitions;
+            }
+
+            public override List<StepDefinition> Load()
+            {
+                return StepDefinitions;
+            }
         }
     }
 }

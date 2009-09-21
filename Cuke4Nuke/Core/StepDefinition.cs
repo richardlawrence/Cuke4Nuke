@@ -16,21 +16,26 @@ namespace Cuke4Nuke.Core
         public StepDefinition(MethodInfo method)
         {
             if (!method.IsStatic)
+            {
                 throw new ArgumentException("method " + method + " must be static");
+            }
 
             var attributes = GetStepDefinitionAttributes(method);
-
             if (attributes.Length == 0)
+            {
                 throw new ArgumentException("method " + method + " does not have a step definition attribute");
-
+            }
             Pattern = attributes[0].Pattern;
+
             Method = method;
         }
 
         public static bool IsValidMethod(MethodInfo method)
         {
             if (!method.IsStatic)
+            {
                 return false;
+            }
 
             return GetStepDefinitionAttributes(method).Length == 1;
         }
@@ -48,7 +53,9 @@ namespace Cuke4Nuke.Core
         public bool Equals(StepDefinition other)
         {
             if (other == null)
+            {
                 return false;
+            }
 
             return other.Id == Id;
         }

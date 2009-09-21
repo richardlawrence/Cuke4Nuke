@@ -13,23 +13,30 @@ namespace Cuke4Nuke.Core
 
     public class Processor : IProcessor
     {
-        readonly List<StepDefinition> _stepDefinitions;
+        readonly Loader _loader;
+        List<StepDefinition> _stepDefinitions;
         readonly Formatter _formatter = new Formatter();
 
-        public Processor(List<StepDefinition> stepDefinitions)
+        public Processor(Loader loader)
         {
-            _stepDefinitions = stepDefinitions;
+            _loader = loader;
         }
 
         public string Process(string request)
         {
+            _stepDefinitions = _loader.Load();
+
             try
             {
                 if (request == "list_step_definitions")
+                {
                     return _formatter.Format(_stepDefinitions);
+                }
 
                 if (request.StartsWith("invoke:"))
+                {
                     return Invoke(request);
+                }
 
                 return _formatter.Format("Invalid request '" + request + "'");
             }
@@ -51,7 +58,9 @@ namespace Cuke4Nuke.Core
                 var stepDefinition = GetStepDefinition(id);
 
                 if (stepDefinition == null)
+                {
                     return _formatter.Format("Could not find step with id '" + id + "'");
+                }
 
                 stepDefinition.Invoke();
                 return "OK";

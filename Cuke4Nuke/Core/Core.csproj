@@ -57,10 +57,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Factory.cs" />
     <Compile Include="Listener.cs" />
     <Compile Include="LogEventArgs.cs" />
-    <Compile Include="Options.cs" />
     <Compile Include="Processor.cs" />
     <Compile Include="Loader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

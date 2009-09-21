@@ -11,10 +11,10 @@ namespace Cuke4Nuke.Specifications.Core
     [TestFixture]
     public class Listener_Specification
     {
-        static bool _logging;
         public const int TestPort = 3902;
+        
+        static bool _logging;
 
-        Options _testOptions;
         TcpClient _client;
         AsyncListener _listener;
         MockProcessor _processor;
@@ -23,8 +23,6 @@ namespace Cuke4Nuke.Specifications.Core
         public void FixtureSetUp()
         {
             _logging = false;
-            _testOptions = new Options { Port = TestPort };
-            _testOptions.AssemblyPaths.Add("Cuke4Nuke.TestStepDefinitions.dll");
         }
 
         [SetUp]
@@ -72,7 +70,7 @@ namespace Cuke4Nuke.Specifications.Core
 
         void StartClient()
         {
-            _client = new TcpClient("localhost", _testOptions.Port);
+            _client = new TcpClient("localhost", TestPort);
         }
 
         void StopClient()
@@ -83,7 +81,7 @@ namespace Cuke4Nuke.Specifications.Core
         void StartListener()
         {
             _processor = new MockProcessor();
-            _listener = new AsyncListener(_processor, _testOptions);
+            _listener = new AsyncListener(_processor, TestPort);
             _listener.MessageLogged += _listener_MessageLogged;
             _listener.Start();
         }
@@ -115,7 +113,9 @@ namespace Cuke4Nuke.Specifications.Core
         private static void _listener_MessageLogged(object sender, LogEventArgs e)
         {
             if (_logging)
+            {
                 Console.WriteLine(e.Message);
+            }
         }
 
         class MockProcessor : IProcessor

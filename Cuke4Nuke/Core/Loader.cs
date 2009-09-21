@@ -6,18 +6,18 @@ namespace Cuke4Nuke.Core
 {
     public class Loader
     {
-        readonly Options _options;
+        readonly IEnumerable<string> _assemblyPaths;
 
-        public Loader(Options options)
+        public Loader(IEnumerable<string> assemblyPaths)
         {
-            _options = options;
+            _assemblyPaths = assemblyPaths;
         }
 
         public virtual List<StepDefinition> Load()
         {
             var stepDefinitions = new List<StepDefinition>();
 
-            foreach (var assemblyPath in _options.AssemblyPaths)
+            foreach (var assemblyPath in _assemblyPaths)
                 Load(stepDefinitions, Assembly.LoadFrom(assemblyPath));
 
             return stepDefinitions;
@@ -38,7 +38,9 @@ namespace Cuke4Nuke.Core
         static void Load(ICollection<StepDefinition> stepDefinitions, MethodInfo method)
         {
             if (StepDefinition.IsValidMethod(method))
+            {
                 stepDefinitions.Add(new StepDefinition(method));
+            }
         }
     }
 }

@@ -63,9 +63,10 @@
     <Compile Include="Core\Formatter_Specification.cs" />
     <Compile Include="Core\Loader_Specification.cs" />
     <Compile Include="Core\StepDefinition_Specification.cs" />
+    <Compile Include="Server\Options_Specification.cs" />
+    <Compile Include="Server\Program_Specification.cs" />
     <Compile Include="Server\NukeServer_Specification.cs" />
     <Compile Include="Core\Listener_Specification.cs" />
-    <Compile Include="Core\Options_Specification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection.cs" />
   </ItemGroup>
