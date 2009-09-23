@@ -5,19 +5,11 @@ namespace Cuke4Nuke.Framework
     [AttributeUsage(AttributeTargets.Method)]
     public abstract class StepDefinitionAttribute : Attribute
     {
-        public StepDefinitionAttribute(string pattern)
-        {
-            _pattern = pattern;
-        }
+        public string Pattern { get; private set; }
 
-        private string _pattern;
-        public string Pattern
+        protected StepDefinitionAttribute(string pattern)
         {
-            get { return _pattern; }
-            set
-            {
-                _pattern = value;
-            }
+            Pattern = pattern;
         }
     }
 }
