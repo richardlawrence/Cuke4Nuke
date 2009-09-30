@@ -107,31 +107,19 @@ namespace Cuke4Nuke.Specifications.Core
         }
 
         [Test]
+        [ExpectedException(typeof(ArgumentException))]
         public void Constructor_should_throw_if_a_method_is_not_static()
         {
-            try
-            {
-                var invalidMethod = GetInvalidMethod("Instance");
-                new StepDefinition(invalidMethod);
-                Assert.Fail("Expected exception to be throw");
-            }
-            catch (ArgumentException)
-            {
-            }
+            var invalidMethod = GetInvalidMethod("Instance");
+            new StepDefinition(invalidMethod);
         }
 
         [Test]
+        [ExpectedException(typeof(ArgumentException))]
         public void Constructor_should_throw_if_a_method_does_not_have_a_step_definition_attribute()
         {
-            try
-            {
-                var invalidMethod = GetInvalidMethod("NoAttribute");
-                new StepDefinition(invalidMethod);
-                Assert.Fail("Expected exception to be throw");
-            }
-            catch (ArgumentException)
-            {
-            }
+            var invalidMethod = GetInvalidMethod("NoAttribute");
+            new StepDefinition(invalidMethod);
         }
 
         [Test]
@@ -167,30 +155,18 @@ namespace Cuke4Nuke.Specifications.Core
         }
 
         [Test]
+        [ExpectedException(typeof(TargetParameterCountException))]
         public void Incorrect_parameter_count_should_throw_exception()
         {
-            try
-            {
-                _stepDefinition.Invoke("parameter to cause invocation failure");
-                Assert.Fail("Expected exception to be thrown");
-            }
-            catch (TargetParameterCountException)
-            {
-            }
+            _stepDefinition.Invoke("parameter to cause invocation failure");
         }
 
         [Test]
+        [ExpectedException(typeof(TargetInvocationException))]
         public void Method_that_throws_should_result_in_a_TargetInvocationException_being_thrown()
         {
-            try
-            {
-                var stepDefinition = new StepDefinition(_exceptionMethod);
-                stepDefinition.Invoke();
-                Assert.Fail("Expected exception to be thrown");
-            }
-            catch (TargetInvocationException)
-            {
-            }
+            var stepDefinition = new StepDefinition(_exceptionMethod);
+            stepDefinition.Invoke();
         }
 
         static void AssertMethodIsValid(string methodName)
