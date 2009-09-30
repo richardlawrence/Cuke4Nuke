@@ -45,7 +45,7 @@ namespace Cuke4Nuke.Core
             return (StepDefinitionAttribute[]) method.GetCustomAttributes(typeof (StepDefinitionAttribute), true);
         }
 
-        public void Invoke(params string[] parameters)
+        public void Invoke(params object[] parameters)
         {
             Method.Invoke(null, parameters);
         }

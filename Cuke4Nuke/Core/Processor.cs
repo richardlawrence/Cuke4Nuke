@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Reflection;
 
 using LitJson;
@@ -54,7 +55,9 @@ namespace Cuke4Nuke.Core
         {
             try
             {
-                var id = GetStepDefinitionId(request.Substring(7));
+                var requestBody = request.Substring(7);
+                var id = GetStepDefinitionId(requestBody);
+                var args = GetStepDefinitionArgs(requestBody);
                 var stepDefinition = GetStepDefinition(id);
 
                 if (stepDefinition == null)
@@ -62,7 +65,19 @@ namespace Cuke4Nuke.Core
                     return _formatter.Format("Could not find step with id '" + id + "'");
                 }
 
-                stepDefinition.Invoke();
+                ParameterInfo [] parameters = stepDefinition.Method.GetParameters();
+                if (parameters.Length != args.Length)
+                {
+                    throw new ArgumentException("Expected " + parameters.Length + " argument(s); got " + args.Length);
+                }
+                var typedArgs = new object[args.Length];
+                for (int i = 0; i < args.Length; ++i)
+                {
+                    TypeConverter converter = TypeDescriptor.GetConverter(parameters[i].ParameterType);
+                    typedArgs[i] = converter.ConvertFromString(args[i]);
+                }
+
+                stepDefinition.Invoke(typedArgs);
                 return "OK";
             }
             catch (KeyNotFoundException)
@@ -78,6 +93,26 @@ namespace Cuke4Nuke.Core
         static string GetStepDefinitionId(string jsonDetails)
         {
             return JsonMapper.ToObject(jsonDetails)["id"].ToString();
+        }
+
+        static string[] GetStepDefinitionArgs(string jsonDetails)
+        {
+            JsonData jsonArgs;
+            try
+            {
+                jsonArgs = JsonMapper.ToObject(jsonDetails)["args"];
+            }
+            catch (KeyNotFoundException) // There doesn't seem to be a method for checking if a key exists
+            {
+                return new string[0];
+            }
+
+            string[] args = new string[jsonArgs.Count];
+            for (int i = 0; i < args.Length; ++i)
+            {
+                args[i] = jsonArgs[i].ToString();
+            }
+            return args;
         }
 
         StepDefinition GetStepDefinition(string id)
