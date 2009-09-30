@@ -8,10 +8,10 @@ namespace Cuke4Nuke.Core
     public class StepDefinition : IEquatable<StepDefinition>
     {
         public const BindingFlags MethodFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static;
-
+        
         public string Pattern { get; private set; }
         public MethodInfo Method { get; private set; }
-        public string Id { get { return Method.DeclaringType.FullName + "." + Method.Name; } }
+        public string Id { get; private set; }
 
         public StepDefinition(MethodInfo method)
         {
@@ -28,6 +28,12 @@ namespace Cuke4Nuke.Core
             Pattern = attributes[0].Pattern;
 
             Method = method;
+
+            // Is there a better way of getting a fully qualified signature that includes the parameter types?
+            var signatureWithReturnType = method.ToString();
+            var positionOfSpaceAfterReturnType = signatureWithReturnType.IndexOf(' ');
+            var signatureWithoutReturnType = signatureWithReturnType.Substring(positionOfSpaceAfterReturnType + 1);
+            Id = method.DeclaringType.FullName + "." + signatureWithoutReturnType;
         }
 
         public static bool IsValidMethod(MethodInfo method)

@@ -135,10 +135,14 @@ namespace Cuke4Nuke.Specifications.Core
         }
 
         [Test]
-        public void Id_property_should_be_fully_qualified_method_name()
+        public void Id_property_should_be_fully_qualified_method_name_with_parameter_types()
         {
-            var fullyQualifiedMethodName = typeof(ValidStepDefinitions).FullName + "." + _stepDefinition.Method.Name;
-            Assert.That(_stepDefinition.Id, Is.EqualTo(fullyQualifiedMethodName));
+            var fullNameForParameterlessMethod = typeof(ValidStepDefinitions).FullName + "." + _stepDefinition.Method.Name + "()";
+            Assert.That(_stepDefinition.Id, Is.EqualTo(fullNameForParameterlessMethod));
+
+            var parameterizedStepDefinition = new StepDefinition(Reflection.GetMethod(typeof(ValidStepDefinitions), "WithArguments"));
+            var fullNameForParameterizedMethod = typeof(ValidStepDefinitions).FullName + "." + parameterizedStepDefinition.Method.Name + "(Int32)";
+            Assert.That(parameterizedStepDefinition.Id, Is.EqualTo(fullNameForParameterizedMethod));
         }
 
         [Test]

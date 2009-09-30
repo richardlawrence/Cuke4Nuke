@@ -19,6 +19,7 @@ namespace Cuke4Nuke.Specifications.Core
         StepDefinition _exceptionDefinition;
         StepDefinition _stepDefinitionWithOneStringParameter;
         StepDefinition _stepDefinitionWithMultipleStringParameters;
+        StepDefinition _stepDefinitionWithMultipleStringParametersOverloaded;
         StepDefinition _stepDefinitionWithOneIntParameter;
         StepDefinition _stepDefinitionWithOneDoubleParameter;
         StepDefinition _stepDefinitionWithIntDoubleAndStringParameters;
@@ -37,10 +38,11 @@ namespace Cuke4Nuke.Specifications.Core
             _exceptionDefinition = new StepDefinition(Reflection.GetMethod(GetType(), "ThrowsException"));
             _stepDefinitionWithOneStringParameter = new StepDefinition(GetType().GetMethod("OneStringParameter"));
             _stepDefinitionWithMultipleStringParameters = new StepDefinition(GetType().GetMethod("MultipleStringParameters", new Type[] { typeof(string), typeof(string) }));
+            _stepDefinitionWithMultipleStringParametersOverloaded = new StepDefinition(GetType().GetMethod("MultipleStringParameters", new Type[] { typeof(string), typeof(string), typeof(string) }));
             _stepDefinitionWithOneIntParameter = new StepDefinition(GetType().GetMethod("OneIntParameter"));
             _stepDefinitionWithOneDoubleParameter = new StepDefinition(GetType().GetMethod("OneDoubleParameter"));
             _stepDefinitionWithIntDoubleAndStringParameters = new StepDefinition(GetType().GetMethod("IntDoubleAndStringParameters"));
-            _stepDefinitions = new List<StepDefinition> { _stepDefinition, _exceptionDefinition, _stepDefinitionWithOneStringParameter, _stepDefinitionWithMultipleStringParameters, _stepDefinitionWithOneIntParameter, _stepDefinitionWithOneDoubleParameter, _stepDefinitionWithIntDoubleAndStringParameters };
+            _stepDefinitions = new List<StepDefinition> { _stepDefinition, _exceptionDefinition, _stepDefinitionWithOneStringParameter, _stepDefinitionWithMultipleStringParameters, _stepDefinitionWithMultipleStringParametersOverloaded, _stepDefinitionWithOneIntParameter, _stepDefinitionWithOneDoubleParameter, _stepDefinitionWithIntDoubleAndStringParameters };
 
             var loader = new MockLoader(_stepDefinitions);
             _processor = new Processor(loader);
@@ -123,7 +125,7 @@ namespace Cuke4Nuke.Specifications.Core
         }
 
         [Test]
-        public void Invoke_with_a_step_taking_two_string_parameters_should_pass_the_correct_parameter_values()
+        public void Invoke_with_a_step_taking_multiple_string_parameters_should_pass_the_correct_parameter_values()
         {
             var request = CreateInvokeRequest(_stepDefinitionWithMultipleStringParameters.Id, "first", "second");
             var response = _processor.Process(request);
@@ -133,6 +135,21 @@ namespace Cuke4Nuke.Specifications.Core
             Assert.That(_receivedParameters[0], Is.EqualTo("first"));
             Assert.That(_receivedParameters[1], Is.InstanceOf(typeof(string)));
             Assert.That(_receivedParameters[1], Is.EqualTo("second"));
+        }
+
+        [Test]
+        public void Invoke_with_an_overloaded_method_taking_multiple_string_parameters_should_pass_the_correct_parameter_values()
+        {
+            var request = CreateInvokeRequest(_stepDefinitionWithMultipleStringParametersOverloaded.Id, "first", "second", "third");
+            var response = _processor.Process(request);
+            AssertOkResponse(response);
+            Assert.AreEqual(3, _receivedParameters.Length);
+            Assert.IsInstanceOf(typeof(string), _receivedParameters[0]);
+            Assert.AreEqual("first", _receivedParameters[0]);
+            Assert.IsInstanceOf(typeof(string), _receivedParameters[1]);
+            Assert.AreEqual("second", _receivedParameters[1]);
+            Assert.IsInstanceOf(typeof(string), _receivedParameters[2]);
+            Assert.AreEqual("third", _receivedParameters[2]);
         }
 
         [Test]
@@ -265,6 +282,12 @@ namespace Cuke4Nuke.Specifications.Core
         public static void MultipleStringParameters(string firstStr, string secondStr)
         {
             _receivedParameters = new object[] { firstStr, secondStr };
+        }
+
+        [Given("^The regex groups (.*) and (.*) should be captured, and so should (.*)$")]
+        public static void MultipleStringParameters(string firstStr, string secondStr, string thirdStr)
+        {
+            _receivedParameters = new object[] { firstStr, secondStr, thirdStr };
         }
 
         [Given(@"^The number ([+-]?\d+) is an int$")]
