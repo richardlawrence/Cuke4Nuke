@@ -10,3 +10,4 @@ _ReSharper.*
 *.cache
 ~$*.DS_Store
 .DS_Store
+._*
