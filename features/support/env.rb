@@ -49,10 +49,7 @@ class CucumberWorld
     create_file(src_path, generated_code)
     in_current_dir do
       command = %{#{csc_path} /target:library /out:"#{assembly_path}" /reference:"#{ref_path}" "#{src_path}"}
-      puts command
       run command
-      puts last_stdout
-      puts last_stderr
     end
     assembly_path
   end
@@ -116,7 +113,7 @@ class CucumberWorld
 
   def run_in_background(command)
     in_current_dir do
-      process = IO.popen(command, 'r') 
+      process = IO.popen(command, 'r')
       background_jobs << process.pid
     end
   end
