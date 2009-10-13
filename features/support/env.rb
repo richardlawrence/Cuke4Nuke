@@ -40,13 +40,19 @@ class CucumberWorld
 
   def build_step_definitions(contents)
     csc_path = "C:\\WINDOWS\\Microsoft.NET\\Framework\\v3.5\\csc.exe"
-    assembly_path = File.join(working_dir, 'bin', 'GeneratedStepDefinitions.dll')
-    src_path = File.join(working_dir, 'src', 'GeneratedStepDefinitions.cs')
+    assembly_path = File.join(working_dir, 'bin/GeneratedStepDefinitions.dll').gsub('/', '\\')
+    src_path = File.join(working_dir, 'src/GeneratedStepDefinitions.cs').gsub('/', '\\')
+    ref_path = File.expand_path(File.join(examples_dir, '../Cuke4Nuke/Framework/bin/Debug/Cuke4Nuke.Framework.dll')).gsub('/', '\\')
     template_path = File.expand_path(File.join(File.dirname(__FILE__), 'steps_template.cs.erb'))
     generated_code = ERB.new(File.read(template_path)).result(binding)
+    create_file(assembly_path, '')
     create_file(src_path, generated_code)
     in_current_dir do
-      run %{#{csc_path} /target:library /out:"#{assembly_path}" "#{src_path}"}
+      command = %{#{csc_path} /target:library /out:"#{assembly_path}" /reference:"#{ref_path}" "#{src_path}"}
+      puts command
+      run command
+      puts last_stdout
+      puts last_stderr
     end
     assembly_path
   end
