@@ -30,7 +30,7 @@ Feature: Run .NET step definitions from Cucumber
   Scenario: Dry run finds a step match
     Given Cuke4Nuke started with a step definition assembly containing:
       """
-      Given("^we're all wired$")
+      [Given("^we're all wired$")]
       public static void AllWired()
       {
       }
@@ -49,7 +49,7 @@ Feature: Run .NET step definitions from Cucumber
   Scenario: Invoke a step definition which passes
     Given Cuke4Nuke started with a step definition assembly containing:
       """
-      Given("^we're all wired$")
+      [Given("^we're all wired$")]
       public static void AllWired()
       {
       }

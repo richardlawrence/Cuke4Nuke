@@ -4,6 +4,7 @@ require 'spec/expectations'
 require 'fileutils'
 require 'forwardable'
 require 'win32/process'
+require 'erb'
 
 class CucumberWorld
   extend Forwardable
@@ -37,6 +38,19 @@ class CucumberWorld
   private
   attr_reader :last_exit_status, :last_stderr
 
+  def build_step_definitions(contents)
+    csc_path = "C:\\WINDOWS\\Microsoft.NET\\Framework\\v3.5\\csc.exe"
+    assembly_path = File.join(working_dir, 'bin', 'GeneratedStepDefinitions.dll')
+    src_path = File.join(working_dir, 'src', 'GeneratedStepDefinitions.cs')
+    template_path = File.expand_path(File.join(File.dirname(__FILE__), 'steps_template.cs.erb'))
+    generated_code = ERB.new(File.read(template_path)).result(binding)
+    create_file(src_path, generated_code)
+    in_current_dir do
+      run %{#{csc_path} /target:library /out:"#{assembly_path}" "#{src_path}"}
+    end
+    assembly_path
+  end
+  
   # The last standard out, with the duration line taken out (unpredictable)
   def last_stdout
     strip_duration(@last_stdout)
@@ -104,7 +118,6 @@ class CucumberWorld
   def terminate_background_jobs
     if @background_jobs
       @background_jobs.each do |pid|
-        puts "Trying to process with pid #{pid}."
         Process.kill(9, pid)
       end
     end
