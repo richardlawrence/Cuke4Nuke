@@ -11,3 +11,4 @@ _ReSharper.*
 ~$*.DS_Store
 .DS_Store
 ._*
+examples/self_test

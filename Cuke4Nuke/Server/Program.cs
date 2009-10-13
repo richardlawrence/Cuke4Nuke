@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.IO.IsolatedStorage;
 
 using Cuke4Nuke.Core;
 
@@ -13,7 +15,12 @@ namespace Cuke4Nuke.Server
             var processor = new Processor(loader);
             var listener = new Listener(processor, options.Port);
 
-            new NukeServer(listener, Console.Out, options).Start();
+            using (var logger = new StreamWriter(new IsolatedStorageFileStream("Cuke4Nuke.log", FileMode.Append)))
+            {
+                logger.AutoFlush = true;
+                logger.WriteLine(DateTime.Now.ToString() + "\tStarting logging...");
+                new NukeServer(listener, logger, options).Start();
+            }
         }
     }
 }
