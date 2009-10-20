@@ -18,7 +18,8 @@ Feature: Run .NET step definitions from Cucumber
   Scenario: Dry run finds no step match
     Given Cuke4Nuke started with no step definition assemblies
     When I run cucumber --dry-run -f progress features
-    Then it should pass with
+    Then STDERR should be empty
+    And it should pass with
       """
       U
 
@@ -36,8 +37,9 @@ Feature: Run .NET step definitions from Cucumber
       }
 
       """
-    When I run cucumber --dry-run -f progress features
-    Then it should pass with
+    When I run cucumber --dry-run -f progress features  
+    Then STDERR should be empty
+    And it should pass with
       """
       -
 
@@ -56,7 +58,8 @@ Feature: Run .NET step definitions from Cucumber
 
       """
     When I run cucumber -f progress features
-    Then it should pass with
+    Then STDERR should be empty
+    And it should pass with
       """
       .
 
