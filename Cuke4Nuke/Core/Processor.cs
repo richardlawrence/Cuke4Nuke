@@ -25,18 +25,24 @@ namespace Cuke4Nuke.Core
 
         public string Process(string request)
         {
-            _stepDefinitions = _loader.Load();
-
             try
             {
-                if (request == "list_step_definitions")
+                JsonData requestObject = JsonMapper.ToObject(request);
+                String command = requestObject[0].ToString();
+                if (command.Equals("step_matches"))
                 {
-                    return _formatter.Format(_stepDefinitions);
+                    return StepMatches(requestObject[1]["name_to_match"].ToString());
                 }
 
-                if (request.StartsWith("invoke:"))
+                if (command.Equals("invoke"))
                 {
-                    return Invoke(request);
+                    JsonData jsonArgs = requestObject[1]["args"];
+                    string[] args = new string[jsonArgs.Count];
+                    for (int i = 0; i < args.Length; ++i)
+                    {
+                        args[i] = jsonArgs[i].ToString();
+                    }
+                    return Invoke(requestObject[1]["id"].ToString(), args);
                 }
 
                 return _formatter.Format("Invalid request '" + request + "'");
@@ -51,13 +57,42 @@ namespace Cuke4Nuke.Core
             }
         }
 
-        string Invoke(string request)
+        string StepMatches(string stepName)
+        {
+            _stepDefinitions = _loader.Load();
+
+            JsonData matches = new JsonData();
+            matches.SetJsonType(JsonType.Array);
+            foreach (var sd in _stepDefinitions)
+            {
+                List<StepArgument> args = sd.ArgumentsFrom(stepName);
+                if(args != null)
+                {
+                    JsonData stepMatch = new JsonData();
+                    stepMatch["id"] = sd.Id;
+                    JsonData jsonArgs = new JsonData();
+                    jsonArgs.SetJsonType(JsonType.Array);
+                    foreach (var arg in args)
+                    {
+                        JsonData jsonArg = new JsonData();
+                        jsonArg["val"] = arg.Val;
+                        jsonArg["pos"] = arg.Pos;
+                        jsonArgs.Add(jsonArg);
+                    }
+                    stepMatch["args"] = jsonArgs;
+                    matches.Add(stepMatch);
+                }
+            }
+            JsonData response = new JsonData();
+            response.Add("step_matches");
+            response.Add(matches);
+            return JsonMapper.ToJson(response);
+        }
+
+        string Invoke(string id, string[] args)
         {
             try
             {
-                var requestBody = request.Substring(7);
-                var id = GetStepDefinitionId(requestBody);
-                var args = GetStepDefinitionArgs(requestBody);
                 var stepDefinition = GetStepDefinition(id);
 
                 if (stepDefinition == null)
@@ -78,11 +113,13 @@ namespace Cuke4Nuke.Core
                 }
 
                 stepDefinition.Invoke(typedArgs);
-                return "OK";
+                JsonData response = new JsonData();
+                response.Add("OK");
+                return JsonMapper.ToJson(response);
             }
-            catch (KeyNotFoundException)
+            catch (KeyNotFoundException x)
             {
-                return _formatter.Format("Missing 'id' in request");
+                return _formatter.Format("Missing '" + x.ToString() + "' in request");
             }
             catch (TargetInvocationException x)
             {
@@ -90,33 +127,12 @@ namespace Cuke4Nuke.Core
             }
         }
 
-        static string GetStepDefinitionId(string jsonDetails)
-        {
-            return JsonMapper.ToObject(jsonDetails)["id"].ToString();
-        }
-
-        static string[] GetStepDefinitionArgs(string jsonDetails)
-        {
-            JsonData jsonArgs;
-            try
-            {
-                jsonArgs = JsonMapper.ToObject(jsonDetails)["args"];
-            }
-            catch (KeyNotFoundException) // There doesn't seem to be a method for checking if a key exists
-            {
-                return new string[0];
-            }
-
-            string[] args = new string[jsonArgs.Count];
-            for (int i = 0; i < args.Length; ++i)
-            {
-                args[i] = jsonArgs[i].ToString();
-            }
-            return args;
-        }
-
         StepDefinition GetStepDefinition(string id)
         {
+            if(_stepDefinitions == null )
+            {
+                _stepDefinitions = _loader.Load();
+            }
             return _stepDefinitions.Find(s => s.Id == id);
         }
     }

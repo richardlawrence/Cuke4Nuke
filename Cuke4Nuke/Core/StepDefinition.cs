@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 using Cuke4Nuke.Framework;
 
@@ -8,8 +10,8 @@ namespace Cuke4Nuke.Core
     public class StepDefinition : IEquatable<StepDefinition>
     {
         public const BindingFlags MethodFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static;
-        
-        public string Pattern { get; private set; }
+
+        private Regex _regex;
         public MethodInfo Method { get; private set; }
         public string Id { get; private set; }
 
@@ -25,7 +27,7 @@ namespace Cuke4Nuke.Core
             {
                 throw new ArgumentException("method " + method + " does not have a step definition attribute");
             }
-            Pattern = attributes[0].Pattern;
+            _regex = new Regex(attributes[0].Pattern);
 
             Method = method;
 
@@ -74,6 +76,22 @@ namespace Cuke4Nuke.Core
         public override int GetHashCode()
         {
             return Id.GetHashCode();
+        }
+
+        internal List<StepArgument> ArgumentsFrom(string stepName)
+        {
+            List<StepArgument> arguments = null;
+            Match match = _regex.Match(stepName);
+            if(match.Success)
+            {
+                arguments = new List<StepArgument>();
+                for (int i = 1; i < match.Groups.Count; i++)
+                {
+                    Group group = match.Groups[i];
+                    arguments.Add(new StepArgument(group.Value, group.Index));
+                }
+            }
+            return arguments;
         }
     }
 }

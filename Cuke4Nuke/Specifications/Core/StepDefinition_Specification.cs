@@ -123,12 +123,6 @@ namespace Cuke4Nuke.Specifications.Core
         }
 
         [Test]
-        public void Pattern_property_should_be_set_from_constructor()
-        {
-            Assert.That(_stepDefinition.Pattern, Is.EqualTo("pattern"));
-        }
-
-        [Test]
         public void Method_property_should_be_set_from_constructor()
         {
             Assert.That(_stepDefinition.Method, Is.SameAs(_successMethod));

@@ -50,7 +50,7 @@ end
 When /^I run cucumber (.*)$/ do |cucumber_opts|
   ruby_path = Cucumber::RUBY_BINARY.gsub('/', '\\')
   cucumber_path = Cucumber::BINARY.gsub('/', '\\')
-  run %{"#{ruby_path}" "#{cucumber_path}" --no-color #{cucumber_opts}}
+  run %{"#{ruby_path}" "#{cucumber_path}" -b --no-color #{cucumber_opts}}
 end
 
 When /^I run rake (.*)$/ do |rake_opts|

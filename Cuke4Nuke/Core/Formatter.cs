@@ -8,16 +8,6 @@ namespace Cuke4Nuke.Core
 {
     public class Formatter
     {
-        public string Format(IEnumerable<StepDefinition> stepDefinitions)
-        {
-            return Format(writer => Write(writer, stepDefinitions));
-        }
-
-        public string Format(StepDefinition stepDefinition)
-        {
-            return Format(writer => Write(writer, stepDefinition));
-        }
-
         public string Format(Exception exception)
         {
             return "FAIL:" + Format(writer => Write(writer, exception));
@@ -33,24 +23,6 @@ namespace Cuke4Nuke.Core
             var sb = new StringBuilder();
             write(new JsonWriter(sb));
             return sb.ToString();
-        }
-
-        static void Write(JsonWriter writer, IEnumerable<StepDefinition> stepDefinitions)
-        {
-            WriteArray(writer, () =>
-                {
-                    foreach (var stepDefinition in stepDefinitions)
-                        Write(writer, stepDefinition);
-                });
-        }
-
-        static void Write(JsonWriter writer, StepDefinition stepDefinition)
-        {
-            WriteObject(writer, () =>
-                {
-                    WriteProperty(writer, "id", stepDefinition.Id);
-                    WriteProperty(writer, "regexp", stepDefinition.Pattern);
-                });
         }
 
         static void Write(JsonWriter writer, Exception exception)

@@ -34,7 +34,7 @@ namespace Cuke4Nuke.Specifications.Core
         [SetUp]
         public void SetUp()
         {
-            _stepDefinition = new StepDefinition(Reflection.GetMethod(GetType(), "Method"));
+            _stepDefinition = new StepDefinition(Reflection.GetMethod(GetType(), "CheckMethodCalled"));
             _exceptionDefinition = new StepDefinition(Reflection.GetMethod(GetType(), "ThrowsException"));
             _stepDefinitionWithOneStringParameter = new StepDefinition(GetType().GetMethod("OneStringParameter"));
             _stepDefinitionWithMultipleStringParameters = new StepDefinition(GetType().GetMethod("MultipleStringParameters", new Type[] { typeof(string), typeof(string) }));
@@ -52,11 +52,11 @@ namespace Cuke4Nuke.Specifications.Core
         }
 
         [Test]
-        public void List_step_definitions_should_return_a_json_formatted_list()
+        public void Step_matches_should_return_a_json_formatted_list()
         {
-            var response = _processor.Process("list_step_definitions");
+            var response = _processor.Process(@"[""step_matches"",{""name_to_match"":""The regex group 'cukes' should be captured""}]");
 
-            Assert.That(response, Is.EqualTo(new Formatter().Format(_stepDefinitions)));
+            Assert.That(response, Is.EqualTo(@"[""step_matches"",[{""id"":""Cuke4Nuke.Specifications.Core.Processor_Specification.OneStringParameter(System.String)"",""args"":[{""val"":""cukes"",""pos"":17}]}]]"));
         }
 
         [Test]
@@ -70,23 +70,25 @@ namespace Cuke4Nuke.Specifications.Core
         }
 
         [Test]
-        public void Invoke_with_a_missing_id_should_return_failed_response()
-        {
-            var response = _processor.Process(@"invoke:{ }");
-
-            AssertFailResponse(response, "Missing 'id' in request");
-        }
-
-        [Test]
         public void Invoke_with_malformed_json_should_return_failed_response()
         {
-            var response = _processor.Process(@"invoke:{a}");
+            var response = _processor.Process(@"nonsense:{a}");
 
-            AssertFailResponse(response, "Invalid json in request 'invoke:{a}': Invalid character 'a' in input string");
+            AssertFailResponse(response, "Invalid json in request 'nonsense:{a}': Invalid character 'o' in input string");
         }
 
         [Test]
-        public void Invoke_with_an_invalid_id_should_return_failed_response()
+        public void Invoke_with_an_invalid_id_and_one_arg_should_return_failed_response()
+        {
+            var request = CreateInvokeRequest("invalid_id", "x");
+
+            var response = _processor.Process(request);
+
+            AssertFailResponse(response, "Could not find step with id 'invalid_id'");
+        }
+
+        [Test]
+        public void Invoke_with_an_invalid_id_and_no_args_should_return_failed_response()
         {
             var request = CreateInvokeRequest("invalid_id");
 
@@ -103,14 +105,6 @@ namespace Cuke4Nuke.Specifications.Core
             var response = _processor.Process(request);
 
             AssertFailResponse(response, "inner test Exception", typeof(Exception));
-        }
-
-        [Test]
-        public void Unknown_request_should_return_failed_json_message()
-        {
-            var response = _processor.Process("invalid_request");
-
-            AssertFailResponse(response, "Invalid request 'invalid_request'");
         }
 
         [Test]
@@ -213,34 +207,27 @@ namespace Cuke4Nuke.Specifications.Core
             Assert.That(_receivedParameters[2], Is.EqualTo("foo"));
         }
 
-        static string CreateInvokeRequest(string id)
+        static string CreateInvokeRequest(string id, params string[] invokeArgs)
         {
-            return @"invoke:{ ""id"" : """ + id + @""" }";
-        }
-
-        static string CreateInvokeRequest(string id, params object[] args)
-        {
-            StringBuilder builder = new StringBuilder("invoke:{ 'id' : '");
-            builder.Append(id);
-            builder.Append("', 'args' : [");
-            for (int i = 0; i < args.Length; ++i)
-            {
-                builder.Append("'");
-                builder.Append(args[i]);
-                builder.Append("'");
-                if (i != args.Length - 1)
-                {
-                    builder.Append(", ");
-                }
+            JsonData req = new JsonData();
+            req.Add("invoke");
+            JsonData parameters = new JsonData();
+            parameters["id"] = id;
+            JsonData args = new JsonData();
+            args.SetJsonType(JsonType.Array); // To avoid invalid json if it is empty
+            foreach(var arg in invokeArgs) {
+                args.Add(arg);
             }
-            builder.Append("] }");
-            return builder.ToString();
+            parameters["args"] = args;
+            req.Add(parameters);
+            return JsonMapper.ToJson(req);
         }
 
         static void AssertOkResponse(string response)
         {
-            if (response != "OK") throw new Exception(response);
-            Assert.That(response, Is.EqualTo("OK"));
+            JsonData ok = new JsonData();
+            ok.Add("OK");
+            Assert.That(response, Is.EqualTo(JsonMapper.ToJson(ok)));
         }
 
         static void AssertFailResponse(string response, string message)
@@ -260,13 +247,13 @@ namespace Cuke4Nuke.Specifications.Core
             JsonAssert.HasString(jsonData, "backtrace");
         }
 
-        [Given("")]
-        public static void Method()
+        [Given("check method called")]
+        public static void CheckMethodCalled()
         {
             _methodCalled = true;
         }
 
-        [Given("")]
+        [Given("throws exception")]
         public static void ThrowsException()
         {
             throw new Exception("inner test Exception");
