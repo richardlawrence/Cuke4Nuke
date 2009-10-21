@@ -217,12 +217,6 @@ namespace Cuke4Nuke.Specifications.Core
             [Then("")]
             public static void Then() { }
 
-            [And("")]
-            public static void And() { }
-
-            [But("")]
-            public static void But() { }
-
             [Given("")]
             public static void Public() { }
 
