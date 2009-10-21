@@ -67,3 +67,16 @@ Feature: Run .NET step definitions from Cucumber
       1 step (1 passed)
 
       """
+  
+  Scenario: Invoke a step definition which fails
+    Given Cuke4Nuke started with a step definition assembly containing:
+      """
+      [Given("^we're all wired$")]
+      public static void AllWired()
+      {
+        throw new Exception("message");
+      }
+
+      """
+    When I run cucumber -f progress features
+    Then it should fail
