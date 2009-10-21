@@ -26,16 +26,17 @@ namespace Cuke4Nuke.Specifications.Core
         }
 
         [Test]
-        public void Format_of_an_exception_should_be_FAIL_plus_a_json_object_with_message_and_backtrace_values()
+        public void ShouldFormatAnExceptionCorrectly()
         {
             var exception = CreateThrownException();
 
             var result = _formatter.Format(exception);
 
-            StringAssert.StartsWith("FAIL:", result);
-            var jsonData = GetJsonData(result.Substring(5));
-            JsonAssert.HasString(jsonData, "message", exception.Message);
-            JsonAssert.HasString(jsonData, "backtrace", exception.StackTrace);
+            var jsonData = GetJsonData(result);
+            JsonAssert.IsArray(jsonData);
+            Assert.That(jsonData[0].ToString(), Is.EqualTo("step_failed"));
+            JsonAssert.HasString(jsonData[1], "message", exception.Message);
+            JsonAssert.HasString(jsonData[1], "backtrace", exception.StackTrace);
         }
 
         static Exception CreateThrownException()

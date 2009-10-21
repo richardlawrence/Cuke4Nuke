@@ -10,12 +10,23 @@ namespace Cuke4Nuke.Core
     {
         public string Format(Exception exception)
         {
-            return "FAIL:" + Format(writer => Write(writer, exception));
+            return Format(writer => {
+                writer.WriteArrayStart();
+                writer.Write("step_failed");
+                Write(writer, exception);
+                writer.WriteArrayEnd();
+            });
         }
 
         public string Format(string failedMessage)
         {
-            return "FAIL:" + Format(writer => Write(writer, failedMessage));
+            return Format(writer =>
+            {
+                writer.WriteArrayStart();
+                writer.Write("step_failed");
+                Write(writer, failedMessage);
+                writer.WriteArrayEnd();
+            });
         }
 
         static string Format(Action<JsonWriter> write)
