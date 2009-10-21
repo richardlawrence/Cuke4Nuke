@@ -58,12 +58,7 @@ namespace Cuke4Nuke.Core
 
         public bool Equals(StepDefinition other)
         {
-            if (other == null)
-            {
-                return false;
-            }
-
-            return other.Id == Id;
+            return other != null && other.Id == Id;
         }
 
         public override bool Equals(object obj)
