@@ -45,8 +45,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AndAttribute.cs" />
-    <Compile Include="ButAttribute.cs" />
     <Compile Include="GivenAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StepDefinitionAttribute.cs" />
