@@ -232,19 +232,20 @@ namespace Cuke4Nuke.Specifications.Core
 
         static void AssertFailResponse(string response, string message)
         {
-            StringAssert.StartsWith("FAIL:", response);
-            var jsonData = JsonMapper.ToObject(response.Substring(5));
-            JsonAssert.IsObject(jsonData);
-            JsonAssert.HasString(jsonData, "message", message);
+            var jsonData = JsonMapper.ToObject(response);
+            JsonAssert.IsArray(jsonData);
+            Assert.That(jsonData[0].ToString(), Is.EqualTo("step_failed"));
+            JsonAssert.HasString(jsonData[1], "message", message);
         }
 
         static void AssertFailResponse(string response, string message , Type exceptionType)
         {
-            AssertFailResponse(response, message);
-            var jsonData = JsonMapper.ToObject(response.Substring(5));
-            JsonAssert.IsObject(jsonData);
-            JsonAssert.HasString(jsonData, "exception", exceptionType.ToString());
-            JsonAssert.HasString(jsonData, "backtrace");
+            var jsonData = JsonMapper.ToObject(response);
+            JsonAssert.IsArray(jsonData);
+            Assert.That(jsonData[0].ToString(), Is.EqualTo("step_failed"));
+            JsonAssert.HasString(jsonData[1], "message", message);
+            JsonAssert.HasString(jsonData[1], "backtrace");
+            JsonAssert.HasString(jsonData[1], "exception", exceptionType.ToString());
         }
 
         [Given("check method called")]

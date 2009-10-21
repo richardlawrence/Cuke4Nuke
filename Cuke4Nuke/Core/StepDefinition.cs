@@ -9,7 +9,7 @@ namespace Cuke4Nuke.Core
 {
     public class StepDefinition : IEquatable<StepDefinition>
     {
-        public const BindingFlags MethodFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static;
+        public const BindingFlags MethodFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance;
 
         private Regex _regex;
         public MethodInfo Method { get; private set; }
@@ -17,11 +17,6 @@ namespace Cuke4Nuke.Core
 
         public StepDefinition(MethodInfo method)
         {
-            if (!method.IsStatic)
-            {
-                throw new ArgumentException("method " + method + " must be static");
-            }
-
             var attributes = GetStepDefinitionAttributes(method);
             if (attributes.Length == 0)
             {
@@ -40,11 +35,6 @@ namespace Cuke4Nuke.Core
 
         public static bool IsValidMethod(MethodInfo method)
         {
-            if (!method.IsStatic)
-            {
-                return false;
-            }
-
             return GetStepDefinitionAttributes(method).Length == 1;
         }
 
@@ -55,7 +45,15 @@ namespace Cuke4Nuke.Core
 
         public void Invoke(params object[] parameters)
         {
-            Method.Invoke(null, parameters);
+            if (Method.IsStatic)
+            {
+                Method.Invoke(null, parameters);
+            }
+            else
+            {
+                var instance = Activator.CreateInstance(Method.DeclaringType);
+                Method.Invoke(instance, parameters);
+            }
         }
 
         public bool Equals(StepDefinition other)

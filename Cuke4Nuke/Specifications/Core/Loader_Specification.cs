@@ -52,7 +52,7 @@ namespace Cuke4Nuke.Specifications.Core
             foreach (var method in expectedMethods)
             {
                 var stepDefinition = new StepDefinition(method);
-                Assert.That(_stepDefinitions, Has.Member(stepDefinition));
+                Assert.That(_stepDefinitions, Has.Member(stepDefinition), "Missing method: " + stepDefinition.Id);
             }
         }
     }

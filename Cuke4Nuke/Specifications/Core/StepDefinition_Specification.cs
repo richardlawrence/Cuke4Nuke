@@ -47,18 +47,6 @@ namespace Cuke4Nuke.Specifications.Core
         }
 
         [Test]
-        public void Should_allow_method_with_an_And_attribute()
-        {
-            AssertMethodIsValid("And");
-        }
-
-        [Test]
-        public void Should_allow_method_with_a_But_attribute()
-        {
-            AssertMethodIsValid("But");
-        }
-
-        [Test]
         public void Should_allow_public_methods()
         {
             AssertMethodIsValid("Public");
@@ -95,23 +83,15 @@ namespace Cuke4Nuke.Specifications.Core
         }
 
         [Test]
-        public void Should_not_allow_instance_methods()
+        public void Should_allow_instance_methods()
         {
-            AssertMethodIsInvalid("NoAttribute");
+            AssertMethodIsValid("Instance");
         }
 
         [Test]
         public void Should_not_allow_methods_without_a_step_definition_attribute()
         {
-            AssertMethodIsInvalid("Instance");
-        }
-
-        [Test]
-        [ExpectedException(typeof(ArgumentException))]
-        public void Constructor_should_throw_if_a_method_is_not_static()
-        {
-            var invalidMethod = GetInvalidMethod("Instance");
-            new StepDefinition(invalidMethod);
+            AssertMethodIsInvalid("NoAttribute");
         }
 
         [Test]
@@ -150,6 +130,13 @@ namespace Cuke4Nuke.Specifications.Core
         public void Successful_invocation_should_not_throw()
         {
             _stepDefinition.Invoke();
+        }
+
+        [Test]
+        public void Successful_invocation_of_instance_should_not_throw()
+        {
+            var stepDefinition = new StepDefinition(GetValidMethod("Instance"));
+            stepDefinition.Invoke();
         }
 
         [Test]
@@ -234,13 +221,13 @@ namespace Cuke4Nuke.Specifications.Core
 
             [Given("")]
             public static void WithoutArguments() { }
+
+            [Given("")]
+            public void Instance() { }
         }
 
         public class InvalidStepDefinitions
         {
-            [Given("")]
-            public void Instance() { }
-
             public static void NoAttribute() { }
         }
     }
