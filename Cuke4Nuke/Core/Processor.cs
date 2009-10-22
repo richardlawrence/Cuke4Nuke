@@ -32,23 +32,25 @@ namespace Cuke4Nuke.Core
             {
                 JsonData requestObject = JsonMapper.ToObject(request);
                 String command = requestObject[0].ToString();
-                if (command.Equals("step_matches"))
+                switch (command)
                 {
-                    return StepMatches(requestObject[1]["name_to_match"].ToString());
+                    case "begin_scenario":
+                        return SuccessResponse();
+                    case "end_scenario":
+                        return SuccessResponse(); 
+                    case "step_matches":
+                        return StepMatches(requestObject[1]["name_to_match"].ToString());
+                    case "invoke":
+                        JsonData jsonArgs = requestObject[1]["args"];
+                        string[] args = new string[jsonArgs.Count];
+                        for (int i = 0; i < args.Length; ++i)
+                        {
+                            args[i] = jsonArgs[i].ToString();
+                        }
+                        return Invoke(requestObject[1]["id"].ToString(), args);
+                    default:
+                        return _formatter.Format("Invalid request '" + request + "'");
                 }
-
-                if (command.Equals("invoke"))
-                {
-                    JsonData jsonArgs = requestObject[1]["args"];
-                    string[] args = new string[jsonArgs.Count];
-                    for (int i = 0; i < args.Length; ++i)
-                    {
-                        args[i] = jsonArgs[i].ToString();
-                    }
-                    return Invoke(requestObject[1]["id"].ToString(), args);
-                }
-
-                return _formatter.Format("Invalid request '" + request + "'");
             }
             catch (JsonException x)
             {
@@ -58,6 +60,11 @@ namespace Cuke4Nuke.Core
             {
                 return _formatter.Format(x);
             }
+        }
+
+        string SuccessResponse()
+        {
+            return "[\"success\",null]";
         }
 
         string StepMatches(string stepName)
@@ -114,9 +121,7 @@ namespace Cuke4Nuke.Core
                 }
 
                 stepDefinition.Invoke(_objectFactory, typedArgs);
-                JsonData response = new JsonData();
-                response.Add("OK");
-                return JsonMapper.ToJson(response);
+                return SuccessResponse();
             }
             catch (KeyNotFoundException x)
             {
