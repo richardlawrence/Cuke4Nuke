@@ -23,6 +23,7 @@ namespace Cuke4Nuke.Core
         {
             _loader = loader;
             _objectFactory = objectFactory;
+            _stepDefinitions = _loader.Load();
         }
 
         public string Process(string request)
@@ -61,8 +62,6 @@ namespace Cuke4Nuke.Core
 
         string StepMatches(string stepName)
         {
-            _stepDefinitions = _loader.Load();
-
             JsonData matches = new JsonData();
             matches.SetJsonType(JsonType.Array);
             foreach (var sd in _stepDefinitions)

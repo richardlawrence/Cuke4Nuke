@@ -6,15 +6,15 @@ namespace Cuke4Nuke.Server
 {
     public class NukeServer
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private readonly Listener _listener;
-        readonly TextWriter _output;
         readonly Options _options;
 
-        public NukeServer(Listener listener, TextWriter output, Options options)
+        public NukeServer(Listener listener, Options options)
         {
             _listener = listener;
             _options = options;
-            _output = output;
         }
 
         public void Start()
@@ -41,7 +41,7 @@ namespace Cuke4Nuke.Server
             Log("Usage: Cuke4Nuke.Server.exe [OPTIONS]");
             Log("Start the Cuke4Nuke server to invoke .NET Cucumber step definitions.");
             Log("");
-            _options.Write(_output);
+            Log(_options.ToString());
         }
 
         void listener_LogMessage(object sender, LogEventArgs e)
@@ -51,7 +51,7 @@ namespace Cuke4Nuke.Server
 
         void Log(string message)
         {
-            _output.WriteLine(message);
+            log.Info(message);
         }
     }
 }

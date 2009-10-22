@@ -48,10 +48,10 @@ Feature: Run .NET step definitions with shared state from Cucumber
     # Then STDERR should be empty
     And it should pass with
       """
-      .
+      ...
 
       1 scenario (1 passed)
-      1 step (1 passed)
+      3 steps (3 passed)
 
       """
   

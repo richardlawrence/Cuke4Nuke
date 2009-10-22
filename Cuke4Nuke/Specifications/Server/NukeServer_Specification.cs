@@ -22,18 +22,9 @@ namespace Cuke4Nuke.Specifications.Server
         }
 
         [Test]
-        public void Start_with_help_option_should_show_usage_help()
-        {
-            var server = new NukeServer(_listener, _outputWriter, new Options("-h"));
-            server.Start();
-
-            StringAssert.StartsWith("Usage:", _outputWriter.ToString());
-        }
-
-        [Test]
         public void Start_without_help_option_should_start_the_listener()
         {
-            var server = new NukeServer(_listener, _outputWriter, new Options());
+            var server = new NukeServer(_listener, new Options());
             server.Start();
 
             Assert.That(_listener.HasMessageLoggedListeners());
