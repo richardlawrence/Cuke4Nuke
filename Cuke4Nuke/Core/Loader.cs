@@ -26,7 +26,6 @@ namespace Cuke4Nuke.Core
                 Load(stepDefinitions, Assembly.LoadFrom(assemblyPath));
                 log.DebugFormat("Loaded step definition methods from assembly {0}.", assemblyPath);
             }
-            _objectFactory.CreateObjects();
 
             return stepDefinitions;
         }

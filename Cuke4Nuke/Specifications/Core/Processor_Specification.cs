@@ -61,12 +61,28 @@ namespace Cuke4Nuke.Specifications.Core
         }
 
         [Test]
+        public void Begin_scenario_should_return_success_json()
+        {
+            String request = @"[""begin_scenario"",null]";
+            var response = _processor.Process(request);
+            Assert.That(response, Is.EqualTo(@"[""success"",null]"));
+        }
+
+        [Test]
+        public void End_scenario_should_return_success_json()
+        {
+            String request = @"[""end_scenario"",null]";
+            var response = _processor.Process(request);
+            Assert.That(response, Is.EqualTo(@"[""success"",null]"));
+        }
+
+        [Test]
         public void Invoke_with_a_valid_id_should_invoke_step_definition_method()
         {
             var request = CreateInvokeRequest(_stepDefinition.Id);
             var response = _processor.Process(request);
 
-            AssertOkResponse(response);
+            AssertSuccessResponse(response);
             Assert.That(_methodCalled, Is.True);
         }
 
@@ -113,7 +129,7 @@ namespace Cuke4Nuke.Specifications.Core
         {
             var request = CreateInvokeRequest(_stepDefinitionWithOneStringParameter.Id, "first");
             var response = _processor.Process(request);
-            AssertOkResponse(response);
+            AssertSuccessResponse(response);
             Assert.That(_receivedParameters.Length, Is.EqualTo(1));
             Assert.That(_receivedParameters[0], Is.InstanceOf(typeof(string)));
             Assert.That(_receivedParameters[0], Is.EqualTo("first"));
@@ -124,7 +140,7 @@ namespace Cuke4Nuke.Specifications.Core
         {
             var request = CreateInvokeRequest(_stepDefinitionWithMultipleStringParameters.Id, "first", "second");
             var response = _processor.Process(request);
-            AssertOkResponse(response);
+            AssertSuccessResponse(response);
             Assert.That(_receivedParameters.Length, Is.EqualTo(2));
             Assert.That(_receivedParameters[0], Is.InstanceOf(typeof(string)));
             Assert.That(_receivedParameters[0], Is.EqualTo("first"));
@@ -137,7 +153,7 @@ namespace Cuke4Nuke.Specifications.Core
         {
             var request = CreateInvokeRequest(_stepDefinitionWithMultipleStringParametersOverloaded.Id, "first", "second", "third");
             var response = _processor.Process(request);
-            AssertOkResponse(response);
+            AssertSuccessResponse(response);
             Assert.AreEqual(3, _receivedParameters.Length);
             Assert.IsInstanceOf(typeof(string), _receivedParameters[0]);
             Assert.AreEqual("first", _receivedParameters[0]);
@@ -176,7 +192,7 @@ namespace Cuke4Nuke.Specifications.Core
         {
             var request = CreateInvokeRequest(_stepDefinitionWithOneIntParameter.Id, "42");
             var response = _processor.Process(request);
-            AssertOkResponse(response);
+            AssertSuccessResponse(response);
             Assert.That(_receivedParameters.Length, Is.EqualTo(1));
             Assert.That(_receivedParameters[0], Is.InstanceOf(typeof(int)));
             Assert.That(_receivedParameters[0], Is.EqualTo(42));
@@ -187,7 +203,7 @@ namespace Cuke4Nuke.Specifications.Core
         {
             var request = CreateInvokeRequest(_stepDefinitionWithOneDoubleParameter.Id, "3.14");
             var response = _processor.Process(request);
-            AssertOkResponse(response);
+            AssertSuccessResponse(response);
             Assert.That(_receivedParameters.Length, Is.EqualTo(1));
             Assert.That(_receivedParameters[0], Is.InstanceOf(typeof(double)));
             Assert.That(_receivedParameters[0], Is.EqualTo(3.14));
@@ -198,7 +214,7 @@ namespace Cuke4Nuke.Specifications.Core
         {
             var request = CreateInvokeRequest(_stepDefinitionWithIntDoubleAndStringParameters.Id, "42", "3.14", "foo");
             var response = _processor.Process(request);
-            AssertOkResponse(response);
+            AssertSuccessResponse(response);
             Assert.That(_receivedParameters.Length, Is.EqualTo(3));
             Assert.That(_receivedParameters[0], Is.InstanceOf(typeof(int)));
             Assert.That(_receivedParameters[0], Is.EqualTo(42));
@@ -224,11 +240,9 @@ namespace Cuke4Nuke.Specifications.Core
             return JsonMapper.ToJson(req);
         }
 
-        static void AssertOkResponse(string response)
+        static void AssertSuccessResponse(string response)
         {
-            JsonData ok = new JsonData();
-            ok.Add("OK");
-            Assert.That(response, Is.EqualTo(JsonMapper.ToJson(ok)));
+            Assert.That(response, Is.EqualTo(@"[""success"",null]"));
         }
 
         static void AssertFailResponse(string response, string message)

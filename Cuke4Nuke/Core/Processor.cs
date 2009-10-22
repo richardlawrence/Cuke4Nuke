@@ -35,8 +35,10 @@ namespace Cuke4Nuke.Core
                 switch (command)
                 {
                     case "begin_scenario":
+                        _objectFactory.CreateObjects();
                         return SuccessResponse();
                     case "end_scenario":
+                        _objectFactory.DisposeObjects();
                         return SuccessResponse(); 
                     case "step_matches":
                         return StepMatches(requestObject[1]["name_to_match"].ToString());

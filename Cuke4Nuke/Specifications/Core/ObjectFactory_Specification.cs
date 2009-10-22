@@ -52,6 +52,26 @@ namespace Cuke4Nuke.Specifications.Core
             Dummy dummy2 = (Dummy)objectFactory.GetObject(typeof(Dummy));
             Assert.That(dummy2.Value, Is.EqualTo("foo"));
         }
+
+        [Test]
+        public void Should_have_DisposeObjects_method()
+        {
+            ObjectFactory objectFactory = new ObjectFactory();
+            objectFactory.AddClass(typeof(Dummy));
+            objectFactory.CreateObjects();
+            objectFactory.DisposeObjects();
+        }
+
+        [Test]
+        public void Should_return_null_from_GetObject_after_DisposeObjects_is_called()
+        {
+            ObjectFactory objectFactory = new ObjectFactory();
+            objectFactory.AddClass(typeof(Dummy));
+            objectFactory.CreateObjects();
+            Assert.That(objectFactory.GetObject(typeof(Dummy)), Is.Not.Null);
+            objectFactory.DisposeObjects();
+            Assert.That(objectFactory.GetObject(typeof(Dummy)), Is.Null);
+        }
     }
 
     public class Dummy

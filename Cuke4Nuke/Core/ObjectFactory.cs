@@ -42,5 +42,10 @@ namespace Cuke4Nuke.Core
             log.DebugFormat("Found instance of type <{0}>.", type);
             return _objects[type];
         }
+
+        public void DisposeObjects()
+        {
+            _objects.Clear();
+        }
     }
 }
