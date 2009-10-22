@@ -45,7 +45,8 @@ namespace Cuke4Nuke.Specifications.Core
             _stepDefinitions = new List<StepDefinition> { _stepDefinition, _exceptionDefinition, _stepDefinitionWithOneStringParameter, _stepDefinitionWithMultipleStringParameters, _stepDefinitionWithMultipleStringParametersOverloaded, _stepDefinitionWithOneIntParameter, _stepDefinitionWithOneDoubleParameter, _stepDefinitionWithIntDoubleAndStringParameters };
 
             var loader = new MockLoader(_stepDefinitions);
-            _processor = new Processor(loader);
+            var objectFactory = new ObjectFactory();
+            _processor = new Processor(loader, objectFactory);
 
             _methodCalled = false;
             _receivedParameters = null;
@@ -300,7 +301,7 @@ namespace Cuke4Nuke.Specifications.Core
             internal List<StepDefinition> StepDefinitions { get; private set; }
 
             public MockLoader(List<StepDefinition> stepDefinitions)
-                : base(null)
+                : base(null, null)
             {
                 StepDefinitions = stepDefinitions;
             }

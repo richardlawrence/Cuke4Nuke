@@ -17,10 +17,12 @@ namespace Cuke4Nuke.Core
         readonly Loader _loader;
         List<StepDefinition> _stepDefinitions;
         readonly Formatter _formatter = new Formatter();
+        readonly ObjectFactory _objectFactory;
 
-        public Processor(Loader loader)
+        public Processor(Loader loader, ObjectFactory objectFactory)
         {
             _loader = loader;
+            _objectFactory = objectFactory;
         }
 
         public string Process(string request)
@@ -112,7 +114,7 @@ namespace Cuke4Nuke.Core
                     typedArgs[i] = converter.ConvertFromString(args[i]);
                 }
 
-                stepDefinition.Invoke(typedArgs);
+                stepDefinition.Invoke(_objectFactory, typedArgs);
                 JsonData response = new JsonData();
                 response.Add("OK");
                 return JsonMapper.ToJson(response);

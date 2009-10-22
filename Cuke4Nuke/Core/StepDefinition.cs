@@ -43,7 +43,7 @@ namespace Cuke4Nuke.Core
             return (StepDefinitionAttribute[]) method.GetCustomAttributes(typeof (StepDefinitionAttribute), true);
         }
 
-        public void Invoke(params object[] parameters)
+        public void Invoke(ObjectFactory objectFactory, params object[] parameters)
         {
             if (Method.IsStatic)
             {
@@ -51,7 +51,7 @@ namespace Cuke4Nuke.Core
             }
             else
             {
-                var instance = Activator.CreateInstance(Method.DeclaringType);
+                var instance = objectFactory.GetObject(Method.DeclaringType);
                 Method.Invoke(instance, parameters);
             }
         }

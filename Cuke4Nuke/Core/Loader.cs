@@ -7,10 +7,12 @@ namespace Cuke4Nuke.Core
     public class Loader
     {
         readonly IEnumerable<string> _assemblyPaths;
+        readonly ObjectFactory _objectFactory;
 
-        public Loader(IEnumerable<string> assemblyPaths)
+        public Loader(IEnumerable<string> assemblyPaths, ObjectFactory objectFactory)
         {
             _assemblyPaths = assemblyPaths;
+            _objectFactory = objectFactory;
         }
 
         public virtual List<StepDefinition> Load()
@@ -18,7 +20,10 @@ namespace Cuke4Nuke.Core
             var stepDefinitions = new List<StepDefinition>();
 
             foreach (var assemblyPath in _assemblyPaths)
+            {
                 Load(stepDefinitions, Assembly.LoadFrom(assemblyPath));
+            }
+            _objectFactory.CreateObjects();
 
             return stepDefinitions;
         }

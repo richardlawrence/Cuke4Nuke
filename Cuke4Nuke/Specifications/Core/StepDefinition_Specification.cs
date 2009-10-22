@@ -129,21 +129,24 @@ namespace Cuke4Nuke.Specifications.Core
         [Test]
         public void Successful_invocation_should_not_throw()
         {
-            _stepDefinition.Invoke();
+            _stepDefinition.Invoke(null);
         }
 
         [Test]
         public void Successful_invocation_of_instance_should_not_throw()
         {
+            var objectFactory = new ObjectFactory();
+            objectFactory.AddClass(typeof(ValidStepDefinitions));
+            objectFactory.CreateObjects();
             var stepDefinition = new StepDefinition(GetValidMethod("Instance"));
-            stepDefinition.Invoke();
+            stepDefinition.Invoke(objectFactory);
         }
 
         [Test]
         [ExpectedException(typeof(TargetParameterCountException))]
         public void Incorrect_parameter_count_should_throw_exception()
         {
-            _stepDefinition.Invoke("parameter to cause invocation failure");
+            _stepDefinition.Invoke(null, "parameter to cause invocation failure");
         }
 
         [Test]
@@ -151,7 +154,7 @@ namespace Cuke4Nuke.Specifications.Core
         public void Method_that_throws_should_result_in_a_TargetInvocationException_being_thrown()
         {
             var stepDefinition = new StepDefinition(_exceptionMethod);
-            stepDefinition.Invoke();
+            stepDefinition.Invoke(null);
         }
 
         static void AssertMethodIsValid(string methodName)

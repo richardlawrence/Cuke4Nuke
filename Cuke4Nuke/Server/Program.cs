@@ -11,8 +11,9 @@ namespace Cuke4Nuke.Server
         static void Main(string[] args)
         {
             var options = new Options(args);
-            var loader = new Loader(options.AssemblyPaths);
-            var processor = new Processor(loader);
+            var objectFactory = new ObjectFactory();
+            var loader = new Loader(options.AssemblyPaths, objectFactory);
+            var processor = new Processor(loader, objectFactory);
             var listener = new Listener(processor, options.Port);
 
             using (var logger = new StreamWriter(new IsolatedStorageFileStream("Cuke4Nuke.log", FileMode.Append)))
