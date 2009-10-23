@@ -14,15 +14,16 @@ namespace Cuke4Nuke.Specifications.Core
         public void Should_load_Before_method_successfully()
         {
             var method = Reflection.GetMethod(typeof(ValidHooks), "Before1");
-            var hook = new Hook(method);
+            var hook = new BeforeHook(method);
             Assert.That(hook.Method, Is.EqualTo(method));
         }
 
         [Test]
+        [ExpectedException(typeof(ArgumentException))]
         public void Should_not_load_After_method()
         {
             var method = Reflection.GetMethod(typeof(InvalidHooks), "After1");
-            var hook = new Hook(method);
+            var hook = new BeforeHook(method);
         }
 
         public class ValidHooks

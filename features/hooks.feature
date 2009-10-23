@@ -48,3 +48,29 @@ Feature: Run .NET Before and After hooks from Cucumber
       1 step (1 passed)
 
       """
+      
+  Scenario: After hook throws exception (how else do we know it's called?)
+    Given a file named "features/adding.feature" with:
+      """
+        Scenario: After hook defined
+          Given a passing step
+
+      """
+    And Cuke4Nuke started with a step definition assembly containing:
+      """
+      public class GeneratedSteps
+      {
+        [After]
+        public void Teardown()
+        {
+          throw new Exception();
+        }
+
+        [Given(@"^a passing step$")]
+        public void PassingStep()
+        {
+        }
+      }
+      """
+    When I run cucumber -f progress features
+    Then it should fail

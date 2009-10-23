@@ -38,6 +38,11 @@ namespace Cuke4Nuke.Core
                             repository.BeforeHooks.Add(new BeforeHook(method));
                             _objectFactory.AddClass(method.ReflectedType);
                         }
+                        if (AfterHook.IsValidMethod(method))
+                        {
+                            repository.AfterHooks.Add(new AfterHook(method));
+                            _objectFactory.AddClass(method.ReflectedType);
+                        }
                     }
                 }
                 log.DebugFormat("Loaded step definition methods from assembly {0}.", assemblyPath);

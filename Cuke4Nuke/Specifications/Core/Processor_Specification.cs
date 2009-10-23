@@ -322,7 +322,7 @@ namespace Cuke4Nuke.Specifications.Core
 
             public override Repository Load()
             {
-                var repository = new Repository(StepDefinitions, new List<BeforeHook>());
+                var repository = new Repository(StepDefinitions, new List<BeforeHook>(), new List<AfterHook>());
                 return repository;
             }
         }

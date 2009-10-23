@@ -39,6 +39,7 @@ namespace Cuke4Nuke.Core
                         _repository.BeforeHooks.ForEach(hook => hook.Invoke(_objectFactory));
                         return SuccessResponse();
                     case "end_scenario":
+                        _repository.AfterHooks.ForEach(hook => hook.Invoke(_objectFactory));
                         _objectFactory.DisposeObjects();
                         return SuccessResponse(); 
                     case "step_matches":
