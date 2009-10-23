@@ -31,5 +31,22 @@ namespace Cuke4Nuke.Core
         {
             return (HookAttribute[])method.GetCustomAttributes(typeof(HookAttribute), true);
         }
+
+        public void Invoke(ObjectFactory objectFactory)
+        {
+            try
+            {
+                object instance = null;
+                if (!Method.IsStatic)
+                {
+                    instance = objectFactory.GetObject(Method.DeclaringType);
+                }
+                Method.Invoke(instance, null);
+            }
+            catch (TargetInvocationException ex)
+            {
+                throw ex.InnerException;
+            }
+        }
     }
 }

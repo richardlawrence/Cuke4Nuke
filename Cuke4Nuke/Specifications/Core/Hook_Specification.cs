@@ -49,6 +49,29 @@ namespace Cuke4Nuke.Specifications.Core
             var hook = new Hook(method);
         }
 
+        [Test]
+        public void Should_invoke_method_successfully()
+        {
+            ObjectFactory objectFactory = new ObjectFactory();
+            objectFactory.AddClass(typeof(ValidHooks));
+            objectFactory.CreateObjects();
+            var method = Reflection.GetMethod(typeof(ValidHooks), "Before1");
+            var hook = new Hook(method);
+            hook.Invoke(objectFactory);
+        }
+
+        [Test]
+        [ExpectedException(typeof(Exception))]
+        public void Invoke_should_throw_when_method_throws()
+        {
+            ObjectFactory objectFactory = new ObjectFactory();
+            objectFactory.AddClass(typeof(ValidHooks));
+            objectFactory.CreateObjects();
+            var method = Reflection.GetMethod(typeof(ValidHooks), "ThrowsException");
+            var hook = new Hook(method);
+            hook.Invoke(objectFactory);
+        }
+
         public class ValidHooks
         {
             [Before]
@@ -65,6 +88,12 @@ namespace Cuke4Nuke.Specifications.Core
             
             [Before]
             public static void Before5() { }
+
+            [Before]
+            private void ThrowsException()
+            {
+                throw new Exception();
+            }
         }
 
         public class InvalidHooks
