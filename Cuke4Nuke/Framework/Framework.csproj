@@ -45,7 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BeforeAttribute.cs" />
     <Compile Include="GivenAttribute.cs" />
+    <Compile Include="HookAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StepDefinitionAttribute.cs" />
     <Compile Include="ThenAttribute.cs" />

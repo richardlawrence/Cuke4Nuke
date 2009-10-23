@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Hook_Specification.cs" />
     <Compile Include="Core\ObjectFactory_Specification.cs" />
     <Compile Include="JsonAssert.cs" />
     <Compile Include="Core\AsyncListener.cs" />

@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Hook.cs" />
     <Compile Include="Listener.cs" />
     <Compile Include="LogEventArgs.cs" />
     <Compile Include="ObjectFactory.cs" />
