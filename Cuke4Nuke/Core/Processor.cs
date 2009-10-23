@@ -110,24 +110,8 @@ namespace Cuke4Nuke.Core
                     return _formatter.Format("Could not find step with id '" + id + "'");
                 }
 
-                ParameterInfo [] parameters = stepDefinition.Method.GetParameters();
-                if (parameters.Length != args.Length)
-                {
-                    throw new ArgumentException("Expected " + parameters.Length + " argument(s); got " + args.Length);
-                }
-                var typedArgs = new object[args.Length];
-                for (int i = 0; i < args.Length; ++i)
-                {
-                    TypeConverter converter = TypeDescriptor.GetConverter(parameters[i].ParameterType);
-                    typedArgs[i] = converter.ConvertFromString(args[i]);
-                }
-
-                stepDefinition.Invoke(_objectFactory, typedArgs);
+                stepDefinition.Invoke(_objectFactory, args);
                 return SuccessResponse();
-            }
-            catch (KeyNotFoundException x)
-            {
-                return _formatter.Format("Missing '" + x.ToString() + "' in request");
             }
             catch (TargetInvocationException x)
             {

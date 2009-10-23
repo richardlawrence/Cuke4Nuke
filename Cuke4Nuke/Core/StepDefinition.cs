@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 
 using Cuke4Nuke.Framework;
+using System.ComponentModel;
 
 namespace Cuke4Nuke.Core
 {
@@ -45,17 +46,26 @@ namespace Cuke4Nuke.Core
             return (StepDefinitionAttribute[]) method.GetCustomAttributes(typeof (StepDefinitionAttribute), true);
         }
 
-        public void Invoke(ObjectFactory objectFactory, params object[] parameters)
+        public void Invoke(ObjectFactory objectFactory, params string[] args)
         {
-            if (Method.IsStatic)
+            ParameterInfo[] parameters = Method.GetParameters();
+            if (parameters.Length != args.Length)
             {
-                Method.Invoke(null, parameters);
+                throw new ArgumentException("Expected " + parameters.Length + " argument(s); got " + args.Length);
             }
-            else
+            var typedArgs = new object[args.Length];
+            for (int i = 0; i < args.Length; ++i)
             {
-                var instance = objectFactory.GetObject(Method.DeclaringType);
-                Method.Invoke(instance, parameters);
+                TypeConverter converter = TypeDescriptor.GetConverter(parameters[i].ParameterType);
+                typedArgs[i] = converter.ConvertFromString(args[i]);
             }
+
+            object instance = null;
+            if (!Method.IsStatic)
+            {
+                instance = objectFactory.GetObject(Method.DeclaringType);
+            }
+            Method.Invoke(instance, typedArgs);
         }
 
         public bool Equals(StepDefinition other)

@@ -143,7 +143,7 @@ namespace Cuke4Nuke.Specifications.Core
         }
 
         [Test]
-        [ExpectedException(typeof(TargetParameterCountException))]
+        [ExpectedException(typeof(ArgumentException))]
         public void Incorrect_parameter_count_should_throw_exception()
         {
             _stepDefinition.Invoke(null, "parameter to cause invocation failure");
