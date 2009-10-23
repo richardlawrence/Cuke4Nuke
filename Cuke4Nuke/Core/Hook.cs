@@ -9,6 +9,10 @@ namespace Cuke4Nuke.Core
 {
     public class Hook
     {
+        protected Hook()
+        {
+        }
+
         public Hook(MethodInfo method)
         {
             if (!Hook.IsValidMethod(method))
@@ -18,7 +22,7 @@ namespace Cuke4Nuke.Core
             Method = method;
         }
 
-        public MethodInfo Method { get; private set; }
+        public MethodInfo Method { get; protected set; }
 
         public static bool IsValidMethod(MethodInfo method)
         {

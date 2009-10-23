@@ -28,7 +28,7 @@ namespace Cuke4Nuke.Specifications.Core
             var assemblyPaths = new List<string>{"Cuke4Nuke.TestStepDefinitions.dll"};
             var loader = new Loader(assemblyPaths, new ObjectFactory());
 
-            _stepDefinitions = loader.Load();
+            _stepDefinitions = loader.Load().StepDefinitions;
 
             AssertAllMethodsLoaded(ExternalStepDefinitionClass);
         }
@@ -39,7 +39,7 @@ namespace Cuke4Nuke.Specifications.Core
             var assemblyPaths = new List<string> { "Cuke4Nuke.TestStepDefinitions.dll", "Cuke4Nuke.Specifications.dll" };
             var loader = new Loader(assemblyPaths, new ObjectFactory());
 
-            _stepDefinitions = loader.Load();
+            _stepDefinitions = loader.Load().StepDefinitions;
 
             AssertAllMethodsLoaded(ValidStepDefinitionClass);
             AssertAllMethodsLoaded(ExternalStepDefinitionClass);

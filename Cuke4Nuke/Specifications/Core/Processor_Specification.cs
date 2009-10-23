@@ -320,9 +320,10 @@ namespace Cuke4Nuke.Specifications.Core
                 StepDefinitions = stepDefinitions;
             }
 
-            public override List<StepDefinition> Load()
+            public override Repository Load()
             {
-                return StepDefinitions;
+                var repository = new Repository(StepDefinitions, new List<BeforeHook>());
+                return repository;
             }
         }
     }

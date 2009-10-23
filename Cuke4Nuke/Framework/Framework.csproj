@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AfterAttribute.cs" />
     <Compile Include="BeforeAttribute.cs" />
     <Compile Include="GivenAttribute.cs" />
     <Compile Include="HookAttribute.cs" />

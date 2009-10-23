@@ -17,38 +17,33 @@ namespace Cuke4Nuke.Core
             _objectFactory = objectFactory;
         }
 
-        public virtual List<StepDefinition> Load()
+        public virtual Repository Load()
         {
-            var stepDefinitions = new List<StepDefinition>();
+            var repository = new Repository();
 
             foreach (var assemblyPath in _assemblyPaths)
             {
-                Load(stepDefinitions, Assembly.LoadFrom(assemblyPath));
+                var assembly = Assembly.LoadFrom(assemblyPath);
+                foreach (var type in assembly.GetTypes())
+                {
+                    foreach (var method in type.GetMethods(StepDefinition.MethodFlags))
+                    {
+                        if (StepDefinition.IsValidMethod(method))
+                        {
+                            repository.StepDefinitions.Add(new StepDefinition(method));
+                            _objectFactory.AddClass(method.ReflectedType);
+                        }
+                        if (BeforeHook.IsValidMethod(method))
+                        {
+                            repository.BeforeHooks.Add(new BeforeHook(method));
+                            _objectFactory.AddClass(method.ReflectedType);
+                        }
+                    }
+                }
                 log.DebugFormat("Loaded step definition methods from assembly {0}.", assemblyPath);
             }
 
-            return stepDefinitions;
-        }
-
-        private void Load(ICollection<StepDefinition> stepDefinitions, Assembly assembly)
-        {
-            foreach (var type in assembly.GetTypes())
-                Load(stepDefinitions, type);
-        }
-
-        private void Load(ICollection<StepDefinition> stepDefinitions, Type type)
-        {
-            foreach (var method in type.GetMethods(StepDefinition.MethodFlags))
-                Load(stepDefinitions, method);
-        }
-
-        private void Load(ICollection<StepDefinition> stepDefinitions, MethodInfo method)
-        {
-            if (StepDefinition.IsValidMethod(method))
-            {
-                stepDefinitions.Add(new StepDefinition(method));
-                _objectFactory.AddClass(method.ReflectedType);
-            }
+            return repository;
         }
     }
 }

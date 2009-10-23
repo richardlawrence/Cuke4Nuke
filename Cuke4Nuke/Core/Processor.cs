@@ -15,7 +15,7 @@ namespace Cuke4Nuke.Core
     public class Processor : IProcessor
     {
         readonly Loader _loader;
-        List<StepDefinition> _stepDefinitions;
+        readonly Repository _repository;
         readonly Formatter _formatter = new Formatter();
         readonly ObjectFactory _objectFactory;
 
@@ -23,7 +23,7 @@ namespace Cuke4Nuke.Core
         {
             _loader = loader;
             _objectFactory = objectFactory;
-            _stepDefinitions = _loader.Load();
+            _repository = _loader.Load();
         }
 
         public string Process(string request)
@@ -36,6 +36,7 @@ namespace Cuke4Nuke.Core
                 {
                     case "begin_scenario":
                         _objectFactory.CreateObjects();
+                        _repository.BeforeHooks.ForEach(hook => hook.Invoke(_objectFactory));
                         return SuccessResponse();
                     case "end_scenario":
                         _objectFactory.DisposeObjects();
@@ -73,7 +74,7 @@ namespace Cuke4Nuke.Core
         {
             JsonData matches = new JsonData();
             matches.SetJsonType(JsonType.Array);
-            foreach (var sd in _stepDefinitions)
+            foreach (var sd in _repository.StepDefinitions)
             {
                 List<StepArgument> args = sd.ArgumentsFrom(stepName);
                 if(args != null)
@@ -121,11 +122,7 @@ namespace Cuke4Nuke.Core
 
         StepDefinition GetStepDefinition(string id)
         {
-            if(_stepDefinitions == null )
-            {
-                _stepDefinitions = _loader.Load();
-            }
-            return _stepDefinitions.Find(s => s.Id == id);
+            return _repository.StepDefinitions.Find(s => s.Id == id);
         }
     }
 }
