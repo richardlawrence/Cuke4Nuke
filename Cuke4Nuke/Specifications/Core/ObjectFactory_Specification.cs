@@ -72,10 +72,29 @@ namespace Cuke4Nuke.Specifications.Core
             objectFactory.DisposeObjects();
             Assert.That(objectFactory.GetObject(typeof(Dummy)), Is.Null);
         }
+
+        [Test]
+        public void Should_successfully_create_an_object_without_a_parameterless_constructor()
+        {
+            ObjectFactory objectFactory = new ObjectFactory();
+            objectFactory.AddClass(typeof(DummyBox));
+            objectFactory.CreateObjects();
+            DummyBox dummyBox = (DummyBox)objectFactory.GetObject(typeof(DummyBox));
+        }
     }
 
     public class Dummy
     {
         public String Value { get; set; }
+    }
+
+    public class DummyBox
+    {
+        Dummy _dummy;
+
+        public DummyBox(Dummy dummy)
+        {
+            _dummy = dummy;
+        }
     }
 }

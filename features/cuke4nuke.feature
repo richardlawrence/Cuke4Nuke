@@ -31,11 +31,13 @@ Feature: Run .NET step definitions from Cucumber
   Scenario: Dry run finds a step match
     Given Cuke4Nuke started with a step definition assembly containing:
       """
-      [Given("^we're all wired$")]
-      public static void AllWired()
+      public class GeneratedSteps
       {
+        [Given("^we're all wired$")]
+        public static void AllWired()
+        {
+        }
       }
-
       """
     When I run cucumber --dry-run -f progress features  
     Then STDERR should be empty
@@ -51,11 +53,13 @@ Feature: Run .NET step definitions from Cucumber
   Scenario: Invoke a step definition which passes
     Given Cuke4Nuke started with a step definition assembly containing:
       """
-      [Given("^we're all wired$")]
-      public static void AllWired()
+      public class GeneratedSteps
       {
+        [Given("^we're all wired$")]
+        public static void AllWired()
+        {
+        }
       }
-
       """
     When I run cucumber -f progress features
     Then STDERR should be empty
@@ -71,12 +75,14 @@ Feature: Run .NET step definitions from Cucumber
   Scenario: Invoke a step definition which fails
     Given Cuke4Nuke started with a step definition assembly containing:
       """
-      [Given("^we're all wired$")]
-      public static void AllWired()
+      public class GeneratedSteps
       {
-        throw new Exception("message");
+        [Given("^we're all wired$")]
+        public static void AllWired()
+        {
+          throw new Exception("message");
+        }
       }
-
       """
     When I run cucumber -f progress features
     Then it should fail
