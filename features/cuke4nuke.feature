@@ -4,6 +4,7 @@ Feature: Run .NET step definitions from Cucumber
     Given a standard Cucumber project directory structure
     And a file named "features/wired.feature" with:
       """
+      Feature: So wired
         Scenario: Wired
           Given we're all wired
 
@@ -66,6 +67,31 @@ Feature: Run .NET step definitions from Cucumber
     And it should pass with
       """
       .
+
+      1 scenario (1 passed)
+      1 step (1 passed)
+
+      """
+  
+  Scenario: Invoke a step definition which passes, using pretty format
+    Given Cuke4Nuke started with a step definition assembly containing:
+      """
+      public class GeneratedSteps
+      {
+        [Given("^we're all wired$")]
+        public static void AllWired()
+        {
+        }
+      }
+      """
+    When I run cucumber -f pretty features
+    Then STDERR should be empty
+    And it should pass with
+      """
+      Feature: So wired
+
+        Scenario: Wired         # features/wired.feature:2
+          Given we're all wired # FIXME:0
 
       1 scenario (1 passed)
       1 step (1 passed)
