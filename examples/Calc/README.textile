@@ -58,8 +58,8 @@ Happy cuking!
 
 h2. IronRuby
 
-The other option you have to run Cucumber on .NET is via IronRuby. This is a bit slower, since
-IronRuby takes a while to start. This will not use Cuke4Nuke.
+The other option you have to run Cucumber on .NET is via IronRuby. This is about twice as slow, since
+IronRuby takes a while to start, and Cuke4Nuke is faster. So when you use IronRuby you will not use Cuke4Nuke.
 
 h3. Install IronRuby
 
@@ -78,6 +78,8 @@ Now, copy the launcher scripts:
 copy C:\ironruby-0.9.1\lib\IronRuby\gems\1.8\bin\cucumber C:\ironruby-0.9.1\bin\icucumber
 copy C:\ironruby-0.9.1\lib\IronRuby\gems\1.8\bin\cucumber.bat C:\ironruby-0.9.1\bin\icucumber.bat
 </pre>
+
+(You only have to do this once. If you upgrade cucumber later you don't need to do this again).
 
 h3. Install Wac
 
