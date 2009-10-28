@@ -1,0 +1,57 @@
+h1. Calculator Example
+
+This project contains Cucumber features for the Calc project.
+There are step definitions in both C# and Ruby.
+
+h2. C#
+
+The C# step definitions require Cuke4Nuke and MRI to run. You don't need IronRuby for this.
+This is the fastest option.
+
+h3. Install MRI and Cucumber
+
+Download and install "Ruby 1.8.6-26 Final Release":http://rubyforge.org/frs/?group_id=167&release_id=28426
+Make sure Ruby's <code>bin</code> directory is on your <code>PATH</code>.
+
+Then, open a command window and install the required gems:
+
+<pre>
+gem install cucumber json win32console	
+</pre>
+
+Leave the command window open.
+
+h3. Build Calc.sln
+
+Open up the solution in Vidual Studio (Express) and build it.
+The solution contains both the Calc project and the CalcFeatures project.
+
+h3. Start Cuke4Nuke
+
+Open another command window, cd to the directory of this README.textile file and start Cuke4Nuke:
+
+<pre>
+..\..\Cuke4Nuke\Server\bin\Release\Cuke4Nuke.Server.exe -a CalcFeatures\bin\Release\CalcFeatures.dll
+</pre>
+
+h3. Run Cucumber
+
+Return to the command window you used to install the gems. We have to work around some small wrinkles:
+
+<pre>
+chcp 1252
+</pre>
+
+Now, set your command window's font to a TrueType font, such as Lucida Console. See "troubleshooting":http://wiki.github.com/aslakhellesoy/cucumber/troubleshooting
+for more info about why you need to do this.
+
+Now, cd to the directory of this README.textile file and run:
+
+<pre>
+cucumber CalcFeatures\features
+</pre>
+
+That should be all green and nice. Try to change some of the numbers in one of the <code>.feature</code>
+files and run again. You should see red!
+
+Happy cuking!
