@@ -16,7 +16,7 @@ Make sure Ruby's <code>bin</code> directory is on your <code>PATH</code>.
 Then, open a command window and install the required gems:
 
 <pre>
-gem install cucumber json win32console	
+gem install cucumber json win32console --no-ri --no-rdoc
 </pre>
 
 Leave the command window open.
@@ -49,6 +49,51 @@ Now, cd to the directory of this README.textile file and run:
 
 <pre>
 cucumber CalcFeatures\features
+</pre>
+
+That should be all green and nice. Try to change some of the numbers in one of the <code>.feature</code>
+files and run again. You should see red!
+
+Happy cuking!
+
+h2. IronRuby
+
+The other option you have to run Cucumber on .NET is via IronRuby. This is a bit slower, since
+IronRuby takes a while to start. This will not use Cuke4Nuke.
+
+h3. Install IronRuby
+
+Just follow the installation instructions over at the "IronRuby web site":http://www.ironruby.net/Download
+When you have unzipped the archive, make sure IronRuby's <code>bin</code> directory is on your <code>PATH</code>.
+
+Then, open a command window and install the required gems:
+
+<pre>
+igem install cucumber rspec --no-ri --no-rdoc
+</pre>
+
+Now, copy the launcher scripts:
+
+<pre>
+copy C:\ironruby-0.9.1\lib\IronRuby\gems\1.8\bin\cucumber C:\ironruby-0.9.1\bin\icucumber
+copy C:\ironruby-0.9.1\lib\IronRuby\gems\1.8\bin\cucumber.bat C:\ironruby-0.9.1\bin\icucumber.bat
+</pre>
+
+h3. Install Wac
+
+There is no ANSI color support for IronRuby, so you need to install "Wac":http://github.com/aslakhellesoy/wac instead.
+
+h3. Build Calc.sln
+
+Open up the solution in Vidual Studio (Express) and build it.
+The solution contains both the Calc project and the CalcFeatures project.
+
+h3. Run Cucumber
+
+Now, cd to the directory of this README.textile file and run:
+
+<pre>
+icucumber CalcFeatures\features | wac
 </pre>
 
 That should be all green and nice. Try to change some of the numbers in one of the <code>.feature</code>
