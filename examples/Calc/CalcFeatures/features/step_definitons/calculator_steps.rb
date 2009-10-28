@@ -1,3 +1,5 @@
+if Cucumber::IRONRUBY # We only want this to run on IronRuby
+
 require 'spec/expectations'
 $:.unshift(File.dirname(__FILE__) + '/../../bin/Release') # So we find the .dll
 require 'Calc.dll'
@@ -20,4 +22,6 @@ end
 
 Then /the result should be (.*) on the screen/ do |result|
   @result.should == result.to_f
+end
+
 end

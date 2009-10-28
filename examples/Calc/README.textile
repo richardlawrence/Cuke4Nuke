@@ -90,6 +90,8 @@ The solution contains both the Calc project and the CalcFeatures project.
 
 h3. Run Cucumber
 
+(You may have to remove CalcFeatures\features\step_definitions\cucumber.wire first).
+
 Now, cd to the directory of this README.textile file and run:
 
 <pre>
