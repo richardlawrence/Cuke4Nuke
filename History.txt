@@ -1,0 +1,13 @@
+== 0.1.1 2009-10-23
+
+Added support for Before and After hooks.
+
+== 0.1 2009-10-22
+
+First release; includes contributions from Declan Whelan, Åsmund Eldhuset, Aslak Hellesoy.
+
+=== Features
+* Given, When, Then step definitions in .NET
+* Typed step definition parameters (Issues #1 and #10)
+* Shared state between steps, including steps in separate step definition classes (#4)
+* All-JSON wire protocol
