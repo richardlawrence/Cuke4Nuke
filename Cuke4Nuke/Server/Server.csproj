@@ -77,7 +77,11 @@
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
-  <Target Name="AfterBuild">
-  </Target>
   -->
+  <Target Name="AfterBuild">
+    <ItemGroup>
+      <FilesToCopy Include="$(TargetDir)*.*" Exclude="$(TargetDir)*.vshost.*;$(TargetDir)*.pdb" />
+    </ItemGroup>
+    <Copy SourceFiles="@(FilesToCopy)" DestinationFolder="$(SolutionDir)..\gem\dotnet" />
+  </Target>
 </Project>

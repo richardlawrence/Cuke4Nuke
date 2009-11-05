@@ -12,4 +12,4 @@ _ReSharper.*
 .DS_Store
 ._*
 examples/self_test
-!gem/bin/cuke4nuke
+!gem/bin/*

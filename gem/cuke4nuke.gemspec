@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{cuke4nuke}
-  s.version = "0.1.2"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Richard Lawrence"]
@@ -16,7 +16,20 @@ Gem::Specification.new do |s|
   s.executables = ["cuke4nuke"]
   s.files = [
     "Rakefile",
-     "bin/cuke4nuke"
+     "VERSION",
+     "bin/cuke4nuke",
+     "cuke4nuke.gemspec",
+     "dotnet/Castle.Core.dll",
+     "dotnet/Castle.MicroKernel.dll",
+     "dotnet/Cuke4Nuke.Core.dll",
+     "dotnet/Cuke4Nuke.Framework.dll",
+     "dotnet/Cuke4Nuke.Server.exe",
+     "dotnet/Cuke4Nuke.Server.exe.config",
+     "dotnet/Cuke4Nuke.TestStepDefinitions.dll",
+     "dotnet/Cuke4NukeLog.txt",
+     "dotnet/LitJson.dll",
+     "dotnet/NDesk.Options.dll",
+     "dotnet/log4net.dll"
   ]
   s.homepage = %q{http://github.com/richardlawrence/Cuke4Nuke}
   s.rdoc_options = ["--charset=UTF-8"]
