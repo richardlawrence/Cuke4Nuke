@@ -8,7 +8,7 @@ require 'erb'
 
 class CucumberWorld
   extend Forwardable
-  def_delegators CucumberWorld, :examples_dir, :self_test_dir, :working_dir, :cucumber_lib_dir, :cuke4nuke_server_exe
+  def_delegators CucumberWorld, :examples_dir, :self_test_dir, :working_dir, :cucumber_lib_dir, :cuke4nuke_server_exe, :cuke4nuke_wrapper_path
 
   def self.examples_dir(subdir=nil)
     @examples_dir ||= File.expand_path(File.join(File.dirname(__FILE__), '../../examples'))
@@ -29,6 +29,10 @@ class CucumberWorld
   
   def cuke4nuke_server_exe
     @cuke4nuke_server_exe ||= File.expand_path(File.join(File.dirname(__FILE__), '../../Cuke4Nuke/Server/bin/Release/Cuke4Nuke.Server.exe'))
+  end
+  
+  def cuke4nuke_wrapper_path
+    @cuke4nuke_wrapper_path ||= File.expand_path(File.join(File.dirname(__FILE__), '../../gem/bin/cuke4nuke'))
   end
 
   def initialize
