@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 using Cuke4Nuke.Core;
 
@@ -32,8 +33,27 @@ namespace Cuke4Nuke.Server
         void Run()
         {
             _listener.MessageLogged += listener_LogMessage;
-            _listener.Start();
-            _listener.Stop();
+            try
+            {
+                _listener.Start();
+            }
+            catch (Exception ex)
+            {
+                string message = "Unable to start listener. Exception:\n\n" + ex.Message;
+                log.Fatal(message);
+            }
+            finally
+            {
+                try
+                {
+                    _listener.Stop();
+                }
+                catch (Exception e)
+                {
+                    string message = "Unable to gracefully stop listener. Exception:\n\n" + e.Message;
+                    log.Fatal(message);
+                }
+            }
         }
 
         void ShowHelp()

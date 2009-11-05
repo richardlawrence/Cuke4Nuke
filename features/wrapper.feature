@@ -36,3 +36,18 @@ Feature: Run Cuke4Nuke and Cucumber from a single command
         1 step (1 passed)
 
         """
+        
+    Scenario: A failing step
+      Given a step definition assembly containing:
+        """
+        public class GeneratedSteps
+        {
+          [Given("^we're all wired$")]
+          public static void AllWired()
+          {
+            throw new Exception("message");
+          }
+        }
+        """
+      When I run the cuke4nuke wrapper
+      Then it should fail
