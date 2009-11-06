@@ -1,3 +1,7 @@
+== 0.2.0 2009-11-06
+
+Added a gem to make installation easy and to allow users to run the Cuke4Nuke server and cucumber all in one command.
+
 == 0.1.1 2009-10-23
 
 Added support for Before and After hooks.
