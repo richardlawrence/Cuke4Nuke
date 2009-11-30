@@ -12,13 +12,14 @@ Feature: Use table multi-line step arguments
   Scenario: Table in a Given
     Given a file named "features/table.feature" with:
       """
-        Given I have a shopping list with the following items:
-          | item      | count |
-          | cucumbers |   3   |
-          | bananas   |   5   |
-          | tomatoes  |   2   |
-        When I buy everything on my list
-        Then my cart should contain 10 items
+        Scenario: Grocery Shopping
+          Given I have a shopping list with the following items:
+            | item      | count |
+            | cucumbers |   3   |
+            | bananas   |   5   |
+            | tomatoes  |   2   |
+          When I buy everything on my list
+          Then my cart should contain 10 items
       """
     And Cuke4Nuke started with a step definition assembly containing:
       """
