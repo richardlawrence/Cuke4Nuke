@@ -15,6 +15,7 @@ begin
     gem.add_dependency "win32-process", "0.6.1"
     gem.add_dependency "systemu", "1.2.0"
   end
+  Jeweler::GemcutterTasks.new
 rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
 end
