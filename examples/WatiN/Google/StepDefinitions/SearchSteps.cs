@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Cuke4Nuke.Framework;
+﻿using Cuke4Nuke.Framework;
 using NUnit.Framework;
 using WatiN.Core;
 
