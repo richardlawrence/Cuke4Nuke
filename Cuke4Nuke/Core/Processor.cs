@@ -14,6 +14,8 @@ namespace Cuke4Nuke.Core
 
     public class Processor : IProcessor
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         readonly Loader _loader;
         readonly Repository _repository;
         readonly Formatter _formatter = new Formatter();
@@ -41,7 +43,7 @@ namespace Cuke4Nuke.Core
                     case "end_scenario":
                         _repository.AfterHooks.ForEach(hook => hook.Invoke(_objectFactory));
                         _objectFactory.DisposeObjects();
-                        return SuccessResponse(); 
+                        return SuccessResponse();
                     case "step_matches":
                         return StepMatches(requestObject[1]["name_to_match"].ToString());
                     case "invoke":
@@ -62,6 +64,7 @@ namespace Cuke4Nuke.Core
             }
             catch (Exception x)
             {
+                log.Error("Unable to process request '" + request + "': " + x.Message);
                 return _formatter.Format(x);
             }
         }
