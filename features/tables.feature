@@ -12,6 +12,7 @@ Feature: Use table multi-line step arguments
   Scenario: Table in a Given
     Given a file named "features/table.feature" with:
       """
+      Scenario: Shopping list
         Given I have a shopping list with the following items:
           | item      | count |
           | cucumbers |   3   |
