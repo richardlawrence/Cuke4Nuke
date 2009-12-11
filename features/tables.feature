@@ -35,7 +35,7 @@ Feature: Use table multi-line step arguments
         }
 
         [When(@"^I buy everything on my list$")]
-        public void BuyEverything(int cukes)
+        public void BuyEverything()
         {
           foreach (System.Collections.Generic.Dictionary<string, string> row in _shoppingList.Hashes)
           {

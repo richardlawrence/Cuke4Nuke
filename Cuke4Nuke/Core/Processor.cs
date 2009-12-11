@@ -5,6 +5,8 @@ using System.Reflection;
 
 using LitJson;
 
+using Cuke4Nuke.Framework;
+
 namespace Cuke4Nuke.Core
 {
     public interface IProcessor
@@ -24,6 +26,10 @@ namespace Cuke4Nuke.Core
             _loader = loader;
             _objectFactory = objectFactory;
             _repository = _loader.Load();
+
+            // Register TypeConverter for Cuke4Nuke.Framework.Table
+            TypeConverterAttribute attr = new TypeConverterAttribute(typeof(TableConverter));
+            TypeDescriptor.AddAttributes(typeof(Table), new Attribute[] { attr });
         }
 
         public string Process(string request)
