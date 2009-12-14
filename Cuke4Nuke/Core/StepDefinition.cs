@@ -57,6 +57,9 @@ namespace Cuke4Nuke.Core
             for (int i = 0; i < args.Length; ++i)
             {
                 TypeConverter converter = TypeDescriptor.GetConverter(parameters[i].ParameterType);
+                log.DebugFormat("Found TypeConverter {0} for type {1}",
+                    converter.GetType().FullName,
+                    parameters[i].ParameterType.FullName);
                 typedArgs[i] = converter.ConvertFromString(args[i]);
             }
 
