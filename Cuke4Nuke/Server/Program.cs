@@ -8,6 +8,7 @@ namespace Cuke4Nuke.Server
 {
     public class Program
     {
+        [STAThread]
         static void Main(string[] args)
         {
             var options = new Options(args);

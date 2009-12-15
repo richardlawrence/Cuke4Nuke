@@ -1,3 +1,13 @@
+== 0.2.2 2009-12-02
+=== Features
+* Compatibility with WatiN (Issue #19; Luke Smith)
+* WatiN example
+* Bumped cucumber dependency to 0.4.4.
+
+== 0.2.1 2009-11-13
+
+Added gem dependency on json.
+
 == 0.2.0 2009-11-06
 
 Added a gem to make installation easy and to allow users to run the Cuke4Nuke server and cucumber all in one command.

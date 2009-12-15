@@ -11,12 +11,13 @@ begin
     gem.homepage = "http://github.com/richardlawrence/Cuke4Nuke"
     gem.authors = ["Richard Lawrence"]
     
-    gem.add_dependency "cucumber", "0.4.3"
+    gem.add_dependency "cucumber", "0.4.4"
     gem.add_dependency "win32-process", "0.6.1"
     gem.add_dependency "systemu", "1.2.0"
     gem.add_dependency "json", "1.2.0"
     gem.add_dependency "win32console", "1.2.0"
   end
+  Jeweler::GemcutterTasks.new
 rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
 end
