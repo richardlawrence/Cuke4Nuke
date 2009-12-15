@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
 
-using LitJson;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 using Cuke4Nuke.Framework;
 
@@ -16,6 +17,8 @@ namespace Cuke4Nuke.Core
 
     public class Processor : IProcessor
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         readonly Loader _loader;
         readonly Repository _repository;
         readonly Formatter _formatter = new Formatter();
@@ -36,8 +39,8 @@ namespace Cuke4Nuke.Core
         {
             try
             {
-                JsonData requestObject = JsonMapper.ToObject(request);
-                String command = requestObject[0].ToString();
+                JArray requestObject = JArray.Parse(request);
+                string command = requestObject[0].Value<string>();
                 switch (command)
                 {
                     case "begin_scenario":
@@ -49,9 +52,9 @@ namespace Cuke4Nuke.Core
                         _objectFactory.DisposeObjects();
                         return SuccessResponse(); 
                     case "step_matches":
-                        return StepMatches(requestObject[1]["name_to_match"].ToString());
+                        return StepMatches(((JObject)requestObject[1])["name_to_match"].ToString());
                     case "invoke":
-                        JsonData jsonArgs = requestObject[1]["args"];
+                        JArray jsonArgs = (JArray)((JObject)requestObject[1])["args"];
                         string[] args = new string[jsonArgs.Count];
                         for (int i = 0; i < args.Length; ++i)
                         {
@@ -62,10 +65,10 @@ namespace Cuke4Nuke.Core
                         return _formatter.Format("Invalid request '" + request + "'");
                 }
             }
-            catch (JsonException x)
-            {
-                return _formatter.Format("Invalid json in request '" + request + "': " + x.Message);
-            }
+            //catch (JsonException x)
+            //{
+            //    return _formatter.Format("Invalid json in request '" + request + "': " + x.Message);
+            //}
             catch (Exception x)
             {
                 return _formatter.Format(x);
@@ -79,32 +82,32 @@ namespace Cuke4Nuke.Core
 
         string StepMatches(string stepName)
         {
-            JsonData matches = new JsonData();
-            matches.SetJsonType(JsonType.Array);
+            log.DebugFormat("Looking for step matches for step name: {0}", stepName);
+
+            var matches = new JArray();
             foreach (var sd in _repository.StepDefinitions)
             {
                 List<StepArgument> args = sd.ArgumentsFrom(stepName);
                 if(args != null)
                 {
-                    JsonData stepMatch = new JsonData();
-                    stepMatch["id"] = sd.Id;
-                    JsonData jsonArgs = new JsonData();
-                    jsonArgs.SetJsonType(JsonType.Array);
+                    var stepMatch = new JObject();
+                    stepMatch.Add("id", sd.Id);
+                    var jsonArgs = new JArray();
                     foreach (var arg in args)
                     {
-                        JsonData jsonArg = new JsonData();
-                        jsonArg["val"] = arg.Val;
-                        jsonArg["pos"] = arg.Pos;
+                        var jsonArg = new JObject();
+                        jsonArg.Add("val", arg.Val);
+                        jsonArg.Add("pos", arg.Pos);
                         jsonArgs.Add(jsonArg);
                     }
                     stepMatch["args"] = jsonArgs;
                     matches.Add(stepMatch);
                 }
             }
-            JsonData response = new JsonData();
+            var response = new JArray();
             response.Add("step_matches");
             response.Add(matches);
-            return JsonMapper.ToJson(response);
+            return response.ToString(Formatting.None);
         }
 
         string Invoke(string id, string[] args)
