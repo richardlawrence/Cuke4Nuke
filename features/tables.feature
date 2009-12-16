@@ -12,14 +12,14 @@ Feature: Use table multi-line step arguments
   Scenario: Table in a Given
     Given a file named "features/table.feature" with:
       """
-        Scenario: Grocery Shopping
-          Given I have a shopping list with the following items:
-            | item      | count |
-            | cucumbers |   3   |
-            | bananas   |   5   |
-            | tomatoes  |   2   |
-          When I buy everything on my list
-          Then my cart should contain 10 items
+      Scenario: Shopping list
+        Given I have a shopping list with the following items:
+          | item      | count |
+          | cucumbers |   3   |
+          | bananas   |   5   |
+          | tomatoes  |   2   |
+        When I buy everything on my list
+        Then my cart should contain 10 items
       """
     And Cuke4Nuke started with a step definition assembly containing:
       """
@@ -35,9 +35,9 @@ Feature: Use table multi-line step arguments
         }
 
         [When(@"^I buy everything on my list$")]
-        public void BuyEverything(int cukes)
+        public void BuyEverything()
         {
-          foreach (System.Collections.Generic.Dictionary<string, string> row in _shoppingList.Hashes)
+          foreach (System.Collections.Generic.Dictionary<string, string> row in _shoppingList.Hashes())
           {
             _itemsInCart += Int32.Parse(row["count"]);
           }
