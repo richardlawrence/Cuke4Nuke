@@ -45,7 +45,6 @@ namespace Cuke4Nuke.Core
                         }
                     }
                 }
-                log.DebugFormat("Loaded step definition methods from assembly {0}.", assemblyPath);
             }
 
             return repository;

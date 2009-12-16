@@ -20,7 +20,6 @@ namespace Cuke4Nuke.Core
             if (!_classes.Contains(type))
             {
                 _classes.Add(type);
-                log.DebugFormat("Added class of type <{0}>.", type);
                 foreach (ConstructorInfo ci in type.GetConstructors())
                 {
                     foreach (ParameterInfo pi in ci.GetParameters())
@@ -37,7 +36,6 @@ namespace Cuke4Nuke.Core
             foreach (Type type in _classes)
             {
                 _kernel.AddComponent(type.ToString(), type);
-                log.DebugFormat("Creating instance of type <{0}>.", type);
             }
         }
 
@@ -45,11 +43,9 @@ namespace Cuke4Nuke.Core
         {
             if (_kernel == null || !_kernel.HasComponent(type))
             {
-                log.DebugFormat("Instance of type <{0}> not found.", type);
                 return null;
             }
 
-            log.DebugFormat("Found instance of type <{0}>.", type);
             return _kernel[type];
         }
 
