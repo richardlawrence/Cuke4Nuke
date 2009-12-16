@@ -91,7 +91,7 @@ namespace Cuke4Nuke.Specifications.Core
         {
             var response = _processor.Process(@"nonsense:{a}");
 
-            AssertFailResponse(response, "Invalid json in request 'nonsense:{a}': Invalid character 'o' in input string");
+            AssertFailResponse(response, "Unexpected character encountered while parsing value: n. Line 1, position 1.");
         }
 
         [Test]
