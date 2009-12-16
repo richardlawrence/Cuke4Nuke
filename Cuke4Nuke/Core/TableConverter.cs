@@ -41,7 +41,6 @@ namespace Cuke4Nuke.Core
 
         public Table JsonToTable(string jsonTable)
         {
-            log.DebugFormat("Trying to convert JSON to table: {0}", jsonTable);
             Table table = new Table();
             
             if (jsonTable == null || jsonTable == String.Empty)
@@ -56,7 +55,7 @@ namespace Cuke4Nuke.Core
             {
                 rows = JArray.Parse(jsonTable);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw invalidDataEx;
             }
@@ -86,7 +85,6 @@ namespace Cuke4Nuke.Core
 
                 table.Data.Add(values);
             }
-            log.DebugFormat("Converted JSON to table with {0} rows (including headers).", table.Data.Count);
             return table;
         }
     }

@@ -52,23 +52,27 @@ namespace Cuke4Nuke.Core
                         _objectFactory.DisposeObjects();
                         return SuccessResponse(); 
                     case "step_matches":
-                        return StepMatches(((JObject)requestObject[1])["name_to_match"].ToString());
+                        string nameToMatch = ((JObject)requestObject[1])["name_to_match"].Value<string>();
+                        return StepMatches(nameToMatch);
                     case "invoke":
                         JArray jsonArgs = (JArray)((JObject)requestObject[1])["args"];
                         string[] args = new string[jsonArgs.Count];
                         for (int i = 0; i < args.Length; ++i)
                         {
-                            args[i] = jsonArgs[i].ToString();
+                            if (jsonArgs[i] is JArray)
+                            {
+                                args[i] = jsonArgs[i].ToString(Formatting.None);
+                            }
+                            else
+                            {
+                                args[i] = jsonArgs[i].Value<string>();
+                            }
                         }
-                        return Invoke(requestObject[1]["id"].ToString(), args);
+                        return Invoke(requestObject[1]["id"].Value<string>(), args);
                     default:
                         return _formatter.Format("Invalid request '" + request + "'");
                 }
             }
-            //catch (JsonException x)
-            //{
-            //    return _formatter.Format("Invalid json in request '" + request + "': " + x.Message);
-            //}
             catch (Exception x)
             {
                 return _formatter.Format(x);
@@ -82,8 +86,6 @@ namespace Cuke4Nuke.Core
 
         string StepMatches(string stepName)
         {
-            log.DebugFormat("Looking for step matches for step name: {0}", stepName);
-
             var matches = new JArray();
             foreach (var sd in _repository.StepDefinitions)
             {
@@ -103,6 +105,7 @@ namespace Cuke4Nuke.Core
                     stepMatch["args"] = jsonArgs;
                     matches.Add(stepMatch);
                 }
+
             }
             var response = new JArray();
             response.Add("step_matches");
