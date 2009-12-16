@@ -10,8 +10,10 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Richard Lawrence"]
   s.date = %q{2009-12-16}
+  s.default_executable = %q{cuke4nuke}
   s.description = %q{Runs Cucumber with .NET step definitions.}
   s.email = %q{richard@humanizingwork.com}
+  s.executables = ["cuke4nuke"]
   s.files = [
     "Rakefile",
      "VERSION",
@@ -27,7 +29,8 @@ Gem::Specification.new do |s|
      "dotnet/LitJson.dll",
      "dotnet/NDesk.Options.dll",
      "dotnet/Newtonsoft.Json.dll",
-     "dotnet/log4net.dll"
+     "dotnet/log4net.dll",
+     "lib/cuke4nuke/main.rb"
   ]
   s.homepage = %q{http://github.com/richardlawrence/Cuke4Nuke}
   s.rdoc_options = ["--charset=UTF-8"]
