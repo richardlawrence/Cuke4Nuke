@@ -84,14 +84,14 @@ Feature: Run .NET step definitions from Cucumber
         }
       }
       """
-    When I run cucumber -f pretty features
+    When I run cucumber --no-source -f pretty features
     Then STDERR should be empty
     And it should pass with
       """
       Feature: So wired
 
-        Scenario: Wired         # features/wired.feature:2
-          Given we're all wired # FIXME:0
+        Scenario: Wired
+          Given we're all wired
 
       1 scenario (1 passed)
       1 step (1 passed)
