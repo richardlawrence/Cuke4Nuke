@@ -80,9 +80,5 @@
   </Target>
   -->
   <Target Name="AfterBuild">
-    <ItemGroup>
-      <FilesToCopy Include="$(TargetDir)*.*" Exclude="$(TargetDir)*.vshost.*;$(TargetDir)*.pdb" />
-    </ItemGroup>
-    <Copy SourceFiles="@(FilesToCopy)" DestinationFolder="$(SolutionDir)..\gem\dotnet" />
   </Target>
 </Project>

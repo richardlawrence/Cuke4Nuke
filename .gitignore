@@ -16,3 +16,4 @@ examples/self_test
 gem/pkg/*
 gem/dotnet/Cuke4NukeLog.txt*
 *.gem
+TestResult.xml

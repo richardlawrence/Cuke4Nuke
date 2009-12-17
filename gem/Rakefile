@@ -10,13 +10,26 @@ begin
     gem.email = "richard@humanizingwork.com"
     gem.homepage = "http://github.com/richardlawrence/Cuke4Nuke"
     gem.authors = ["Richard Lawrence"]
+    gem.executables = ["cuke4nuke"]
     
-    gem.add_dependency "cucumber", "0.4.4"
-    gem.add_dependency "win32-process", "0.6.1"
-    gem.add_dependency "systemu", "1.2.0"
+    gem.add_dependency "cucumber", ">=0.5.0"
+    gem.add_dependency "win32-process", ">=0.6.1"
+    gem.add_dependency "systemu", ">=1.2.0"
+    gem.add_dependency "json", ">=1.2.0"
+    gem.add_dependency "win32console", ">=1.2.0"
+
+    gem.files += FileList['dotnet/*.{dll,exe}']
+    gem.test_files = []
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
 end
 
+task :gemspec => :copy_binaries
+
+task :copy_binaries do
+  Dir[File.dirname(__FILE__) + '/../Cuke4Nuke/Server/bin/Release/*.{dll,exe,config}'].each do |file|
+    cp file, 'dotnet'
+  end
+end

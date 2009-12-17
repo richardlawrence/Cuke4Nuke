@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
@@ -51,7 +51,7 @@ namespace Cuke4Nuke.Core
                     case "end_scenario":
                         _repository.AfterHooks.ForEach(hook => hook.Invoke(_objectFactory));
                         _objectFactory.DisposeObjects();
-                        return SuccessResponse(); 
+                        return SuccessResponse();
                     case "step_matches":
                         string nameToMatch = ((JObject)requestObject[1])["name_to_match"].Value<string>();
                         return StepMatches(nameToMatch);
@@ -80,6 +80,7 @@ namespace Cuke4Nuke.Core
             }
             catch (Exception x)
             {
+                log.Error("Unable to process request '" + request + "': " + x.Message);
                 return _formatter.Format(x);
             }
         }
