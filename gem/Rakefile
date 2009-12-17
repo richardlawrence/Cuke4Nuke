@@ -29,7 +29,7 @@ end
 task :gemspec => :copy_binaries
 
 task :copy_binaries do
-  Dir[File.dirname(__FILE__) + '/../Cuke4Nuke/Server/bin/Release/*.{dll,exe}'].each do |file|
+  Dir[File.dirname(__FILE__) + '/../Cuke4Nuke/Server/bin/Release/*.{dll,exe,config}'].each do |file|
     cp file, 'dotnet'
   end
 end
