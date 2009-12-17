@@ -18,7 +18,7 @@ begin
     gem.add_dependency "json", ">=1.2.0"
     gem.add_dependency "win32console", ">=1.2.0"
 
-    gem.files += FileList['dotnet/*.{dll,exe}']
+    gem.files += FileList['dotnet/*.{dll,exe,config}']
     gem.test_files = []
   end
   Jeweler::GemcutterTasks.new
@@ -30,6 +30,6 @@ task :gemspec => :copy_binaries
 
 task :copy_binaries do
   Dir[File.dirname(__FILE__) + '/../Cuke4Nuke/Server/bin/Release/*.{dll,exe,config}'].each do |file|
-    cp file, 'dotnet'
+    cp file, 'dotnet' unless file =~ /vshost/
   end
 end
