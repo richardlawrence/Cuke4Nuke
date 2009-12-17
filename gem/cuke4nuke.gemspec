@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{cuke4nuke}
-  s.version = "0.2.2"
+  s.version = "0.2.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Richard Lawrence"]
-  s.date = %q{2009-12-16}
+  s.date = %q{2009-12-17}
   s.default_executable = %q{cuke4nuke}
   s.description = %q{Runs Cucumber with .NET step definitions.}
   s.email = %q{richard@humanizingwork.com}
@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
      "dotnet/Cuke4Nuke.Core.dll",
      "dotnet/Cuke4Nuke.Framework.dll",
      "dotnet/Cuke4Nuke.Server.exe",
+     "dotnet/Cuke4Nuke.Server.exe.config",
      "dotnet/Cuke4Nuke.TestStepDefinitions.dll",
      "dotnet/LitJson.dll",
      "dotnet/NDesk.Options.dll",

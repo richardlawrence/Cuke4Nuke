@@ -1,2 +1,4 @@
 *.dll
 *.exe
+*.txt
+*.config

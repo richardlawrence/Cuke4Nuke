@@ -87,7 +87,6 @@ namespace Cuke4Nuke.Core
         {
             List<StepArgument> arguments = null;
             Match match = _regex.Match(stepName);
-            log.Debug((match.Success) ? "Match" : "No match");
             if(match.Success)
             {
                 arguments = new List<StepArgument>();
