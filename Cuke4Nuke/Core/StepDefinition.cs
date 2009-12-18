@@ -34,6 +34,8 @@ namespace Cuke4Nuke.Core
             var positionOfSpaceAfterReturnType = signatureWithReturnType.IndexOf(' ');
             var signatureWithoutReturnType = signatureWithReturnType.Substring(positionOfSpaceAfterReturnType + 1);
             Id = method.DeclaringType.FullName + "." + signatureWithoutReturnType;
+
+            Pending = (method.GetCustomAttributes(typeof(PendingAttribute), true).Length == 1);
         }
 
         public static bool IsValidMethod(MethodInfo method)
@@ -81,6 +83,12 @@ namespace Cuke4Nuke.Core
         public override int GetHashCode()
         {
             return Id.GetHashCode();
+        }
+
+        public bool Pending
+        {
+            get;
+            set;
         }
 
         internal List<StepArgument> ArgumentsFrom(string stepName)
