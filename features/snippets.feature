@@ -20,9 +20,9 @@ Feature: Print step definition snippets for undefined steps
     When I run cucumber -f pretty
     Then the output should contain
       """
+      [Pending]
       [Given(@"^we're all wired$")]
       public void WereAllWired()
       {
-          throw new NotImplementedException();
       }
       """
