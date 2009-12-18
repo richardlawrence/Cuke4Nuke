@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 
 using Cuke4Nuke.Framework;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Cuke4Nuke.Core
 {
@@ -87,14 +88,9 @@ namespace Cuke4Nuke.Core
 
         private string SnippetResponse(string keyword, string stepName)
         {
-            string methodName = stepName;
-            StringBuilder sb = new StringBuilder();
-            sb.AppendFormat("[Given(@\"^{0}$\")]\\n", stepName);
-            sb.AppendFormat("public void {0}\\n", methodName);
-            sb.Append("{\\n");
-            sb.Append("\\tthrow new NotImplementedException();\\n");
-            sb.Append("}");
-            return String.Format("[\"snippet_text\", \"{0}\"]", sb.ToString());
+            SnippetBuilder sb = new SnippetBuilder();
+            string snippet = sb.GenerateSnippet(keyword, stepName);
+            return String.Format("[\"snippet_text\", \"{0}\"]", snippet);
         }
 
         string SuccessResponse()
