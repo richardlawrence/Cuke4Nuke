@@ -23,6 +23,7 @@ namespace Cuke4Nuke.Specifications.Core
         StepDefinition _stepDefinitionWithOneIntParameter;
         StepDefinition _stepDefinitionWithOneDoubleParameter;
         StepDefinition _stepDefinitionWithIntDoubleAndStringParameters;
+        StepDefinition _pendingStepDefinition;
 
         List<StepDefinition> _stepDefinitions;
 
@@ -42,8 +43,19 @@ namespace Cuke4Nuke.Specifications.Core
             _stepDefinitionWithOneIntParameter = new StepDefinition(GetType().GetMethod("OneIntParameter"));
             _stepDefinitionWithOneDoubleParameter = new StepDefinition(GetType().GetMethod("OneDoubleParameter"));
             _stepDefinitionWithIntDoubleAndStringParameters = new StepDefinition(GetType().GetMethod("IntDoubleAndStringParameters"));
-            _stepDefinitions = new List<StepDefinition> { _stepDefinition, _exceptionDefinition, _stepDefinitionWithOneStringParameter, _stepDefinitionWithMultipleStringParameters, _stepDefinitionWithMultipleStringParametersOverloaded, _stepDefinitionWithOneIntParameter, _stepDefinitionWithOneDoubleParameter, _stepDefinitionWithIntDoubleAndStringParameters };
-
+            _pendingStepDefinition = new StepDefinition(GetType().GetMethod("Pending"));
+            
+            _stepDefinitions = new List<StepDefinition> { 
+                _stepDefinition, 
+                _exceptionDefinition, 
+                _stepDefinitionWithOneStringParameter, 
+                _stepDefinitionWithMultipleStringParameters, 
+                _stepDefinitionWithMultipleStringParametersOverloaded, 
+                _stepDefinitionWithOneIntParameter, 
+                _stepDefinitionWithOneDoubleParameter, 
+                _stepDefinitionWithIntDoubleAndStringParameters,
+                _pendingStepDefinition
+            };
             var loader = new MockLoader(_stepDefinitions);
             var objectFactory = new ObjectFactory();
             _processor = new Processor(loader, objectFactory);
@@ -56,7 +68,7 @@ namespace Cuke4Nuke.Specifications.Core
         public void Step_matches_should_return_a_json_formatted_list()
         {
             var response = _processor.Process(@"[""step_matches"",{""name_to_match"":""The regex group 'cukes' should be captured""}]");
-
+            
             Assert.That(response, Is.EqualTo(@"[""step_matches"",[{""id"":""Cuke4Nuke.Specifications.Core.Processor_Specification.OneStringParameter(System.String)"",""args"":[{""val"":""cukes"",""pos"":17}]}]]"));
         }
 
@@ -224,6 +236,15 @@ namespace Cuke4Nuke.Specifications.Core
             Assert.That(_receivedParameters[2], Is.EqualTo("foo"));
         }
 
+        [Test]
+        public void Invoke_of_pending_step_definition_should_return_pending_response()
+        {
+            var request = CreateInvokeRequest(_pendingStepDefinition.Id);
+            var response = _processor.Process(request);
+
+            AssertPendingResponse(response);
+        }
+
         static string CreateInvokeRequest(string id, params string[] invokeArgs)
         {
             JsonData req = new JsonData();
@@ -243,6 +264,11 @@ namespace Cuke4Nuke.Specifications.Core
         static void AssertSuccessResponse(string response)
         {
             Assert.That(response, Is.EqualTo(@"[""success"",null]"));
+        }
+
+        static void AssertPendingResponse(string response)
+        {
+            Assert.That(response, Is.EqualTo(@"[""pending"",null]"));
         }
 
         static void AssertFailResponse(string response, string message)
@@ -308,6 +334,12 @@ namespace Cuke4Nuke.Specifications.Core
         public static void IntDoubleAndStringParameters(int intValue, double doubleValue, string stringValue)
         {
             _receivedParameters = new object[] { intValue, doubleValue, stringValue };
+        }
+
+        [Given("^a pending step$")]
+        [Pending]
+        public static void Pending()
+        {
         }
 
         class MockLoader : Loader
