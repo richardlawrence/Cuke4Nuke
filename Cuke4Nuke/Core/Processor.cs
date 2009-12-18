@@ -7,6 +7,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 using Cuke4Nuke.Framework;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Cuke4Nuke.Core
 {
@@ -54,6 +56,10 @@ namespace Cuke4Nuke.Core
                     case "step_matches":
                         string nameToMatch = ((JObject)requestObject[1])["name_to_match"].Value<string>();
                         return StepMatches(nameToMatch);
+                    case "snippet_text":
+                        string keyword = ((JObject)requestObject[1])["step_keyword"].Value<string>();
+                        string stepName = ((JObject)requestObject[1])["step_name"].Value<string>();
+                        return SnippetResponse(keyword, stepName);
                     case "invoke":
                         JArray jsonArgs = (JArray)((JObject)requestObject[1])["args"];
                         string[] args = new string[jsonArgs.Count];
@@ -78,6 +84,13 @@ namespace Cuke4Nuke.Core
                 log.Error("Unable to process request '" + request + "': " + x.Message);
                 return _formatter.Format(x);
             }
+        }
+
+        private string SnippetResponse(string keyword, string stepName)
+        {
+            SnippetBuilder sb = new SnippetBuilder();
+            string snippet = sb.GenerateSnippet(keyword, stepName);
+            return String.Format("[\"snippet_text\", \"{0}\"]", snippet);
         }
 
         string SuccessResponse()
