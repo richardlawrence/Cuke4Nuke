@@ -59,7 +59,8 @@ namespace Cuke4Nuke.Core
                     case "snippet_text":
                         string keyword = ((JObject)requestObject[1])["step_keyword"].Value<string>();
                         string stepName = ((JObject)requestObject[1])["step_name"].Value<string>();
-                        return SnippetResponse(keyword, stepName);
+                        string multilineArgClass = ((JObject)requestObject[1])["multiline_arg_class"].Value<string>();
+                        return SnippetResponse(keyword, stepName, multilineArgClass);
                     case "invoke":
                         JArray jsonArgs = (JArray)((JObject)requestObject[1])["args"];
                         string[] args = new string[jsonArgs.Count];
@@ -86,10 +87,10 @@ namespace Cuke4Nuke.Core
             }
         }
 
-        private string SnippetResponse(string keyword, string stepName)
+        private string SnippetResponse(string keyword, string stepName, string multilineArgClass)
         {
             SnippetBuilder sb = new SnippetBuilder();
-            string snippet = sb.GenerateSnippet(keyword, stepName);
+            string snippet = sb.GenerateSnippet(keyword, stepName, multilineArgClass);
             return String.Format("[\"snippet_text\", \"{0}\"]", snippet);
         }
 

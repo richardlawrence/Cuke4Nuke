@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
+using System;
 
 namespace Cuke4Nuke.Core
 {
@@ -7,11 +8,27 @@ namespace Cuke4Nuke.Core
     {
         public string GenerateSnippet(string keyword, string stepName)
         {
+            string multilineArgClass = String.Empty;
+            return GenerateSnippet(keyword, stepName, multilineArgClass);
+        }
+
+        public string GenerateSnippet(string keyword, string stepName, string multilineArgClass)
+        {
+            string parameter = "";
+            if (multilineArgClass == "Cucumber::Ast::Table")
+            {
+                parameter = "Table table";
+            }
+            else if (multilineArgClass == "Cucumber::Ast::PyString")
+            {
+                parameter = "string str";
+            }
+
             string methodName = StepNameToMethodName(stepName);
             StringBuilder sb = new StringBuilder();
             sb.Append("[Pending]\\n");
             sb.AppendFormat("[{0}(@\\\"^{1}$\\\")]\\n", keyword, stepName);
-            sb.AppendFormat("public void {0}()\\n", methodName);
+            sb.AppendFormat("public void {0}({1})\\n", methodName, parameter);
             sb.Append("{\\n");
             sb.Append("}");
             string snippet = sb.ToString();
