@@ -64,13 +64,54 @@ Feature: Use table multi-line step arguments
 
       """
 
-  # Scenario: Table in a Then
-  #   Given I need 3 cucumbers
-  #   And I need 5 bananas
-  #   And I need 2 tomatoes
-  #   When I build my shopping list
-  #   Then the shopping list should look like:
-  #     | item      | count |
-  #     | cucumbers |   3   |
-  #     | bananas   |   5   |
-  #     | tomatoes  |   2   |
+  Scenario: Table in a Then
+    Given a file named "features/table.feature" with:
+     """
+     Scenario: Build a shopping list
+       Given I need 3 cucumbers
+       And I need 5 bananas
+       And I need 2 tomatoes
+       When I build my shopping list
+       Then the shopping list should look like:
+         | item      | count |
+         | cucumbers |   3   |
+         | bananas   |   5   |
+         | tomatoes  |   2   |
+     """
+    And Cuke4Nuke started with a step definition assembly containing:
+    """
+    public class GeneratedSteps
+    {
+      Table _shoppingList = new Table();
+      List<List<string>> _listEntries = new List<List<string>>();
+
+      [Given(@"^I need (\d+) (.*)$")]
+      public void INeedNItems(int count, string item)
+      {
+        _listEntries.Add(new List<string>(new string[]{item, count.ToString()}));
+      }
+
+      [When(@"^I build my shopping list$")]
+      public void IBuildMyShoppingList()
+      {
+        _shoppingList.Data.Add(new List<string>(new string[]{"item", "count"}));
+        _listEntries.ForEach(x => _shoppingList.Data.Add(x));
+      }
+
+      [Then(@"^the shopping list should look like:$")]
+      public void TheShoppingListShouldLookLike(Table expectedShoppingList)
+      {
+        _shoppingList.AssertSameAs(expectedShoppingList);
+      }
+    }
+    """
+    When I run cucumber -b -f progress features
+    Then STDERR should be empty
+    And it should pass with
+      """
+      .....
+
+      1 scenario (1 passed)
+      5 steps (5 passed)
+
+      """
