@@ -98,6 +98,11 @@ namespace Cuke4Nuke.Core
             return "[\"success\",null]";
         }
 
+        string PendingResponse()
+        {
+            return "[\"pending\",null]";
+        }
+
         string StepMatches(string stepName)
         {
             var matches = new JArray();
@@ -136,6 +141,11 @@ namespace Cuke4Nuke.Core
                 if (stepDefinition == null)
                 {
                     return _formatter.Format("Could not find step with id '" + id + "'");
+                }
+
+                if (stepDefinition.Pending)
+                {
+                    return PendingResponse();
                 }
 
                 stepDefinition.Invoke(_objectFactory, args);

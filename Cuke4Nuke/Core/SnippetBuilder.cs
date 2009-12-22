@@ -9,10 +9,10 @@ namespace Cuke4Nuke.Core
         {
             string methodName = StepNameToMethodName(stepName);
             StringBuilder sb = new StringBuilder();
+            sb.Append("[Pending]\\n");
             sb.AppendFormat("[{0}(@\\\"^{1}$\\\")]\\n", keyword, stepName);
             sb.AppendFormat("public void {0}()\\n", methodName);
             sb.Append("{\\n");
-            sb.Append("    throw new NotImplementedException();\\n");
             sb.Append("}");
             string snippet = sb.ToString();
             return snippet;

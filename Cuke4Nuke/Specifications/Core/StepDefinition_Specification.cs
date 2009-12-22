@@ -143,6 +143,20 @@ namespace Cuke4Nuke.Specifications.Core
         }
 
         [Test]
+        public void Pending_should_be_false_when_method_does_not_have_Pending_attribute()
+        {
+            var stepDefinition = new StepDefinition(GetValidMethod("Given"));
+            Assert.That(stepDefinition.Pending, Is.False);
+        }
+
+        [Test]
+        public void Pending_should_be_true_when_method_has_Pending_attribute()
+        {
+            var stepDefinition = new StepDefinition(GetValidMethod("Pending"));
+            Assert.That(stepDefinition.Pending, Is.True);
+        }
+
+        [Test]
         [ExpectedException(typeof(ArgumentException))]
         public void Incorrect_parameter_count_should_throw_exception()
         {
@@ -227,6 +241,10 @@ namespace Cuke4Nuke.Specifications.Core
 
             [Given("")]
             public void Instance() { }
+
+            [Given("")]
+            [Pending]
+            public void Pending() { }
         }
 
         public class InvalidStepDefinitions
