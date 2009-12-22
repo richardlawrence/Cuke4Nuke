@@ -39,5 +39,12 @@ namespace Cuke4Nuke.Framework
                 return _data;
             }
         }
+
+
+
+        public void AssertSameAs(Table expectedTable)
+        {
+            throw new TableAssertionException(this, expectedTable);
+        }
     }
 }

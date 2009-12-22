@@ -24,5 +24,32 @@ namespace Cuke4Nuke.Specifications.Core
             Assert.That(hashes[0].Keys, Has.Member("count"));
             Assert.That(hashes[1]["item"], Is.EqualTo("bananas"));
         }
+
+        [Test]
+        public void AssertSameAsShouldThrow()
+        {
+            Table actualTable = new Table();
+            Table expectedTable = new Table();
+            Assert.Throws<TableAssertionException>(delegate()
+            {
+                actualTable.AssertSameAs(expectedTable);
+            });
+        }
+
+        [Test]
+        public void AssertSameAsShouldProvideTablesInException()
+        {
+            Table actualTable = new Table();
+            Table expectedTable = new Table();
+            try
+            {
+                actualTable.AssertSameAs(expectedTable);
+            }
+            catch (TableAssertionException ex)
+            {
+                Assert.AreSame(actualTable, ex.Actual);
+                Assert.AreSame(expectedTable, ex.Expected);
+            }
+        }
     }
 }
