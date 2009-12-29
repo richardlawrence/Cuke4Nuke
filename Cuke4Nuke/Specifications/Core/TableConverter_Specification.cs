@@ -1,8 +1,9 @@
-﻿using System.ComponentModel;
-using Cuke4Nuke.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using NUnit.Framework;
 using Cuke4Nuke.Core;
-using System;
+using Cuke4Nuke.Framework;
 
 namespace Cuke4Nuke.Specifications.Core
 {
@@ -83,6 +84,56 @@ namespace Cuke4Nuke.Specifications.Core
             TableConverter converter = new TableConverter();
             Table table = converter.JsonToTable(serializedTable);
             Assert.That(table.Data.Count, Is.EqualTo(4));
+        }
+
+        [Test]
+        public void TableToJsonString_ShouldConvertFromTable_EmptyTable()
+        {
+            Table table = new Table();
+            string expectedJsonString = "[]";
+            TableConverter converter = new TableConverter();
+            string actualJsonString = converter.TableToJsonString(table);
+            Assert.That(actualJsonString, Is.EqualTo(expectedJsonString));
+        }
+
+        [Test]
+        public void TableToJsonString_ShouldConvertFromTable_HeaderRowOnly()
+        {
+            Table table = new Table();
+            table.Data.Add(new List<string>(new string[] { "item", "count" }));
+            string expectedJsonString = "[[\"item\",\"count\"]]";
+            TableConverter converter = new TableConverter();
+            string actualJsonString = converter.TableToJsonString(table);
+            Assert.That(actualJsonString, Is.EqualTo(expectedJsonString));
+        }
+
+        [Test]
+        public void TableToJsonString_ShouldConvertFromTable_HeaderAndDataRows()
+        {
+            Table table = new Table();
+            table.Data.Add(new List<string>(new string[] { "item", "count" }));
+            table.Data.Add(new List<string>(new string[] { "cucumbers", "3" }));
+            table.Data.Add(new List<string>(new string[] { "bananas", "5" }));
+            table.Data.Add(new List<string>(new string[] { "tomatoes", "2" }));
+            string expectedJsonString = "[[\"item\",\"count\"],[\"cucumbers\",\"3\"],[\"bananas\",\"5\"],[\"tomatoes\",\"2\"]]";
+            TableConverter converter = new TableConverter();
+            string actualJsonString = converter.TableToJsonString(table);
+            Assert.That(actualJsonString, Is.EqualTo(expectedJsonString));
+        }
+        
+        [Test]
+        public void ShouldConvertToString()
+        {
+            Table table = new Table();
+            table.Data.Add(new List<string>(new string[] { "foo", "1" }));
+            table.Data.Add(new List<string>(new string[] { "bar", "2" }));
+            string expectedJsonString = "[[\"foo\",\"1\"],[\"bar\",\"2\"]]";
+            string actualJsonString = null;
+            Assert.DoesNotThrow(delegate {                
+                TypeConverter converter = TypeDescriptor.GetConverter(typeof(Table));
+                actualJsonString = (string)converter.ConvertToString(table);
+            });
+            Assert.That(actualJsonString, Is.EqualTo(expectedJsonString));
         }
     }
 }
