@@ -76,6 +76,10 @@ namespace Cuke4Nuke.Core
                             }
                         }
                         return Invoke(requestObject[1]["id"].Value<string>(), args);
+                    case "diff_ok":
+                        return SuccessResponse();
+                    case "diff_failed":
+                        return _formatter.Format("Tables don't match.");
                     default:
                         return _formatter.Format("Invalid request '" + request + "'");
                 }
