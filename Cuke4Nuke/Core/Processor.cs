@@ -154,8 +154,18 @@ namespace Cuke4Nuke.Core
             }
             catch (TargetInvocationException x)
             {
+                if (x.InnerException is TableAssertionException)
+                {
+                    TableAssertionException ex = (TableAssertionException) x.InnerException;
+                    return TableDiffResponse(ex.Expected, ex.Actual);
+                }
                 return _formatter.Format(x.InnerException);
             }
+        }
+
+        private string TableDiffResponse(Table expectedTable, Table actualTable)
+        {
+            return String.Format("[\"diff\", [{0},{1}]]", expectedTable, actualTable);
         }
 
         StepDefinition GetStepDefinition(string id)
