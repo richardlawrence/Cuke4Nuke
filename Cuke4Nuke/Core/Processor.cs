@@ -165,7 +165,10 @@ namespace Cuke4Nuke.Core
 
         private string TableDiffResponse(Table expectedTable, Table actualTable)
         {
-            return String.Format("[\"diff\", [{0},{1}]]", expectedTable, actualTable);
+            TypeConverter converter = TypeDescriptor.GetConverter(typeof(Table));
+            string expectedTableJson = (string)converter.ConvertToString(expectedTable);
+            string actualTableJson = (string)converter.ConvertToString(actualTable);
+            return String.Format("[\"diff\", [{0},{1}]]", expectedTableJson, actualTableJson);
         }
 
         StepDefinition GetStepDefinition(string id)
