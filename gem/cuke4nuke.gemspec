@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{cuke4nuke}
-  s.version = "0.2.4"
+  s.version = "0.3.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Richard Lawrence"]
-  s.date = %q{2009-12-17}
+  s.date = %q{2009-12-30}
   s.default_executable = %q{cuke4nuke}
   s.description = %q{Runs Cucumber with .NET step definitions.}
   s.email = %q{richard@humanizingwork.com}
@@ -44,20 +44,20 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<cucumber>, [">= 0.5.1"])
+      s.add_runtime_dependency(%q<cucumber>, [">= 0.5.2"])
       s.add_runtime_dependency(%q<win32-process>, [">= 0.6.1"])
       s.add_runtime_dependency(%q<systemu>, [">= 1.2.0"])
       s.add_runtime_dependency(%q<json>, [">= 1.2.0"])
       s.add_runtime_dependency(%q<win32console>, [">= 1.2.0"])
     else
-      s.add_dependency(%q<cucumber>, [">= 0.5.1"])
+      s.add_dependency(%q<cucumber>, [">= 0.5.2"])
       s.add_dependency(%q<win32-process>, [">= 0.6.1"])
       s.add_dependency(%q<systemu>, [">= 1.2.0"])
       s.add_dependency(%q<json>, [">= 1.2.0"])
       s.add_dependency(%q<win32console>, [">= 1.2.0"])
     end
   else
-    s.add_dependency(%q<cucumber>, [">= 0.5.1"])
+    s.add_dependency(%q<cucumber>, [">= 0.5.2"])
     s.add_dependency(%q<win32-process>, [">= 0.6.1"])
     s.add_dependency(%q<systemu>, [">= 1.2.0"])
     s.add_dependency(%q<json>, [">= 1.2.0"])
