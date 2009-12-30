@@ -1,3 +1,19 @@
+== 0.3.0 2009-12-30
+=== Features
+* Snippets work, including tables and multiline strings
+* Support for pending step definitions
+* Table diffing works
+* Updated WatiN example to use new timeout feature in wire file
+* Bumped cucumber dependency to 0.5.2
+
+== 0.2.4 2009-12-17
+
+Updated gem dependency to newer version of cucumber.
+
+== 0.2.3 2009-12-17
+
+Gem cleanup, snippets, table parameters on step definitions.
+
 == 0.2.2 2009-12-02
 === Features
 * Compatibility with WatiN (Issue #19; Luke Smith)
