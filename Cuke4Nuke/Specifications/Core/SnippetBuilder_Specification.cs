@@ -16,5 +16,13 @@ namespace Cuke4Nuke.Specifications.Core
             string stepName = "we're all wired";
             Assert.That(sb.StepNameToMethodName(stepName), Is.EqualTo("WereAllWired"));
         }
+
+        [Test]
+        public void StepNameToMethodName_ShouldReturnLegalMethodName_TrailingComma()
+        {
+            SnippetBuilder sb = new SnippetBuilder();
+            string stepName = "the separator is ,";
+            Assert.That(sb.StepNameToMethodName(stepName), Is.EqualTo("TheSeparatorIs"));
+        }
     }
 }

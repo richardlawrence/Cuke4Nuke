@@ -68,3 +68,82 @@ Feature: Print step definition snippets for undefined steps
       {
       }
       """
+
+  Scenario: Snippet with a scenario outline
+    Given a file named "features/wired.feature" with:
+      """
+        Scenario Outline: Wired
+          Given we're all <something>
+
+          Examples:
+          | something |
+          | wired     |
+          | not wired |
+
+      """
+    And Cuke4Nuke started with no step definition assemblies
+    When I run cucumber -f pretty
+    Then the output should contain
+      """
+      [Pending]
+      [Given(@"^we're all wired$")]
+      public void WereAllWired()
+      {
+      }
+      """
+    And the output should contain
+      """
+      [Pending]
+      [Given(@"^we're all not wired$")]
+      public void WereAllNotWired()
+      {
+      }
+      """
+
+  Scenario: Snippet with Background
+    Given a file named "features/wired.feature" with:
+      """
+        Background:
+          Given something to do first
+
+        Scenario: Wired
+          Given we're all wired
+
+      """
+    And Cuke4Nuke started with no step definition assemblies
+    When I run cucumber -f pretty
+    Then the output should contain
+      """
+      [Pending]
+      [Given(@"^we're all wired$")]
+      public void WereAllWired()
+      {
+      }
+      """
+    And the output should contain
+      """
+      [Pending]
+      [Given(@"^something to do first$")]
+      public void SomethingToDoFirst()
+      {
+      }
+      """
+
+  Scenario: Snippet for step with trailing comma
+    Given a file named "features/wired.feature" with:
+      """
+        Scenario: Comma separated
+          Given the separator is ,
+
+      """
+    And Cuke4Nuke started with no step definition assemblies
+    When I run cucumber -f pretty
+    Then STDERR should be empty
+    And the output should contain
+      """
+      [Pending]
+      [Given(@"^the separator is ,$")]
+      public void TheSeparatorIs()
+      {
+      }
+      """

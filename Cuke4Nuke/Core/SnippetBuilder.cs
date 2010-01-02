@@ -40,6 +40,7 @@ namespace Cuke4Nuke.Core
             string s = stepName;
             s = Regex.Replace(s, @"[^A-Za-z0-9\s]", "");
             s = Regex.Replace(s, @"\s+", " ");
+            s = s.Trim();
             string[] words = s.Split(' ');
             StringBuilder methodNameBuilder = new StringBuilder();
             foreach (string word in words)
