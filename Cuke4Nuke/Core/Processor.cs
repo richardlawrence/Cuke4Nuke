@@ -9,6 +9,7 @@ using Newtonsoft.Json.Linq;
 using Cuke4Nuke.Framework;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.IO;
 
 namespace Cuke4Nuke.Core
 {
@@ -23,7 +24,6 @@ namespace Cuke4Nuke.Core
 
         readonly Loader _loader;
         readonly Repository _repository;
-        readonly Formatter _formatter = new Formatter();
         readonly ObjectFactory _objectFactory;
 
         public Processor(Loader loader, ObjectFactory objectFactory)
@@ -79,15 +79,15 @@ namespace Cuke4Nuke.Core
                     case "diff_ok":
                         return SuccessResponse();
                     case "diff_failed":
-                        return _formatter.Format("Tables don't match.");
+                        return FailResponse("Tables don't match.");
                     default:
-                        return _formatter.Format("Invalid request '" + request + "'");
+                        return FailResponse("Invalid request '" + request + "'");
                 }
             }
             catch (Exception x)
             {
                 log.Error("Unable to process request '" + request + "': " + x.Message);
-                return _formatter.Format(x);
+                return FailResponse(x);
             }
         }
 
@@ -106,6 +106,46 @@ namespace Cuke4Nuke.Core
         string PendingResponse()
         {
             return "[\"pending\",null]";
+        }
+
+        string FailResponse(string message)
+        {
+            StringBuilder sb = new StringBuilder();
+            StringWriter sw = new StringWriter(sb);
+            using (JsonWriter jsonWriter = new JsonTextWriter(sw))
+            {
+                jsonWriter.Formatting = Formatting.None;
+                jsonWriter.WriteStartArray();
+                jsonWriter.WriteValue("fail");
+                jsonWriter.WriteStartObject();
+                jsonWriter.WritePropertyName("message");
+                jsonWriter.WriteValue(message);
+                jsonWriter.WriteEndObject();
+                jsonWriter.WriteEndArray();
+            }
+            return sw.ToString();
+        }
+
+        string FailResponse(Exception ex)
+        {
+            StringBuilder sb = new StringBuilder();
+            StringWriter sw = new StringWriter(sb);
+            using (JsonWriter jsonWriter = new JsonTextWriter(sw))
+            {
+                jsonWriter.Formatting = Formatting.None;
+                jsonWriter.WriteStartArray();
+                jsonWriter.WriteValue("fail");
+                jsonWriter.WriteStartObject();
+                jsonWriter.WritePropertyName("exception");
+                jsonWriter.WriteValue(ex.GetType().ToString());
+                jsonWriter.WritePropertyName("message");
+                jsonWriter.WriteValue(ex.Message);
+                jsonWriter.WritePropertyName("backtrace");
+                jsonWriter.WriteValue(ex.StackTrace);
+                jsonWriter.WriteEndObject();
+                jsonWriter.WriteEndArray();
+            }
+            return sw.ToString();
         }
 
         string StepMatches(string stepName)
@@ -145,7 +185,7 @@ namespace Cuke4Nuke.Core
 
                 if (stepDefinition == null)
                 {
-                    return _formatter.Format("Could not find step with id '" + id + "'");
+                    return FailResponse("Could not find step with id '" + id + "'");
                 }
 
                 if (stepDefinition.Pending)
@@ -163,7 +203,7 @@ namespace Cuke4Nuke.Core
                     TableAssertionException ex = (TableAssertionException) x.InnerException;
                     return TableDiffResponse(ex.Expected, ex.Actual);
                 }
-                return _formatter.Format(x.InnerException);
+                return FailResponse(x.InnerException);
             }
         }
 

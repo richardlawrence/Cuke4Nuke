@@ -85,7 +85,6 @@
     <Compile Include="SnippetBuilder.cs" />
     <Compile Include="StepArgument.cs" />
     <Compile Include="StepDefinition.cs" />
-    <Compile Include="Formatter.cs" />
     <Compile Include="TableConverter.cs" />
   </ItemGroup>
   <ItemGroup>

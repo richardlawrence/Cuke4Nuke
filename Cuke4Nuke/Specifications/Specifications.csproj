@@ -63,7 +63,6 @@
     <Compile Include="JsonAssert.cs" />
     <Compile Include="Core\AsyncListener.cs" />
     <Compile Include="Core\Processor_Specification.cs" />
-    <Compile Include="Core\Formatter_Specification.cs" />
     <Compile Include="Core\Loader_Specification.cs" />
     <Compile Include="Core\StepDefinition_Specification.cs" />
     <Compile Include="Server\Options_Specification.cs" />
