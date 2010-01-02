@@ -1,3 +1,9 @@
+== in github
+=== Features
+
+=== Bugs Fixed
+* Trailing punctuation in a step breaks snippet generation (#26)
+
 == 0.3.0 2009-12-30
 === Features
 * Snippets work, including tables and multiline strings
