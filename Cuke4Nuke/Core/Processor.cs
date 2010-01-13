@@ -93,9 +93,20 @@ namespace Cuke4Nuke.Core
 
         private string SnippetResponse(string keyword, string stepName, string multilineArgClass)
         {
-            SnippetBuilder sb = new SnippetBuilder();
-            string snippet = sb.GenerateSnippet(keyword, stepName, multilineArgClass);
-            return String.Format("[\"snippet_text\", \"{0}\"]", snippet);
+            SnippetBuilder snb = new SnippetBuilder();
+            string snippet = snb.GenerateSnippet(keyword, stepName, multilineArgClass);
+
+            StringBuilder stb = new StringBuilder();
+            StringWriter sw = new StringWriter(stb);
+            using (JsonWriter jsonWriter = new JsonTextWriter(sw))
+            {
+                jsonWriter.Formatting = Formatting.None;
+                jsonWriter.WriteStartArray();
+                jsonWriter.WriteValue("snippet_text");
+                jsonWriter.WriteValue(snippet);
+                jsonWriter.WriteEndArray();
+            }
+            return sw.ToString();
         }
 
         string SuccessResponse()
