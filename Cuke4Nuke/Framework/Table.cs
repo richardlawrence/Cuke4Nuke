@@ -11,12 +11,9 @@ namespace Cuke4Nuke.Framework
         {
             var hashes = new List<Dictionary<string, string>>();
             if (_data.Count == 0)
-            {
                 return hashes;
-            }
 
-            var keys = new List<string>();
-            _data[0].ForEach(val => keys.Add(val));
+            var keys = Headers();
 
             for (int i = 1; i < _data.Count; i++)
             {
@@ -79,6 +76,11 @@ namespace Cuke4Nuke.Framework
                 return new List<string>();
             else
                 return Data[0];
+        }
+
+        public Dictionary<string, string> RowHashes()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -167,5 +167,23 @@ namespace Cuke4Nuke.Specifications.Core
             Table tbl = new Table();
             Assert.That(tbl.Headers(), Is.EqualTo(new List<string>()));
         }
+
+        [Test]
+        public void RowHashesShouldReturnDictionaryForTwoColumnTable()
+        {
+            Table tbl = new Table();
+
+            tbl.Data.Add(new List<string>(new[] { "Key1", "Value1" }));
+            tbl.Data.Add(new List<string>(new[] { "Key2", "Value2" }));
+            tbl.Data.Add(new List<string>(new[] { "Key3", "Value3" }));
+
+            Assert.That(tbl.RowHashes(), Is.EqualTo(new Dictionary<string, string>()
+                {
+                    { "Key1", "Value1" },
+                    { "Key2", "Value2" },
+                    { "Key3", "Value3" }
+                }
+            ));
+        }
     }
 }
