@@ -51,5 +51,102 @@ namespace Cuke4Nuke.Specifications.Core
                 Assert.AreSame(expectedTable, ex.Expected);
             }
         }
+
+        [Test]
+        public void IncludesShouldReturnTrueWithOneColumMatching()
+        {
+            Table expTable = new Table();
+            Table actTable = new Table();
+
+            expTable.Data.Add(new List<string>(new []{"Provider"}));
+            expTable.Data.Add(new List<string>(new[]{"Nurse (Ann)"}));
+
+            actTable.Data.Add(new List<string>(new[] { "Provider" }));
+            actTable.Data.Add(new List<string>(new[] { "Nurse (Ann)" }));
+            actTable.Data.Add(new List<string>(new[] { "Doctor (Zeke)" }));
+
+            Assert.That(actTable.Includes(expTable));
+        }
+
+        [Test]
+        public void IncludesShouldReturnFalseWithOneColumnNotMatching()
+        {
+            Table expTable = new Table();
+            Table actTable = new Table();
+
+            expTable.Data.Add(new List<string>(new[] { "Provider" }));
+            expTable.Data.Add(new List<string>(new[] { "Nurse (Sue)" }));
+
+            actTable.Data.Add(new List<string>(new[] { "Provider" }));
+            actTable.Data.Add(new List<string>(new[] { "Nurse (Ann)" }));
+            actTable.Data.Add(new List<string>(new[] { "Doctor (Zeke)" }));
+
+            Assert.That(actTable.Includes(expTable), Is.False);
+        }
+
+        [Test]
+        public void IncludesShouldReturnTrueWithTwoColumnMatching()
+        {
+            Table expTable = new Table();
+            Table actTable = new Table();
+
+            expTable.Data.Add(new List<string>(new[] { "Provider", "Date" }));
+            expTable.Data.Add(new List<string>(new[] { "Nurse (Ann)", "01/15/2010" }));
+
+            actTable.Data.Add(new List<string>(new[] { "Provider", "Date" }));
+            actTable.Data.Add(new List<string>(new[] { "Nurse (Ann)", "01/15/2010" }));
+            actTable.Data.Add(new List<string>(new[] { "Doctor (Zeke)", "01/15/2010" }));
+
+            Assert.That(actTable.Includes(expTable));
+        }
+
+        [Test]
+        public void IncludesShouldReturnFalseWithTwoColumnsWithMismatchInFirstColumn()
+        {
+            Table expTable = new Table();
+            Table actTable = new Table();
+
+            expTable.Data.Add(new List<string>(new[] { "Provider", "Date" }));
+            expTable.Data.Add(new List<string>(new[] { "Nurse (Sue)", "01/15/2010" }));
+
+            actTable.Data.Add(new List<string>(new[] { "Provider", "Date" }));
+            actTable.Data.Add(new List<string>(new[] { "Nurse (Ann)", "01/15/2010" }));
+            actTable.Data.Add(new List<string>(new[] { "Doctor (Zeke)", "01/15/2010" }));
+
+            Assert.That(actTable.Includes(expTable), Is.False);
+        }
+
+        [Test]
+        public void IncludesShouldReturnFalseWithTwoColumnsWithMismatchInSecondColumn()
+        {
+            Table expTable = new Table();
+            Table actTable = new Table();
+
+            expTable.Data.Add(new List<string>(new[] { "Provider", "Date" }));
+            expTable.Data.Add(new List<string>(new[] { "Nurse (Ann)", "01/15/2015" }));
+
+            actTable.Data.Add(new List<string>(new[] { "Provider", "Date" }));
+            actTable.Data.Add(new List<string>(new[] { "Nurse (Ann)", "01/15/2010" }));
+            actTable.Data.Add(new List<string>(new[] { "Doctor (Zeke)", "01/15/2010" }));
+
+            Assert.That(actTable.Includes(expTable), Is.False);
+        }
+
+        [Test]
+        public void IncludesShouldReturnTrueWithTwoColumnsWithSameData()
+        {
+            Table expTable = new Table();
+            Table actTable = new Table();
+
+            expTable.Data.Add(new List<string>(new[] { "Provider", "Date" }));
+            expTable.Data.Add(new List<string>(new[] { "Nurse (Ann)", "01/15/2010" }));
+            expTable.Data.Add(new List<string>(new[] { "Doctor (Zeke)", "01/15/2010" }));
+
+            actTable.Data.Add(new List<string>(new[] { "Provider", "Date" }));
+            actTable.Data.Add(new List<string>(new[] { "Nurse (Ann)", "01/15/2010" }));
+            actTable.Data.Add(new List<string>(new[] { "Doctor (Zeke)", "01/15/2010" }));
+
+            Assert.That(actTable.Includes(expTable), Is.True);
+        }
     }
 }

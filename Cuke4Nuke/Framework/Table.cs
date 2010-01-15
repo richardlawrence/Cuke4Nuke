@@ -40,11 +40,38 @@ namespace Cuke4Nuke.Framework
             }
         }
 
-
-
         public void AssertSameAs(Table expectedTable)
         {
             throw new TableAssertionException(this, expectedTable);
+        }
+
+        public bool Includes(Table expectedTable)
+        {
+            foreach (var exRow in expectedTable.Hashes())
+            {
+                bool hasMatchingRow = false;
+                foreach (var acRow in this.Hashes())
+                {
+	                foreach (var key in exRow.Keys)
+	                {
+		                if (exRow[key] == acRow[key])
+		                {
+			                hasMatchingRow = true;
+		                }
+		                else
+		                {
+			                hasMatchingRow = false;
+			                break;
+		                }
+	                }
+	                if(hasMatchingRow)
+	                    break;
+                }
+                if (!hasMatchingRow)
+		            return false;
+		            
+            }
+            return true;
         }
     }
 }
