@@ -75,11 +75,10 @@ namespace Cuke4Nuke.Framework
 
         public List<string> Headers()
         {
-            var hashes = Hashes();
-            if (hashes.Count == 0)
+            if (Data.Count == 0)
                 return new List<string>();
             else
-                return new List<string>(hashes[0].Keys);
+                return Data[0];
         }
     }
 }
