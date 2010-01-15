@@ -25,11 +25,12 @@ namespace Cuke4Nuke.Core
             }
 
             string methodName = StepNameToMethodName(stepName);
+            stepName = stepName.Replace("\"", "\"\"");
             StringBuilder sb = new StringBuilder();
-            sb.Append("[Pending]\\n");
-            sb.AppendFormat("[{0}(@\\\"^{1}$\\\")]\\n", keyword, stepName);
-            sb.AppendFormat("public void {0}({1})\\n", methodName, parameter);
-            sb.Append("{\\n");
+            sb.Append("[Pending]\n");
+            sb.AppendFormat("[{0}(@\"^{1}$\")]\n", keyword, stepName);
+            sb.AppendFormat("public void {0}({1})\n", methodName, parameter);
+            sb.Append("{\n");
             sb.Append("}");
             string snippet = sb.ToString();
             return snippet;
