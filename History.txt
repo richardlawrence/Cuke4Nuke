@@ -1,8 +1,10 @@
 == in github
 === Features
+* Additional methods on Table
 
 === Bugs Fixed
 * Trailing punctuation in a step breaks snippet generation (#26)
+* JSON is not properly escaped for snippets (#29; Dan Fitch)
 
 == 0.3.0 2009-12-30
 === Features
