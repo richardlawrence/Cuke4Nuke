@@ -148,5 +148,24 @@ namespace Cuke4Nuke.Specifications.Core
 
             Assert.That(actTable.Includes(expTable), Is.True);
         }
+
+        [Test]
+        public void HeadersShouldReturnListOfHeaders()
+        {
+            Table tbl = new Table();
+
+            tbl.Data.Add(new List<string>(new[] { "Provider", "Date" }));
+            tbl.Data.Add(new List<string>(new[] { "Nurse (Ann)", "01/15/2010" }));
+            tbl.Data.Add(new List<string>(new[] { "Doctor (Zeke)", "01/15/2010" }));
+
+            Assert.That(tbl.Headers(), Is.EqualTo(new List<string>(new[] { "Provider", "Date" })));
+        }
+
+        [Test]
+        public void HeadersShouldReturnEmptyListForEmptyTable()
+        {
+            Table tbl = new Table();
+            Assert.That(tbl.Headers(), Is.EqualTo(new List<string>()));
+        }
     }
 }
