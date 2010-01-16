@@ -172,7 +172,6 @@ namespace Cuke4Nuke.Specifications.Core
         public void RowHashesShouldReturnDictionaryForTwoColumnTable()
         {
             Table tbl = new Table();
-
             tbl.Data.Add(new List<string>(new[] { "Key1", "Value1" }));
             tbl.Data.Add(new List<string>(new[] { "Key2", "Value2" }));
             tbl.Data.Add(new List<string>(new[] { "Key3", "Value3" }));
@@ -184,6 +183,45 @@ namespace Cuke4Nuke.Specifications.Core
                     { "Key3", "Value3" }
                 }
             ));
+        }
+
+        [Test]
+        public void RowHashesShouldThrowForOneColumnTable()
+        {
+            Table tbl = new Table();
+            tbl.Data.Add(new List<string>(new[] { "Value1" }));
+            tbl.Data.Add(new List<string>(new[] { "Value2" }));
+            tbl.Data.Add(new List<string>(new[] { "Value3" }));
+
+            Assert.Throws<InvalidOperationException>(delegate
+            {
+                tbl.RowHashes();
+            });
+        }
+
+        [Test]
+        public void RowHashesShouldThrowForThreeColumnTable()
+        {
+            Table tbl = new Table();
+            tbl.Data.Add(new List<string>(new[] { "Value1", "Value1", "Value1" }));
+            tbl.Data.Add(new List<string>(new[] { "Value2", "Value2", "Value2" }));
+            tbl.Data.Add(new List<string>(new[] { "Value3", "Value3", "Value3" }));
+
+            Assert.Throws<InvalidOperationException>(delegate
+            {
+                tbl.RowHashes();
+            });
+        }
+
+        [Test]
+        public void RowHashesShouldThrowForEmptyTable()
+        {
+            Table tbl = new Table();
+
+            Assert.Throws<InvalidOperationException>(delegate
+            {
+                tbl.RowHashes();
+            });
         }
     }
 }

@@ -80,7 +80,15 @@ namespace Cuke4Nuke.Framework
 
         public Dictionary<string, string> RowHashes()
         {
-            throw new NotImplementedException();
+            if (_data.Count == 0 || _data[0].Count != 2)
+                throw new InvalidOperationException("Table must contain exactly two columns to use RowHashes().");
+
+            var rowHashes = new Dictionary<string, string>();
+            foreach (var row in _data)
+            {
+                rowHashes.Add(row[0], row[1]);
+            }
+            return rowHashes;
         }
     }
 }
