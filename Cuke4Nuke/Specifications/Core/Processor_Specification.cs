@@ -275,7 +275,7 @@ namespace Cuke4Nuke.Specifications.Core
         {
             var jsonData = JsonMapper.ToObject(response);
             JsonAssert.IsArray(jsonData);
-            Assert.That(jsonData[0].ToString(), Is.EqualTo("step_failed"));
+            Assert.That(jsonData[0].ToString(), Is.EqualTo("fail"));
             JsonAssert.HasString(jsonData[1], "message", message);
         }
 
@@ -283,7 +283,7 @@ namespace Cuke4Nuke.Specifications.Core
         {
             var jsonData = JsonMapper.ToObject(response);
             JsonAssert.IsArray(jsonData);
-            Assert.That(jsonData[0].ToString(), Is.EqualTo("step_failed"));
+            Assert.That(jsonData[0].ToString(), Is.EqualTo("fail"));
             JsonAssert.HasString(jsonData[1], "message", message);
             JsonAssert.HasString(jsonData[1], "backtrace");
             JsonAssert.HasString(jsonData[1], "exception", exceptionType.ToString());
