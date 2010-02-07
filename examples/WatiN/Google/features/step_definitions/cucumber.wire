@@ -2,3 +2,5 @@
 port: 3901
 timeout:
   invoke: 35
+  begin_scenario: 35
+  end_scenario: 35

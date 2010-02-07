@@ -30,7 +30,7 @@ task :gemspec => :copy_binaries
 
 desc "Copy Cuke4Nuke binaries to the dotnet directory"
 task :copy_binaries do
-  Dir[File.dirname(__FILE__) + '/../Cuke4Nuke/Server/bin/Release/*.{dll,exe,config}'].each do |file|
+  Dir[File.dirname(__FILE__) + '/../Cuke4Nuke/Server/bin/Release/*.{pdb,dll,exe,config}'].each do |file|
     cp file, 'dotnet' unless file =~ /vshost/
   end
 end

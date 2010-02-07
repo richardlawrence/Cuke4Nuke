@@ -1,4 +1,4 @@
-== in github
+== 0.3.1 2010-02-07
 === Features
 * Additional methods on Table
 
