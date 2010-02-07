@@ -35,7 +35,7 @@ Feature: Pending Steps
         Scenario: Wired
           Given we're all wired
             TODO (Cucumber::Pending)
-            features/wired.feature:2:in `Given we're all wired'
+            features\wired.feature:2:in `Given we're all wired'
 
       1 scenario (1 pending)
       1 step (1 pending)
