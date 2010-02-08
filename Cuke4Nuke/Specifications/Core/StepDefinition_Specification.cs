@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Reflection;
 
 using Cuke4Nuke.Framework;
-
 using NUnit.Framework;
 
 using Cuke4Nuke.Core;
@@ -13,7 +12,7 @@ namespace Cuke4Nuke.Specifications.Core
     [TestFixture]
     public class StepDefinition_Specification
     {
-        const BindingFlags MethodFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance;
+        protected const BindingFlags MethodFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance;
 
         MethodInfo _successMethod;
         MethodInfo _exceptionMethod;
@@ -33,6 +32,9 @@ namespace Cuke4Nuke.Specifications.Core
         {
             AssertMethodIsValid("Given");
         }
+
+
+        
 
         [Test]
         public void Should_allow_method_with_a_When_attribute()
@@ -171,7 +173,7 @@ namespace Cuke4Nuke.Specifications.Core
             stepDefinition.Invoke(null);
         }
 
-        static void AssertMethodIsValid(string methodName)
+        public static void AssertMethodIsValid(string methodName)
         {
             var method = GetValidMethod(methodName);
             Assert.IsTrue(StepDefinition.IsValidMethod(method));
