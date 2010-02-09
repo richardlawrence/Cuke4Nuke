@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kalkulator", "Kalkulator\Kalkulator.csproj", "{2ADD960E-8D9C-4F71-8D52-286A41A20EFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KalkulatorFeatures", "KalkulatorFeatures\KalkulatorFeatures.csproj", "{F16EC30E-B4CB-408D-8163-7E200EA793D4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2ADD960E-8D9C-4F71-8D52-286A41A20EFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2ADD960E-8D9C-4F71-8D52-286A41A20EFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2ADD960E-8D9C-4F71-8D52-286A41A20EFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2ADD960E-8D9C-4F71-8D52-286A41A20EFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F16EC30E-B4CB-408D-8163-7E200EA793D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F16EC30E-B4CB-408D-8163-7E200EA793D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F16EC30E-B4CB-408D-8163-7E200EA793D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F16EC30E-B4CB-408D-8163-7E200EA793D4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
