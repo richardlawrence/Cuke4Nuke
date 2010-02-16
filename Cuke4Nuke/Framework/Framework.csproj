@@ -51,7 +51,7 @@
     <Compile Include="BeforeAttribute.cs" />
     <Compile Include="GivenAttribute.cs" />
     <Compile Include="HookAttribute.cs" />
-    <Compile Include="languages\no\Norwegian.cs" />
+    <Compile Include="languages\steps.cs" />
     <Compile Include="PendingAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StepDefinitionAttribute.cs" />
