@@ -57,7 +57,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="features\Kalkulator.feature" />
+    <None Include="..\Kalkulator.feature">
+      <Link>features\Kalkulator.feature</Link>
+    </None>
     <None Include="features\step_definitions\cucumber.wire" />
   </ItemGroup>
   <ItemGroup>
