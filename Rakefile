@@ -1,5 +1,9 @@
 task :default => :build
 
+Dir['lib/task/*.rake'].each do |rake|
+  import rake
+end
+
 desc "Build the C# code with MSBuild"
 task :build do
   msbuild = 'c:\windows\microsoft.net\framework\v3.5\msbuild.exe'
