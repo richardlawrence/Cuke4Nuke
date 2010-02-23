@@ -1,9 +1,9 @@
 namespace Cuke4Nuke.Framework.Languages.<%= language %>
 {
     <% keywords.each do |keyword| %>
-    public class <%= keyword %>Attribute : StepDefinitionAttribute
+    public class <%= keyword.strip %>Attribute : StepDefinitionAttribute
     {
-        public <%= keyword %>Attribute(string pattern): base(pattern) { }
+        public <%= keyword.strip %>Attribute(string pattern): base(pattern) { }
     }
     <%  end %>
 }
