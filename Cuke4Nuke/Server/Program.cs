@@ -11,7 +11,9 @@ namespace Cuke4Nuke.Server
         [STAThread]
         static void Main(string[] args)
         {
+            
             var options = new Options(args);
+            SetAppConfigFromOptions(options);
             var objectFactory = new ObjectFactory();
             var loader = new Loader(options.AssemblyPaths, objectFactory);
             var processor = new Processor(loader, objectFactory);
@@ -19,6 +21,12 @@ namespace Cuke4Nuke.Server
             log4net.Config.XmlConfigurator.Configure();
 
             new NukeServer(listener, options).Start();
+        }
+
+        private static void SetAppConfigFromOptions(Options options)
+        {
+            if(options.AppConfigPath != null && !String.IsNullOrEmpty(options.AppConfigPath)) 
+                AppDomain.CurrentDomain.SetData("APP_CONFIG_FILE", options.AppConfigPath);
         }
     }
 }

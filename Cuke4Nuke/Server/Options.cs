@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.IO;
 
 using NDesk.Options;
@@ -12,6 +13,7 @@ namespace Cuke4Nuke.Server
 
         public int Port { get; set; }
         public bool ShowHelp { get; set; }
+        public string AppConfigPath { get; set; }
         public ICollection<string> AssemblyPaths { get; set; }
 
         private readonly OptionSet options;
@@ -32,6 +34,11 @@ namespace Cuke4Nuke.Server
                                   "a|assembly=",
                                   "an assembly to search for step definition methods.",
                                   v => AssemblyPaths.Add(v)
+                                  },
+                              {
+                                  "c|config=",
+                                  "absolutepath to the app.configfile to use when running steps",
+                                  (string c) => AppConfigPath = c
                                   },
                               {
                                   "h|?|help",
