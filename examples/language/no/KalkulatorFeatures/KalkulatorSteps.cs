@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Cuke4Nuke.Framework.Languages.Norwegian;
+﻿using Cuke4Nuke.Framework.Languages.NO;
 using NUnit.Framework;
 
 namespace KalkulatorFeatures
