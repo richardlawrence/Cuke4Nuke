@@ -1,48 +1,48 @@
 namespace Cuke4Nuke.Framework.Languages.AR
 {
     
-    public class ????Attribute : StepDefinitionAttribute
+    public class بفرضAttribute : StepDefinitionAttribute
     {
-        public ????Attribute(string pattern): base(pattern) { }
+        public بفرضAttribute(string pattern): base(pattern) { }
     }
     
-    public class ???Attribute : StepDefinitionAttribute
+    public class متىAttribute : StepDefinitionAttribute
     {
-        public ???Attribute(string pattern): base(pattern) { }
+        public متىAttribute(string pattern): base(pattern) { }
     }
     
-    public class ?????Attribute : StepDefinitionAttribute
+    public class عندماAttribute : StepDefinitionAttribute
     {
-        public ?????Attribute(string pattern): base(pattern) { }
+        public عندماAttribute(string pattern): base(pattern) { }
     }
     
-    public class ????Attribute : StepDefinitionAttribute
+    public class اذاًAttribute : StepDefinitionAttribute
     {
-        public ????Attribute(string pattern): base(pattern) { }
+        public اذاًAttribute(string pattern): base(pattern) { }
     }
     
-    public class ??Attribute : StepDefinitionAttribute
+    public class ثمAttribute : StepDefinitionAttribute
     {
-        public ??Attribute(string pattern): base(pattern) { }
+        public ثمAttribute(string pattern): base(pattern) { }
     }
     
 }
 namespace Cuke4Nuke.Framework.Languages.BG
 {
     
-    public class ??????Attribute : StepDefinitionAttribute
+    public class ДаденоAttribute : StepDefinitionAttribute
     {
-        public ??????Attribute(string pattern): base(pattern) { }
+        public ДаденоAttribute(string pattern): base(pattern) { }
     }
     
-    public class ??????Attribute : StepDefinitionAttribute
+    public class КогатоAttribute : StepDefinitionAttribute
     {
-        public ??????Attribute(string pattern): base(pattern) { }
+        public КогатоAttribute(string pattern): base(pattern) { }
     }
     
-    public class ??Attribute : StepDefinitionAttribute
+    public class ТоAttribute : StepDefinitionAttribute
     {
-        public ??Attribute(string pattern): base(pattern) { }
+        public ТоAttribute(string pattern): base(pattern) { }
     }
     
 }
@@ -59,9 +59,9 @@ namespace Cuke4Nuke.Framework.Languages.CAT
         public DonadaAttribute(string pattern): base(pattern) { }
     }
     
-    public class At�sAttribute : StepDefinitionAttribute
+    public class AtèsAttribute : StepDefinitionAttribute
     {
-        public At�sAttribute(string pattern): base(pattern) { }
+        public AtèsAttribute(string pattern): base(pattern) { }
     }
     
     public class AtesaAttribute : StepDefinitionAttribute
@@ -93,9 +93,9 @@ namespace Cuke4Nuke.Framework.Languages.CS
         public PokudAttribute(string pattern): base(pattern) { }
     }
     
-    public class Kdy�Attribute : StepDefinitionAttribute
+    public class KdyžAttribute : StepDefinitionAttribute
     {
-        public Kdy�Attribute(string pattern): base(pattern) { }
+        public KdyžAttribute(string pattern): base(pattern) { }
     }
     
     public class PakAttribute : StepDefinitionAttribute
@@ -131,14 +131,14 @@ namespace Cuke4Nuke.Framework.Languages.DA
         public GivetAttribute(string pattern): base(pattern) { }
     }
     
-    public class N�rAttribute : StepDefinitionAttribute
+    public class NårAttribute : StepDefinitionAttribute
     {
-        public N�rAttribute(string pattern): base(pattern) { }
+        public NårAttribute(string pattern): base(pattern) { }
     }
     
-    public class S�Attribute : StepDefinitionAttribute
+    public class SåAttribute : StepDefinitionAttribute
     {
-        public S�Attribute(string pattern): base(pattern) { }
+        public SåAttribute(string pattern): base(pattern) { }
     }
     
 }
@@ -302,9 +302,9 @@ namespace Cuke4Nuke.Framework.Languages.FR
         public SoitAttribute(string pattern): base(pattern) { }
     }
     
-    public class Etantdonn�Attribute : StepDefinitionAttribute
+    public class EtantdonnéAttribute : StepDefinitionAttribute
     {
-        public Etantdonn�Attribute(string pattern): base(pattern) { }
+        public EtantdonnéAttribute(string pattern): base(pattern) { }
     }
     
     public class QuandAttribute : StepDefinitionAttribute
@@ -331,24 +331,24 @@ namespace Cuke4Nuke.Framework.Languages.FR
 namespace Cuke4Nuke.Framework.Languages.HE
 {
     
-    public class ??????Attribute : StepDefinitionAttribute
+    public class בהינתןAttribute : StepDefinitionAttribute
     {
-        public ??????Attribute(string pattern): base(pattern) { }
+        public בהינתןAttribute(string pattern): base(pattern) { }
     }
     
-    public class ????Attribute : StepDefinitionAttribute
+    public class כאשרAttribute : StepDefinitionAttribute
     {
-        public ????Attribute(string pattern): base(pattern) { }
+        public כאשרAttribute(string pattern): base(pattern) { }
     }
     
-    public class ??Attribute : StepDefinitionAttribute
+    public class אזAttribute : StepDefinitionAttribute
     {
-        public ??Attribute(string pattern): base(pattern) { }
+        public אזAttribute(string pattern): base(pattern) { }
     }
     
-    public class ???Attribute : StepDefinitionAttribute
+    public class אזיAttribute : StepDefinitionAttribute
     {
-        public ???Attribute(string pattern): base(pattern) { }
+        public אזיAttribute(string pattern): base(pattern) { }
     }
     
 }
@@ -446,38 +446,38 @@ namespace Cuke4Nuke.Framework.Languages.IT
 namespace Cuke4Nuke.Framework.Languages.JA
 {
     
-    public class ??Attribute : StepDefinitionAttribute
+    public class 前提Attribute : StepDefinitionAttribute
     {
-        public ??Attribute(string pattern): base(pattern) { }
+        public 前提Attribute(string pattern): base(pattern) { }
     }
     
-    public class ??Attribute : StepDefinitionAttribute
+    public class もしAttribute : StepDefinitionAttribute
     {
-        public ??Attribute(string pattern): base(pattern) { }
+        public もしAttribute(string pattern): base(pattern) { }
     }
     
-    public class ???Attribute : StepDefinitionAttribute
+    public class ならばAttribute : StepDefinitionAttribute
     {
-        public ???Attribute(string pattern): base(pattern) { }
+        public ならばAttribute(string pattern): base(pattern) { }
     }
     
 }
 namespace Cuke4Nuke.Framework.Languages.KO
 {
     
-    public class ??Attribute : StepDefinitionAttribute
+    public class 조건Attribute : StepDefinitionAttribute
     {
-        public ??Attribute(string pattern): base(pattern) { }
+        public 조건Attribute(string pattern): base(pattern) { }
     }
     
-    public class ??Attribute : StepDefinitionAttribute
+    public class 만일Attribute : StepDefinitionAttribute
     {
-        public ??Attribute(string pattern): base(pattern) { }
+        public 만일Attribute(string pattern): base(pattern) { }
     }
     
-    public class ???Attribute : StepDefinitionAttribute
+    public class 그러면Attribute : StepDefinitionAttribute
     {
-        public ???Attribute(string pattern): base(pattern) { }
+        public 그러면Attribute(string pattern): base(pattern) { }
     }
     
 }
@@ -551,28 +551,28 @@ namespace Cuke4Nuke.Framework.Languages.NO
         public GittAttribute(string pattern): base(pattern) { }
     }
     
-    public class N�rAttribute : StepDefinitionAttribute
+    public class NårAttribute : StepDefinitionAttribute
     {
-        public N�rAttribute(string pattern): base(pattern) { }
+        public NårAttribute(string pattern): base(pattern) { }
     }
     
-    public class S�Attribute : StepDefinitionAttribute
+    public class SåAttribute : StepDefinitionAttribute
     {
-        public S�Attribute(string pattern): base(pattern) { }
+        public SåAttribute(string pattern): base(pattern) { }
     }
     
 }
 namespace Cuke4Nuke.Framework.Languages.PL
 {
     
-    public class Zak?adaj?cAttribute : StepDefinitionAttribute
+    public class ZakładającAttribute : StepDefinitionAttribute
     {
-        public Zak?adaj?cAttribute(string pattern): base(pattern) { }
+        public ZakładającAttribute(string pattern): base(pattern) { }
     }
     
-    public class Je?eliAttribute : StepDefinitionAttribute
+    public class JeżeliAttribute : StepDefinitionAttribute
     {
-        public Je?eliAttribute(string pattern): base(pattern) { }
+        public JeżeliAttribute(string pattern): base(pattern) { }
     }
     
     public class WtedyAttribute : StepDefinitionAttribute
@@ -594,9 +594,9 @@ namespace Cuke4Nuke.Framework.Languages.PT
         public QuandoAttribute(string pattern): base(pattern) { }
     }
     
-    public class Ent�oAttribute : StepDefinitionAttribute
+    public class EntãoAttribute : StepDefinitionAttribute
     {
-        public Ent�oAttribute(string pattern): base(pattern) { }
+        public EntãoAttribute(string pattern): base(pattern) { }
     }
     
     public class EntaoAttribute : StepDefinitionAttribute
@@ -627,14 +627,14 @@ namespace Cuke4Nuke.Framework.Languages.RO
 namespace Cuke4Nuke.Framework.Languages.RO2
 {
     
-    public class Dac?Attribute : StepDefinitionAttribute
+    public class DacăAttribute : StepDefinitionAttribute
     {
-        public Dac?Attribute(string pattern): base(pattern) { }
+        public DacăAttribute(string pattern): base(pattern) { }
     }
     
-    public class C�ndAttribute : StepDefinitionAttribute
+    public class CândAttribute : StepDefinitionAttribute
     {
-        public C�ndAttribute(string pattern): base(pattern) { }
+        public CândAttribute(string pattern): base(pattern) { }
     }
     
     public class AtunciAttribute : StepDefinitionAttribute
@@ -646,19 +646,19 @@ namespace Cuke4Nuke.Framework.Languages.RO2
 namespace Cuke4Nuke.Framework.Languages.RU
 {
     
-    public class ????????Attribute : StepDefinitionAttribute
+    public class ДопустимAttribute : StepDefinitionAttribute
     {
-        public ????????Attribute(string pattern): base(pattern) { }
+        public ДопустимAttribute(string pattern): base(pattern) { }
     }
     
-    public class ????Attribute : StepDefinitionAttribute
+    public class ЕслиAttribute : StepDefinitionAttribute
     {
-        public ????Attribute(string pattern): base(pattern) { }
+        public ЕслиAttribute(string pattern): base(pattern) { }
     }
     
-    public class ??Attribute : StepDefinitionAttribute
+    public class ТоAttribute : StepDefinitionAttribute
     {
-        public ??Attribute(string pattern): base(pattern) { }
+        public ТоAttribute(string pattern): base(pattern) { }
     }
     
 }
@@ -670,28 +670,28 @@ namespace Cuke4Nuke.Framework.Languages.SE
         public GivetAttribute(string pattern): base(pattern) { }
     }
     
-    public class N�rAttribute : StepDefinitionAttribute
+    public class NärAttribute : StepDefinitionAttribute
     {
-        public N�rAttribute(string pattern): base(pattern) { }
+        public NärAttribute(string pattern): base(pattern) { }
     }
     
-    public class S�Attribute : StepDefinitionAttribute
+    public class SåAttribute : StepDefinitionAttribute
     {
-        public S�Attribute(string pattern): base(pattern) { }
+        public SåAttribute(string pattern): base(pattern) { }
     }
     
 }
 namespace Cuke4Nuke.Framework.Languages.SK
 {
     
-    public class Pokia?Attribute : StepDefinitionAttribute
+    public class PokiaľAttribute : StepDefinitionAttribute
     {
-        public Pokia?Attribute(string pattern): base(pattern) { }
+        public PokiaľAttribute(string pattern): base(pattern) { }
     }
     
-    public class Ke?Attribute : StepDefinitionAttribute
+    public class KeďAttribute : StepDefinitionAttribute
     {
-        public Ke?Attribute(string pattern): base(pattern) { }
+        public KeďAttribute(string pattern): base(pattern) { }
     }
     
     public class TakAttribute : StepDefinitionAttribute
@@ -703,34 +703,34 @@ namespace Cuke4Nuke.Framework.Languages.SK
 namespace Cuke4Nuke.Framework.Languages.SR
 {
     
-    public class ??????Attribute : StepDefinitionAttribute
+    public class ЗадатоAttribute : StepDefinitionAttribute
     {
-        public ??????Attribute(string pattern): base(pattern) { }
+        public ЗадатоAttribute(string pattern): base(pattern) { }
     }
     
-    public class ??????Attribute : StepDefinitionAttribute
+    public class ЗадатеAttribute : StepDefinitionAttribute
     {
-        public ??????Attribute(string pattern): base(pattern) { }
+        public ЗадатеAttribute(string pattern): base(pattern) { }
     }
     
-    public class ??????Attribute : StepDefinitionAttribute
+    public class ЗадатиAttribute : StepDefinitionAttribute
     {
-        public ??????Attribute(string pattern): base(pattern) { }
+        public ЗадатиAttribute(string pattern): base(pattern) { }
     }
     
-    public class ????Attribute : StepDefinitionAttribute
+    public class КадаAttribute : StepDefinitionAttribute
     {
-        public ????Attribute(string pattern): base(pattern) { }
+        public КадаAttribute(string pattern): base(pattern) { }
     }
     
-    public class ???Attribute : StepDefinitionAttribute
+    public class КадAttribute : StepDefinitionAttribute
     {
-        public ???Attribute(string pattern): base(pattern) { }
+        public КадAttribute(string pattern): base(pattern) { }
     }
     
-    public class ????Attribute : StepDefinitionAttribute
+    public class ОндаAttribute : StepDefinitionAttribute
     {
-        public ????Attribute(string pattern): base(pattern) { }
+        public ОндаAttribute(string pattern): base(pattern) { }
     }
     
 }
@@ -776,9 +776,9 @@ namespace Cuke4Nuke.Framework.Languages.TR
         public DiyelimkiAttribute(string pattern): base(pattern) { }
     }
     
-    public class E?erkiAttribute : StepDefinitionAttribute
+    public class EğerkiAttribute : StepDefinitionAttribute
     {
-        public E?erkiAttribute(string pattern): base(pattern) { }
+        public EğerkiAttribute(string pattern): base(pattern) { }
     }
     
     public class OzamanAttribute : StepDefinitionAttribute
@@ -790,23 +790,23 @@ namespace Cuke4Nuke.Framework.Languages.TR
 namespace Cuke4Nuke.Framework.Languages.UZ
 {
     
-    public class ????Attribute : StepDefinitionAttribute
+    public class АгарAttribute : StepDefinitionAttribute
     {
-        public ????Attribute(string pattern): base(pattern) { }
+        public АгарAttribute(string pattern): base(pattern) { }
     }
     
-    public class ????Attribute : StepDefinitionAttribute
+    public class УндаAttribute : StepDefinitionAttribute
     {
-        public ????Attribute(string pattern): base(pattern) { }
+        public УндаAttribute(string pattern): base(pattern) { }
     }
     
 }
 namespace Cuke4Nuke.Framework.Languages.VI
 {
     
-    public class Bi?tAttribute : StepDefinitionAttribute
+    public class BiếtAttribute : StepDefinitionAttribute
     {
-        public Bi?tAttribute(string pattern): base(pattern) { }
+        public BiếtAttribute(string pattern): base(pattern) { }
     }
     
     public class ChoAttribute : StepDefinitionAttribute
@@ -819,47 +819,47 @@ namespace Cuke4Nuke.Framework.Languages.VI
         public KhiAttribute(string pattern): base(pattern) { }
     }
     
-    public class Th�Attribute : StepDefinitionAttribute
+    public class ThìAttribute : StepDefinitionAttribute
     {
-        public Th�Attribute(string pattern): base(pattern) { }
+        public ThìAttribute(string pattern): base(pattern) { }
     }
     
 }
 namespace Cuke4Nuke.Framework.Languages.ZHCN
 {
     
-    public class ??Attribute : StepDefinitionAttribute
+    public class 假如Attribute : StepDefinitionAttribute
     {
-        public ??Attribute(string pattern): base(pattern) { }
+        public 假如Attribute(string pattern): base(pattern) { }
     }
     
-    public class ?Attribute : StepDefinitionAttribute
+    public class 当Attribute : StepDefinitionAttribute
     {
-        public ?Attribute(string pattern): base(pattern) { }
+        public 当Attribute(string pattern): base(pattern) { }
     }
     
-    public class ??Attribute : StepDefinitionAttribute
+    public class 那么Attribute : StepDefinitionAttribute
     {
-        public ??Attribute(string pattern): base(pattern) { }
+        public 那么Attribute(string pattern): base(pattern) { }
     }
     
 }
 namespace Cuke4Nuke.Framework.Languages.ZHTW
 {
     
-    public class ??Attribute : StepDefinitionAttribute
+    public class 假設Attribute : StepDefinitionAttribute
     {
-        public ??Attribute(string pattern): base(pattern) { }
+        public 假設Attribute(string pattern): base(pattern) { }
     }
     
-    public class ?Attribute : StepDefinitionAttribute
+    public class 當Attribute : StepDefinitionAttribute
     {
-        public ?Attribute(string pattern): base(pattern) { }
+        public 當Attribute(string pattern): base(pattern) { }
     }
     
-    public class ??Attribute : StepDefinitionAttribute
+    public class 那麼Attribute : StepDefinitionAttribute
     {
-        public ??Attribute(string pattern): base(pattern) { }
+        public 那麼Attribute(string pattern): base(pattern) { }
     }
     
 }
