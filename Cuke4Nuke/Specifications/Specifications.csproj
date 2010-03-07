@@ -65,7 +65,7 @@
     <Compile Include="Core\Processor_Specification.cs" />
     <Compile Include="Core\Loader_Specification.cs" />
     <Compile Include="Core\StepDefinition_Specification.cs" />
-    <Compile Include="language\no\Norwegian_StepDefinition_Specification.cs" />
+    <Compile Include="Language\NO\Norwegian_StepDefinition_Specification.cs" />
     <Compile Include="Server\Options_Specification.cs" />
     <Compile Include="Server\Program_Specification.cs" />
     <Compile Include="Server\NukeServer_Specification.cs" />
