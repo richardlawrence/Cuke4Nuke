@@ -1,5 +1,5 @@
 ﻿using Cuke4Nuke.Core;
-using Cuke4Nuke.Framework.Languages.Norwegian;
+using Cuke4Nuke.Framework.Languages.NO;
 using NUnit.Framework;
 
 namespace Cuke4Nuke.Specifications.language.no
