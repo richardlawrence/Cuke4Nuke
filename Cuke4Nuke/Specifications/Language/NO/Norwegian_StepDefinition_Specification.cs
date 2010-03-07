@@ -2,7 +2,7 @@
 using Cuke4Nuke.Framework.Languages.NO;
 using NUnit.Framework;
 
-namespace Cuke4Nuke.Specifications.language.no
+namespace Cuke4Nuke.Specifications.Language.NO
 {
     [TestFixture]
     public class Norwegian_StepDefinition_Specification 
