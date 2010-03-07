@@ -1,7 +1,7 @@
 
 
 namespace :generate do
-  desc "Generateing cuke4nuke attributes for all i18n supported languages in Gherkin"
+  desc "Generating cuke4nuke attributes for all i18n supported languages in Gherkin"
   task :attributes do
 	require 'gherkin/i18n'
 	require 'erb'
