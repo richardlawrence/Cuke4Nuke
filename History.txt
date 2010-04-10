@@ -1,6 +1,7 @@
 == In Git
 === Features
 * Internationalized Given/When/Then attributes
+* Debug rather than Release binaries to support step definition debugging
 
 === Bugs Fixed
 

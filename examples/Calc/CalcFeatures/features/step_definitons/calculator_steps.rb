@@ -1,7 +1,7 @@
 if Cucumber::IRONRUBY # We only want this to run on IronRuby
 
 require 'spec/expectations'
-$:.unshift(File.dirname(__FILE__) + '/../../bin/Release') # So we find the .dll
+$:.unshift(File.dirname(__FILE__) + '/../../bin/Debug') # So we find the .dll
 require 'Calc.dll'
 
 Before do
