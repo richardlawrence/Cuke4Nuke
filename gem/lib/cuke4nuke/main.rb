@@ -33,11 +33,7 @@ module Cuke4Nuke
 
     def launch_cuke4nuke_process(step_definitions_dll_path)
       cuke4nuke_server_exe = File.expand_path(File.join(File.dirname(__FILE__), '../../dotnet/Cuke4Nuke.Server.exe'))
-      command = %{"#{cuke4nuke_server_exe}" -a "#{step_definitions_dll_path}"  }
-	  config_file_path ="#{step_definitions_dll_path}.config"
-	  if File.exist?(config_file_path)
-		command += %{ -c "#{step_definitions_dll_path}.config"}
-	  end
+      command = %{"#{cuke4nuke_server_exe}" -a "#{step_definitions_dll_path}"}
       process = IO.popen(command, 'r')
       @cuke4nuke_server_pid = process.pid
     end
