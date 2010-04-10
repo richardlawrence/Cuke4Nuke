@@ -1,3 +1,9 @@
+== In Git
+=== Features
+* Internationalized Given/When/Then attributes
+
+=== Bugs Fixed
+
 == 0.3.1 2010-02-07
 === Features
 * Additional methods on Table
