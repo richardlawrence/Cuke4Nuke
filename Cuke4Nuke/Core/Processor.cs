@@ -76,10 +76,6 @@ namespace Cuke4Nuke.Core
                             }
                         }
                         return Invoke(requestObject[1]["id"].Value<string>(), args);
-                    case "diff_ok":
-                        return SuccessResponse();
-                    case "diff_failed":
-                        return FailResponse("Tables don't match.");
                     default:
                         return FailResponse("Invalid request '" + request + "'");
                 }
@@ -223,7 +219,7 @@ namespace Cuke4Nuke.Core
             TypeConverter converter = TypeDescriptor.GetConverter(typeof(Table));
             string expectedTableJson = (string)converter.ConvertToString(expectedTable);
             string actualTableJson = (string)converter.ConvertToString(actualTable);
-            return String.Format("[\"diff\", [{0},{1}]]", expectedTableJson, actualTableJson);
+            return String.Format("[\"diff!\", [{0},{1}]]", expectedTableJson, actualTableJson);
         }
 
         StepDefinition GetStepDefinition(string id)

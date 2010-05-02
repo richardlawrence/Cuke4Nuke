@@ -24,6 +24,7 @@ namespace Cuke4Nuke.Specifications.Core
         StepDefinition _stepDefinitionWithOneDoubleParameter;
         StepDefinition _stepDefinitionWithIntDoubleAndStringParameters;
         StepDefinition _pendingStepDefinition;
+        private StepDefinition _stepDefinitionWithTableDiff;
 
         List<StepDefinition> _stepDefinitions;
 
@@ -44,6 +45,7 @@ namespace Cuke4Nuke.Specifications.Core
             _stepDefinitionWithOneDoubleParameter = new StepDefinition(GetType().GetMethod("OneDoubleParameter"));
             _stepDefinitionWithIntDoubleAndStringParameters = new StepDefinition(GetType().GetMethod("IntDoubleAndStringParameters"));
             _pendingStepDefinition = new StepDefinition(GetType().GetMethod("Pending"));
+            _stepDefinitionWithTableDiff = new StepDefinition(GetType().GetMethod("TableDiff"));
             
             _stepDefinitions = new List<StepDefinition> { 
                 _stepDefinition, 
@@ -54,7 +56,8 @@ namespace Cuke4Nuke.Specifications.Core
                 _stepDefinitionWithOneIntParameter, 
                 _stepDefinitionWithOneDoubleParameter, 
                 _stepDefinitionWithIntDoubleAndStringParameters,
-                _pendingStepDefinition
+                _pendingStepDefinition,
+                _stepDefinitionWithTableDiff
             };
             var loader = new MockLoader(_stepDefinitions);
             var objectFactory = new ObjectFactory();
@@ -245,6 +248,15 @@ namespace Cuke4Nuke.Specifications.Core
             AssertPendingResponse(response);
         }
 
+        [Test]
+        public void Invoke_of_step_definition_with_table_diff_should_return_diff_bang_response()
+        {
+            var request = CreateInvokeRequest(_stepDefinitionWithTableDiff.Id);
+            var response = _processor.Process(request);
+
+            AssertDiffBangResponse(response);
+        }
+
         static string CreateInvokeRequest(string id, params string[] invokeArgs)
         {
             JsonData req = new JsonData();
@@ -287,6 +299,13 @@ namespace Cuke4Nuke.Specifications.Core
             JsonAssert.HasString(jsonData[1], "message", message);
             JsonAssert.HasString(jsonData[1], "backtrace");
             JsonAssert.HasString(jsonData[1], "exception", exceptionType.ToString());
+        }
+
+        static void AssertDiffBangResponse(string response)
+        {
+            var jsonData = JsonMapper.ToObject(response);
+            JsonAssert.IsArray(jsonData);
+            Assert.That(jsonData[0].ToString(), Is.EqualTo("diff!"));
         }
 
         [Given("check method called")]
@@ -340,6 +359,17 @@ namespace Cuke4Nuke.Specifications.Core
         [Pending]
         public static void Pending()
         {
+        }
+
+        [Given("^a step with a table diff call$")]
+        public static void TableDiff()
+        {
+            Table table1 = new Table();
+            table1.Data.Add(new List<string> { "foo", "bar" });
+            Table table2 = new Table();
+            table1.Data.Add(new List<string> { "foo", "baz" });
+
+            table1.AssertSameAs(table2);
         }
 
         class MockLoader : Loader
