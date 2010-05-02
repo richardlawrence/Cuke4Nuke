@@ -3,6 +3,7 @@
 * Internationalized Given/When/Then attributes
 * Debug rather than Release binaries to support step definition debugging
 * Table diff response changed to diff! to allow Cucumber to format table diff output
+* Removed systemu dependency, support for colors (without wac) and incremental output (#21, Dan Fitch)
 
 === Bugs Fixed
 

@@ -14,7 +14,6 @@ begin
     
     gem.add_dependency "cucumber", ">=0.5.2"
     gem.add_dependency "win32-process", ">=0.6.1"
-    gem.add_dependency "systemu", ">=1.2.0"
     gem.add_dependency "json", ">=1.2.0"
     gem.add_dependency "win32console", ">=1.2.0"
 

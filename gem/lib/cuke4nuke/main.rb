@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
 require 'rubygems'
-require 'systemu'
 require 'win32/process'
 
 module Cuke4Nuke
@@ -44,9 +43,8 @@ module Cuke4Nuke
 
     def launch_cucumber(args)
       command = "cucumber #{args.join(' ')} 2>&1"
-      status, stdout, stderr = systemu(command)
-      puts stdout
-      status
+      system(command)
+      $?
     end
 
     def show_usage
