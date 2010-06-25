@@ -62,6 +62,39 @@ namespace Cuke4Nuke.Specifications.Core
         }
 
         [Test]
+        public void Should_invoke_tagged_hook_when_scenario_has_matching_tag()
+        {
+            ObjectFactory objectFactory = new ObjectFactory();
+            objectFactory.AddClass(typeof(ValidHooks));
+            objectFactory.CreateObjects();
+            var method = Reflection.GetMethod(typeof(ValidHooks), "BeforeWithTagThrowsException");
+            var hook = new Hook(method);
+            Assert.Throws<Exception>(() => hook.Invoke(objectFactory, new string[] {"my_tag"}));
+        }
+
+        [Test]
+        public void Should_not_invoke_tagged_hook_when_scenario_has_no_matching_tag()
+        {
+            ObjectFactory objectFactory = new ObjectFactory();
+            objectFactory.AddClass(typeof(ValidHooks));
+            objectFactory.CreateObjects();
+            var method = Reflection.GetMethod(typeof(ValidHooks), "BeforeWithTagThrowsException");
+            var hook = new Hook(method);
+            hook.Invoke(objectFactory, new string[] { "not_my_tag" });
+        }
+
+        [Test]
+        public void Should_not_invoke_tagged_hook_when_scenario_has_no_tags()
+        {
+            ObjectFactory objectFactory = new ObjectFactory();
+            objectFactory.AddClass(typeof(ValidHooks));
+            objectFactory.CreateObjects();
+            var method = Reflection.GetMethod(typeof(ValidHooks), "BeforeWithTagThrowsException");
+            var hook = new Hook(method);
+            hook.Invoke(objectFactory, new string[0]);
+        }
+
+        [Test]
         [ExpectedException(typeof(Exception))]
         public void Invoke_should_throw_when_method_throws()
         {
@@ -78,23 +111,23 @@ namespace Cuke4Nuke.Specifications.Core
         {
             var method = Reflection.GetMethod(typeof(ValidHooks), "BeforeWithTag");
             var hook = new Hook(method);
-            Assert.That(hook.Tag, Is.EqualTo("@my_tag"));
+            Assert.That(hook.Tag, Is.EqualTo("my_tag"));
         }
 
         [Test]
-        public void Constructor_should_set_untagged_to_false_when_tags_on_attribute()
+        public void Constructor_should_set_HasTags_to_true_when_tags_on_attribute()
         {
             var method = Reflection.GetMethod(typeof(ValidHooks), "BeforeWithTag");
             var hook = new Hook(method);
-            Assert.That(hook.Untagged, Is.False);
+            Assert.That(hook.HasTags, Is.True);
         }
 
         [Test]
-        public void Constructor_should_set_untagged_to_true_when_no_tags_on_attribute()
+        public void Constructor_should_set_HasTags_to_false_when_no_tags_on_attribute()
         {
             var method = Reflection.GetMethod(typeof(ValidHooks), "Before1");
             var hook = new Hook(method);
-            Assert.That(hook.Untagged, Is.True);
+            Assert.That(hook.HasTags, Is.False);
         }
 
         public class ValidHooks
@@ -119,6 +152,12 @@ namespace Cuke4Nuke.Specifications.Core
 
             [Before]
             private void ThrowsException()
+            {
+                throw new Exception();
+            }
+
+            [Before("@my_tag")]
+            private void BeforeWithTagThrowsException()
             {
                 throw new Exception();
             }

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using Cuke4Nuke.Framework;
-using NUnit.Framework;
 
 namespace Cuke4Nuke.Core
 {
@@ -16,23 +14,24 @@ namespace Cuke4Nuke.Core
 
         public Hook(MethodInfo method)
         {
-            if (!Hook.IsValidMethod(method))
+            if (!IsValidMethod(method))
             {
                 throw new ArgumentException(String.Format("<{0}> is not a valid hook method.", method));
             }
 
-            var attributes = GetHookAttributes(method);
-            Tag = attributes[0].Tag;
-            
+
+            var hookAttribute = GetHookAttributes(method)[0];
+            if (hookAttribute.Tag != null)
+            {
+                Tag = Regex.Replace(hookAttribute.Tag, @"^@(.*)$", @"$1");
+            }
+
             Method = method;
         }
 
-        public bool Untagged
+        public bool HasTags
         {
-            get
-            {
-                return string.IsNullOrEmpty(Tag);
-            }
+            get { return !string.IsNullOrEmpty(Tag); }
         }
 
         public MethodInfo Method { get; protected set; }
@@ -48,7 +47,7 @@ namespace Cuke4Nuke.Core
 
         private static HookAttribute[] GetHookAttributes(MethodInfo method)
         {
-            return (HookAttribute[])method.GetCustomAttributes(typeof(HookAttribute), true);
+            return (HookAttribute[]) method.GetCustomAttributes(typeof (HookAttribute), true);
         }
 
         public void Invoke(ObjectFactory objectFactory)
@@ -66,6 +65,19 @@ namespace Cuke4Nuke.Core
             {
                 throw ex.InnerException;
             }
+        }
+
+        public void Invoke(ObjectFactory objectFactory, string[] scenarioTags)
+        {
+            if (!HasTags || ScenarioHasMatchingTag(scenarioTags, Tag))
+            {
+                Invoke(objectFactory);
+            }
+        }
+
+        private bool ScenarioHasMatchingTag(string[] scenarioTags, string hookTag)
+        {
+            return (new List<string>(scenarioTags)).Contains(hookTag);
         }
     }
 }

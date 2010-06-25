@@ -46,20 +46,13 @@ namespace Cuke4Nuke.Core
                 switch (command)
                 {
                     case "begin_scenario":
-                        var jsonTags = (JArray) ((JObject) requestObject[1])["tags"];
-                        //
                         _objectFactory.CreateObjects();
-                        var scenarioTags = ToStringArray(jsonTags);
-                        foreach (BeforeHook hook in _repository.BeforeHooks)
-                        {
-                            if (hook.Untagged) // || TagsMatch(scenarioTags, "@my_tag"))
-                            {
-                                hook.Invoke(_objectFactory);
-                            }
-                        }
+                        var scenarioTags = GetScenarioTags(requestObject);
+                        log.Debug("Tags passed in: " + String.Join(", ", scenarioTags));
+                        _repository.BeforeHooks.ForEach(hook => hook.Invoke(_objectFactory, scenarioTags));
                         return SuccessResponse();
                     case "end_scenario":
-                        _repository.AfterHooks.ForEach(hook => hook.Invoke(_objectFactory));
+                        _repository.AfterHooks.ForEach(hook => hook.Invoke(_objectFactory, GetScenarioTags(requestObject)));
                         _objectFactory.DisposeObjects();
                         return SuccessResponse();
                     case "step_matches":
@@ -83,6 +76,17 @@ namespace Cuke4Nuke.Core
                 return FailResponse(x);
             }
         }
+
+        private string[] GetScenarioTags(JArray requestObject)
+        {
+            string[] scenarioTags = new string[0];
+            if (requestObject.Count > 1)
+            {
+                scenarioTags = ToStringArray((JArray)((JObject)requestObject[1])["tags"]);
+            }
+            return scenarioTags;
+        }
+
 
         #endregion
 
