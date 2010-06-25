@@ -2,5 +2,14 @@
 {
     public class BeforeAttribute : HookAttribute
     {
+        public BeforeAttribute()
+            : base()
+        {
+        }
+
+        public BeforeAttribute(string tag)
+            : base(tag)
+        {
+        }
     }
 }

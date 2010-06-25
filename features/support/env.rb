@@ -46,13 +46,15 @@ class CucumberWorld
     csc_path = "C:\\WINDOWS\\Microsoft.NET\\Framework\\v3.5\\csc.exe"
     assembly_path = File.join(working_dir, 'bin/GeneratedStepDefinitions.dll').gsub('/', '\\')
     src_path = File.join(working_dir, 'src/GeneratedStepDefinitions.cs').gsub('/', '\\')
-    ref_path = File.expand_path(File.join(examples_dir, '../Cuke4Nuke/Framework/bin/Debug/Cuke4Nuke.Framework.dll')).gsub('/', '\\')
+    cuke4nuke_ref_path = File.expand_path(File.join(examples_dir, '../Cuke4Nuke/Framework/bin/Debug/Cuke4Nuke.Framework.dll')).gsub('/', '\\')
+    nunit_ref_path = File.expand_path(File.join(examples_dir, '../Cuke4Nuke/Specifications/bin/Debug/nunit.framework.dll')).gsub('/', '\\')
     template_path = File.expand_path(File.join(File.dirname(__FILE__), 'steps_template.cs.erb'))
     generated_code = ERB.new(File.read(template_path)).result(binding)
     create_file(assembly_path, '')
     create_file(src_path, generated_code)
     in_current_dir do
-      command = %{#{csc_path} /target:library /out:"#{assembly_path}" /reference:"#{ref_path}" "#{src_path}"}
+      FileUtils.cp nunit_ref_path, File.join(working_dir, 'bin')
+      command = %{#{csc_path} /target:library /out:"#{assembly_path}" /reference:"#{cuke4nuke_ref_path}" /reference:"#{nunit_ref_path}" "#{src_path}"}
       run command
       raise "Failed to build #{src_path}:\nCMD:#{command}\nEXIT:#{@last_exit_status.to_i}\nSTDERR:\n#{@last_stderr}\nSTDOUT:\n#{@last_stdout}" if @last_exit_status.to_i != 0
     end
