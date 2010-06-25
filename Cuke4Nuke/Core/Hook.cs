@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 using Cuke4Nuke.Framework;
+using NUnit.Framework;
 
 namespace Cuke4Nuke.Core
 {
@@ -19,10 +20,24 @@ namespace Cuke4Nuke.Core
             {
                 throw new ArgumentException(String.Format("<{0}> is not a valid hook method.", method));
             }
+
+            var attributes = GetHookAttributes(method);
+            Tag = attributes[0].Tag;
+            
             Method = method;
         }
 
+        public bool Untagged
+        {
+            get
+            {
+                return string.IsNullOrEmpty(Tag);
+            }
+        }
+
         public MethodInfo Method { get; protected set; }
+
+        public string Tag { get; set; }
 
         public static bool IsValidMethod(MethodInfo method)
         {

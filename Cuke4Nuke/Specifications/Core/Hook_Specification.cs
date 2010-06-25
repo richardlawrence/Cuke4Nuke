@@ -9,6 +9,7 @@ using Cuke4Nuke.Core;
 
 namespace Cuke4Nuke.Specifications.Core
 {
+    [TestFixture]
     public class Hook_Specification
     {
         const BindingFlags MethodFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance | BindingFlags.DeclaredOnly;
@@ -72,6 +73,30 @@ namespace Cuke4Nuke.Specifications.Core
             hook.Invoke(objectFactory);
         }
 
+        [Test]
+        public void Constructor_should_get_tag_from_attribute()
+        {
+            var method = Reflection.GetMethod(typeof(ValidHooks), "BeforeWithTag");
+            var hook = new Hook(method);
+            Assert.That(hook.Tag, Is.EqualTo("@my_tag"));
+        }
+
+        [Test]
+        public void Constructor_should_set_untagged_to_false_when_tags_on_attribute()
+        {
+            var method = Reflection.GetMethod(typeof(ValidHooks), "BeforeWithTag");
+            var hook = new Hook(method);
+            Assert.That(hook.Untagged, Is.False);
+        }
+
+        [Test]
+        public void Constructor_should_set_untagged_to_true_when_no_tags_on_attribute()
+        {
+            var method = Reflection.GetMethod(typeof(ValidHooks), "Before1");
+            var hook = new Hook(method);
+            Assert.That(hook.Untagged, Is.True);
+        }
+
         public class ValidHooks
         {
             [Before]
@@ -88,6 +113,9 @@ namespace Cuke4Nuke.Specifications.Core
             
             [Before]
             public static void Before5() { }
+
+            [Before("@my_tag")]
+            public static void BeforeWithTag() { }
 
             [Before]
             private void ThrowsException()
