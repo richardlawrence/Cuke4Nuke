@@ -1,15 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Reflection;
-
+using System.Text;
+using Cuke4Nuke.Framework;
+using log4net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-
-using Cuke4Nuke.Framework;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.IO;
 
 namespace Cuke4Nuke.Core
 {
@@ -20,11 +18,11 @@ namespace Cuke4Nuke.Core
 
     public class Processor : IProcessor
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        readonly Loader _loader;
-        readonly Repository _repository;
-        readonly ObjectFactory _objectFactory;
+        private readonly Loader _loader;
+        private readonly ObjectFactory _objectFactory;
+        private readonly Repository _repository;
 
         public Processor(Loader loader, ObjectFactory objectFactory)
         {
@@ -33,53 +31,40 @@ namespace Cuke4Nuke.Core
             _repository = _loader.Load();
 
             // Register TypeConverter for Cuke4Nuke.Framework.Table
-            TypeConverterAttribute attr = new TypeConverterAttribute(typeof(TableConverter));
-            TypeDescriptor.AddAttributes(typeof(Table), new Attribute[] { attr });
+            var attr = new TypeConverterAttribute(typeof (TableConverter));
+            TypeDescriptor.AddAttributes(typeof (Table), new Attribute[] {attr});
         }
+
+        #region IProcessor Members
 
         public string Process(string request)
         {
             try
             {
                 JArray requestObject = JArray.Parse(request);
-                string command = requestObject[0].Value<string>();
+                var command = requestObject[0].Value<string>();
                 switch (command)
                 {
                     case "begin_scenario":
                         _objectFactory.CreateObjects();
-                        _repository.BeforeHooks.ForEach(hook => hook.Invoke(_objectFactory));
+                        var scenarioTags = GetScenarioTags(requestObject);
+                        _repository.BeforeHooks.ForEach(hook => hook.Invoke(_objectFactory, scenarioTags));
                         return SuccessResponse();
                     case "end_scenario":
-                        _repository.AfterHooks.ForEach(hook => hook.Invoke(_objectFactory));
+                        _repository.AfterHooks.ForEach(hook => hook.Invoke(_objectFactory, GetScenarioTags(requestObject)));
                         _objectFactory.DisposeObjects();
                         return SuccessResponse();
                     case "step_matches":
-                        string nameToMatch = ((JObject)requestObject[1])["name_to_match"].Value<string>();
+                        var nameToMatch = ((JObject) requestObject[1])["name_to_match"].Value<string>();
                         return StepMatches(nameToMatch);
                     case "snippet_text":
-                        string keyword = ((JObject)requestObject[1])["step_keyword"].Value<string>();
-                        string stepName = ((JObject)requestObject[1])["step_name"].Value<string>();
-                        string multilineArgClass = ((JObject)requestObject[1])["multiline_arg_class"].Value<string>();
+                        var keyword = ((JObject) requestObject[1])["step_keyword"].Value<string>();
+                        var stepName = ((JObject) requestObject[1])["step_name"].Value<string>();
+                        var multilineArgClass = ((JObject) requestObject[1])["multiline_arg_class"].Value<string>();
                         return SnippetResponse(keyword, stepName, multilineArgClass);
                     case "invoke":
-                        JArray jsonArgs = (JArray)((JObject)requestObject[1])["args"];
-                        string[] args = new string[jsonArgs.Count];
-                        for (int i = 0; i < args.Length; ++i)
-                        {
-                            if (jsonArgs[i] is JArray)
-                            {
-                                args[i] = jsonArgs[i].ToString(Formatting.None);
-                            }
-                            else
-                            {
-                                args[i] = jsonArgs[i].Value<string>();
-                            }
-                        }
-                        return Invoke(requestObject[1]["id"].Value<string>(), args);
-                    case "diff_ok":
-                        return SuccessResponse();
-                    case "diff_failed":
-                        return FailResponse("Tables don't match.");
+                        var jsonArgs = (JArray) ((JObject) requestObject[1])["args"];
+                        return Invoke(requestObject[1]["id"].Value<string>(), ToStringArray(jsonArgs));
                     default:
                         return FailResponse("Invalid request '" + request + "'");
                 }
@@ -91,13 +76,43 @@ namespace Cuke4Nuke.Core
             }
         }
 
+        private string[] GetScenarioTags(JArray requestObject)
+        {
+            string[] scenarioTags = new string[0];
+            if (requestObject.Count > 1)
+            {
+                scenarioTags = ToStringArray((JArray)((JObject)requestObject[1])["tags"]);
+            }
+            return scenarioTags;
+        }
+
+
+        #endregion
+
+        private string[] ToStringArray(JArray jsonArray)
+        {
+            var stringArray = new string[jsonArray.Count];
+            for (int i = 0; i < stringArray.Length; ++i)
+            {
+                if (jsonArray[i] is JArray)
+                {
+                    stringArray[i] = jsonArray[i].ToString(Formatting.None);
+                }
+                else
+                {
+                    stringArray[i] = jsonArray[i].Value<string>();
+                }
+            }
+            return stringArray;
+        }
+
         private string SnippetResponse(string keyword, string stepName, string multilineArgClass)
         {
-            SnippetBuilder snb = new SnippetBuilder();
+            var snb = new SnippetBuilder();
             string snippet = snb.GenerateSnippet(keyword, stepName, multilineArgClass);
 
-            StringBuilder stb = new StringBuilder();
-            StringWriter sw = new StringWriter(stb);
+            var stb = new StringBuilder();
+            var sw = new StringWriter(stb);
             using (JsonWriter jsonWriter = new JsonTextWriter(sw))
             {
                 jsonWriter.Formatting = Formatting.None;
@@ -109,20 +124,20 @@ namespace Cuke4Nuke.Core
             return sw.ToString();
         }
 
-        string SuccessResponse()
+        private string SuccessResponse()
         {
             return "[\"success\",null]";
         }
 
-        string PendingResponse()
+        private string PendingResponse()
         {
             return "[\"pending\",null]";
         }
 
-        string FailResponse(string message)
+        private string FailResponse(string message)
         {
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
             using (JsonWriter jsonWriter = new JsonTextWriter(sw))
             {
                 jsonWriter.Formatting = Formatting.None;
@@ -137,10 +152,10 @@ namespace Cuke4Nuke.Core
             return sw.ToString();
         }
 
-        string FailResponse(Exception ex)
+        private string FailResponse(Exception ex)
         {
-            StringBuilder sb = new StringBuilder();
-            StringWriter sw = new StringWriter(sb);
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
             using (JsonWriter jsonWriter = new JsonTextWriter(sw))
             {
                 jsonWriter.Formatting = Formatting.None;
@@ -159,18 +174,18 @@ namespace Cuke4Nuke.Core
             return sw.ToString();
         }
 
-        string StepMatches(string stepName)
+        private string StepMatches(string stepName)
         {
             var matches = new JArray();
-            foreach (var sd in _repository.StepDefinitions)
+            foreach (StepDefinition sd in _repository.StepDefinitions)
             {
                 List<StepArgument> args = sd.ArgumentsFrom(stepName);
-                if(args != null)
+                if (args != null)
                 {
                     var stepMatch = new JObject();
                     stepMatch.Add("id", sd.Id);
                     var jsonArgs = new JArray();
-                    foreach (var arg in args)
+                    foreach (StepArgument arg in args)
                     {
                         var jsonArg = new JObject();
                         jsonArg.Add("val", arg.Val);
@@ -180,7 +195,6 @@ namespace Cuke4Nuke.Core
                     stepMatch["args"] = jsonArgs;
                     matches.Add(stepMatch);
                 }
-
             }
             var response = new JArray();
             response.Add("step_matches");
@@ -188,11 +202,11 @@ namespace Cuke4Nuke.Core
             return response.ToString(Formatting.None);
         }
 
-        string Invoke(string id, string[] args)
+        private string Invoke(string id, string[] args)
         {
             try
             {
-                var stepDefinition = GetStepDefinition(id);
+                StepDefinition stepDefinition = GetStepDefinition(id);
 
                 if (stepDefinition == null)
                 {
@@ -211,7 +225,7 @@ namespace Cuke4Nuke.Core
             {
                 if (x.InnerException is TableAssertionException)
                 {
-                    TableAssertionException ex = (TableAssertionException) x.InnerException;
+                    var ex = (TableAssertionException) x.InnerException;
                     return TableDiffResponse(ex.Expected, ex.Actual);
                 }
                 return FailResponse(x.InnerException);
@@ -220,13 +234,13 @@ namespace Cuke4Nuke.Core
 
         private string TableDiffResponse(Table expectedTable, Table actualTable)
         {
-            TypeConverter converter = TypeDescriptor.GetConverter(typeof(Table));
-            string expectedTableJson = (string)converter.ConvertToString(expectedTable);
-            string actualTableJson = (string)converter.ConvertToString(actualTable);
-            return String.Format("[\"diff\", [{0},{1}]]", expectedTableJson, actualTableJson);
+            TypeConverter converter = TypeDescriptor.GetConverter(typeof (Table));
+            string expectedTableJson = converter.ConvertToString(expectedTable);
+            string actualTableJson = converter.ConvertToString(actualTable);
+            return String.Format("[\"diff!\", [{0},{1}]]", expectedTableJson, actualTableJson);
         }
 
-        StepDefinition GetStepDefinition(string id)
+        private StepDefinition GetStepDefinition(string id)
         {
             return _repository.StepDefinitions.Find(s => s.Id == id);
         }

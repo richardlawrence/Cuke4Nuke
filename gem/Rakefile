@@ -14,7 +14,6 @@ begin
     
     gem.add_dependency "cucumber", ">=0.5.2"
     gem.add_dependency "win32-process", ">=0.6.1"
-    gem.add_dependency "systemu", ">=1.2.0"
     gem.add_dependency "json", ">=1.2.0"
     gem.add_dependency "win32console", ">=1.2.0"
 
@@ -30,7 +29,7 @@ task :gemspec => :copy_binaries
 
 desc "Copy Cuke4Nuke binaries to the dotnet directory"
 task :copy_binaries do
-  Dir[File.dirname(__FILE__) + '/../Cuke4Nuke/Server/bin/Release/*.{pdb,dll,exe,config}'].each do |file|
+  Dir[File.dirname(__FILE__) + '/../Cuke4Nuke/Server/bin/Debug/*.{pdb,dll,exe,config}'].each do |file|
     cp file, 'dotnet' unless file =~ /vshost/
   end
 end

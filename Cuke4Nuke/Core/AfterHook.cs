@@ -10,7 +10,7 @@ namespace Cuke4Nuke.Core
     public class AfterHook : Hook
     {
         public AfterHook(MethodInfo method)
-            : base()
+            : base(method)
         {
             if (!AfterHook.IsValidMethod(method))
             {

@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
 require 'rubygems'
-require 'systemu'
 require 'win32/process'
 
 module Cuke4Nuke
@@ -33,11 +32,7 @@ module Cuke4Nuke
 
     def launch_cuke4nuke_process(step_definitions_dll_path)
       cuke4nuke_server_exe = File.expand_path(File.join(File.dirname(__FILE__), '../../dotnet/Cuke4Nuke.Server.exe'))
-      command = %{"#{cuke4nuke_server_exe}" -a "#{step_definitions_dll_path}"  }
-	  config_file_path ="#{step_definitions_dll_path}.config"
-	  if File.exist?(config_file_path)
-		command += %{ -c "#{step_definitions_dll_path}.config"}
-	  end
+      command = %{"#{cuke4nuke_server_exe}" -a "#{step_definitions_dll_path}"}
       process = IO.popen(command, 'r')
       @cuke4nuke_server_pid = process.pid
     end
@@ -48,9 +43,8 @@ module Cuke4Nuke
 
     def launch_cucumber(args)
       command = "cucumber #{args.join(' ')} 2>&1"
-      status, stdout, stderr = systemu(command)
-      puts stdout
-      status
+      system(command)
+      $?
     end
 
     def show_usage
