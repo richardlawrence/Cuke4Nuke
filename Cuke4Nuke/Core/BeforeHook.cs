@@ -9,7 +9,7 @@ namespace Cuke4Nuke.Core
 {
     public class BeforeHook : Hook
     {
-        public BeforeHook(MethodInfo method) : base()
+        public BeforeHook(MethodInfo method) : base(method)
         {
             if (!BeforeHook.IsValidMethod(method))
             {

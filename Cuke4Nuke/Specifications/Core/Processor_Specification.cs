@@ -78,15 +78,16 @@ namespace Cuke4Nuke.Specifications.Core
         [Test]
         public void Begin_scenario_should_return_success_json()
         {
-            String request = @"[""begin_scenario"",null]";
+            String request = @"[""begin_scenario""]";
             var response = _processor.Process(request);
+            Console.WriteLine(response);
             Assert.That(response, Is.EqualTo(@"[""success"",null]"));
         }
 
         [Test]
         public void End_scenario_should_return_success_json()
         {
-            String request = @"[""end_scenario"",null]";
+            String request = @"[""end_scenario""]";
             var response = _processor.Process(request);
             Assert.That(response, Is.EqualTo(@"[""success"",null]"));
         }

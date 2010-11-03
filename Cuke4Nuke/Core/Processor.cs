@@ -48,7 +48,6 @@ namespace Cuke4Nuke.Core
                     case "begin_scenario":
                         _objectFactory.CreateObjects();
                         var scenarioTags = GetScenarioTags(requestObject);
-                        log.Debug("Tags passed in: " + String.Join(", ", scenarioTags));
                         _repository.BeforeHooks.ForEach(hook => hook.Invoke(_objectFactory, scenarioTags));
                         return SuccessResponse();
                     case "end_scenario":

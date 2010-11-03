@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using Cuke4Nuke.Framework;
-using log4net;
 
 namespace Cuke4Nuke.Core
 {
     public class Hook
     {
-        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         protected Hook()
         {
         }
@@ -24,6 +21,7 @@ namespace Cuke4Nuke.Core
 
 
             var hookAttribute = GetHookAttributes(method)[0];
+
             if (hookAttribute.Tag != null)
             {
                 Tag = Regex.Replace(hookAttribute.Tag, @"^@(.*)$", @"$1");
@@ -74,13 +72,7 @@ namespace Cuke4Nuke.Core
         {
             if (!HasTags || ScenarioHasMatchingTag(scenarioTags, Tag))
             {
-                log.Debug(String.Format("Invoking hook {0}.{1}.", Method.DeclaringType.FullName, Method.ToString()));
                 Invoke(objectFactory);
-            }
-            else
-            {
-
-                log.Debug(String.Format("Tag mismatch. Not invoking hook {0}.{1}.", Method.DeclaringType.FullName, Method.ToString()));
             }
         }
 
