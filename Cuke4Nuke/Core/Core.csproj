@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="AfterHook.cs" />
     <Compile Include="BeforeHook.cs" />
+    <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Hook.cs" />
     <Compile Include="Listener.cs" />
     <Compile Include="LogEventArgs.cs" />

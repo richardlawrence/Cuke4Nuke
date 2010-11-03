@@ -29,11 +29,7 @@ namespace Cuke4Nuke.Core
 
             Method = method;
 
-            // Is there a better way of getting a fully qualified signature that includes the parameter types?
-            var signatureWithReturnType = method.ToString();
-            var positionOfSpaceAfterReturnType = signatureWithReturnType.IndexOf(' ');
-            var signatureWithoutReturnType = signatureWithReturnType.Substring(positionOfSpaceAfterReturnType + 1);
-            Id = method.DeclaringType.FullName + "." + signatureWithoutReturnType;
+            Id = method.FullNameWithArgTypes();
 
             Pending = (method.GetCustomAttributes(typeof(PendingAttribute), true).Length == 1);
         }
