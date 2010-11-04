@@ -12,6 +12,8 @@ Feature: Print step definition snippets for undefined steps
   Scenario: Undefined prints snippet
     Given a file named "features/wired.feature" with:
       """
+      Feature: Test Feature
+      
         Scenario: Wired
           Given we're all wired
 
@@ -30,6 +32,8 @@ Feature: Print step definition snippets for undefined steps
   Scenario: Snippet with a table
     Given a file named "features/wired.feature" with:
       """
+      Feature: Test Feature
+
         Scenario: Wired
           Given we're all wired
             | who     |
@@ -51,6 +55,8 @@ Feature: Print step definition snippets for undefined steps
   Scenario: Snippet with a multiline string
     Given a file named "features/wired.feature" with:
       """
+      Feature: Test Feature
+
         Scenario: Wired
           Given we're all wired
             \"\"\"
@@ -72,6 +78,8 @@ Feature: Print step definition snippets for undefined steps
   Scenario: Snippet with a scenario outline
     Given a file named "features/wired.feature" with:
       """
+      Feature: Test Feature
+
         Scenario Outline: Wired
           Given we're all <something>
 
@@ -103,6 +111,8 @@ Feature: Print step definition snippets for undefined steps
   Scenario: Snippet with Background
     Given a file named "features/wired.feature" with:
       """
+      Feature: Test Feature
+
         Background:
           Given something to do first
 
@@ -132,6 +142,8 @@ Feature: Print step definition snippets for undefined steps
   Scenario: Snippet for step with trailing comma
     Given a file named "features/wired.feature" with:
       """
+      Feature: Test Feature
+
         Scenario: Comma separated
           Given the separator is ,
 
@@ -151,6 +163,8 @@ Feature: Print step definition snippets for undefined steps
    Scenario: Snippet for step with double quotes
      Given a file named "features/wired.feature" with:
       """
+      Feature: Test Feature
+      
         Scenario: Quotes
           Given I "love" quotes
 

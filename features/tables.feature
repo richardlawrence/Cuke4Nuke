@@ -12,14 +12,16 @@ Feature: Use table multi-line step arguments
   Scenario: Table in a Given
     Given a file named "features/table.feature" with:
       """
-      Scenario: Shopping list
-        Given I have a shopping list with the following items:
-          | item      | count |
-          | cucumbers |   3   |
-          | bananas   |   5   |
-          | tomatoes  |   2   |
-        When I buy everything on my list
-        Then my cart should contain 10 items
+      Feature: Test Feature
+      
+        Scenario: Shopping list
+          Given I have a shopping list with the following items:
+            | item      | count |
+            | cucumbers |   3   |
+            | bananas   |   5   |
+            | tomatoes  |   2   |
+          When I buy everything on my list
+          Then my cart should contain 10 items
       """
     And Cuke4Nuke started with a step definition assembly containing:
       """
@@ -67,16 +69,18 @@ Feature: Use table multi-line step arguments
   Scenario: Table in a Then
     Given a file named "features/table.feature" with:
      """
-     Scenario: Build a shopping list
-       Given I need 3 cucumbers
-       And I need 5 bananas
-       And I need 2 tomatoes
-       When I build my shopping list
-       Then the shopping list should look like:
-         | item      | count |
-         | cucumbers |   3   |
-         | bananas   |   5   |
-         | tomatoes  |   2   |
+     Feature: Test Feature
+
+       Scenario: Build a shopping list
+         Given I need 3 cucumbers
+         And I need 5 bananas
+         And I need 2 tomatoes
+         When I build my shopping list
+         Then the shopping list should look like:
+           | item      | count |
+           | cucumbers |   3   |
+           | bananas   |   5   |
+           | tomatoes  |   2   |
      """
     And Cuke4Nuke started with a step definition assembly containing:
     """
@@ -119,16 +123,18 @@ Feature: Use table multi-line step arguments
   Scenario: Table in a Then - Failed Diff
     Given a file named "features/table.feature" with:
      """
-     Scenario: Build a shopping list
-       Given I need 3 cucumbers
-       And I need 5 bananas
-       And I need 2 tomatoes
-       When I build my shopping list
-       Then the shopping list should look like:
-         | item      | count |
-         | cucumbers |   3   |
-         | bananas   |   5   |
-       # | tomatoes  |   2   |         
+     Feature: Test Feature
+
+       Scenario: Build a shopping list
+         Given I need 3 cucumbers
+         And I need 5 bananas
+         And I need 2 tomatoes
+         When I build my shopping list
+         Then the shopping list should look like:
+           | item      | count |
+           | cucumbers |   3   |
+           | bananas   |   5   |
+         # | tomatoes  |   2   |
      """
     And Cuke4Nuke started with a step definition assembly containing:
     """

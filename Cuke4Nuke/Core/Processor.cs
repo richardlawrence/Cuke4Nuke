@@ -58,7 +58,7 @@ namespace Cuke4Nuke.Core
                         var nameToMatch = ((JObject) requestObject[1])["name_to_match"].Value<string>();
                         return StepMatches(nameToMatch);
                     case "snippet_text":
-                        var keyword = ((JObject) requestObject[1])["step_keyword"].Value<string>();
+                        var keyword = ((JObject) requestObject[1])["step_keyword"].Value<string>().Trim();
                         var stepName = ((JObject) requestObject[1])["step_name"].Value<string>();
                         var multilineArgClass = ((JObject) requestObject[1])["multiline_arg_class"].Value<string>();
                         return SnippetResponse(keyword, stepName, multilineArgClass);

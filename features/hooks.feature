@@ -12,6 +12,8 @@ Feature: Run .NET Before and After hooks from Cucumber
   Scenario: Before hook
     Given a file named "features/adding.feature" with:
       """
+      Feature: Test Feature
+      
         Scenario: Cuke count set in Before
           Then I should have 4 cukes
 
@@ -52,6 +54,8 @@ Feature: Run .NET Before and After hooks from Cucumber
   Scenario: After hook throws exception (how else do we know it's called?)
     Given a file named "features/adding.feature" with:
       """
+      Feature: Test Feature
+
         Scenario: After hook defined
           Given a passing step
 
@@ -78,6 +82,8 @@ Feature: Run .NET Before and After hooks from Cucumber
   Scenario: Tagged Before hook (string, positive)
     Given a file named "features/adding.feature" with:
       """
+      Feature: Test Feature
+
         @my_tag
         Scenario: Was Before hook called?
           Then the Before hook should be called
@@ -116,6 +122,8 @@ Feature: Run .NET Before and After hooks from Cucumber
   Scenario: Tagged Before hook (string, negative)
     Given a file named "features/adding.feature" with:
       """
+      Feature: Test Feature
+
         @my_tag
         Scenario: Was Before hook called?
           Then the Before hook should not be called
@@ -154,6 +162,8 @@ Feature: Run .NET Before and After hooks from Cucumber
   Scenario: Tagged After hook (string, positive)
     Given a file named "features/adding.feature" with:
       """
+      Feature: Test Feature
+
         @my_tag
         Scenario: After hook defined
           Given a passing step
@@ -181,6 +191,8 @@ Feature: Run .NET Before and After hooks from Cucumber
   Scenario: Tagged After hook (string, negative)
     Given a file named "features/adding.feature" with:
       """
+      Feature: Test Feature
+      
         @my_tag
         Scenario: After hook defined
           Given a passing step

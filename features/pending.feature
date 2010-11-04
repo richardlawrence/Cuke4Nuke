@@ -4,6 +4,8 @@ Feature: Pending Steps
     Given a standard Cucumber project directory structure
     And a file named "features/wired.feature" with:
       """
+      Feature: Test Feature
+      
         Scenario: Wired
           Given we're all wired
 
@@ -30,12 +32,12 @@ Feature: Pending Steps
     When I run cucumber -f pretty -q
     Then it should pass with
       """
-
-
+      Feature: Test Feature
+      
         Scenario: Wired
           Given we're all wired
             TODO (Cucumber::Pending)
-            features\wired.feature:2:in `Given we're all wired'
+            features\wired.feature:4:in `Given we're all wired'
 
       1 scenario (1 pending)
       1 step (1 pending)

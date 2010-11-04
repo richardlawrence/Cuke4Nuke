@@ -27,6 +27,15 @@ Feature: Run .NET step definitions from Cucumber
       1 scenario (1 undefined)
       1 step (1 undefined)
 
+      You can implement step definitions for undefined steps with these snippets:
+      
+      [Pending]
+      [Given(@"^we're all wired$")]
+      public void WereAllWired()
+      {
+      }
+
+      
       """
   
   Scenario: Dry run finds a step match
