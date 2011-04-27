@@ -2,25 +2,27 @@ require 'rubygems'
 require 'rake'
 
 begin
-  require 'jeweler'
-  Jeweler::Tasks.new do |gem|
-    gem.name = "cuke4nuke"
-    gem.summary = %Q{Cucumber for .NET}
-    gem.description = %Q{Runs Cucumber with .NET step definitions.}
-    gem.email = "richard@humanizingwork.com"
-    gem.homepage = "http://github.com/richardlawrence/Cuke4Nuke"
-    gem.authors = ["Richard Lawrence"]
-    gem.executables = ["cuke4nuke"]
+  namespace :jeweler do
+    require 'jeweler'
+    Jeweler::Tasks.new do |gem|
+      gem.name = "cuke4nuke"
+      gem.summary = %Q{Cucumber for .NET}
+      gem.description = %Q{Runs Cucumber with .NET step definitions.}
+      gem.email = "richard@humanizingwork.com"
+      gem.homepage = "http://github.com/richardlawrence/Cuke4Nuke"
+      gem.authors = ["Richard Lawrence"]
+      gem.executables = ["cuke4nuke"]
     
-    gem.add_dependency "cucumber", ">=0.5.2"
-    gem.add_dependency "win32-process", ">=0.6.1"
-    gem.add_dependency "json", ">=1.2.0"
-    gem.add_dependency "win32console", ">=1.2.0"
+      gem.add_dependency "cucumber", ">=0.5.2"
+      gem.add_dependency "win32-process", ">=0.6.1"
+      gem.add_dependency "json", ">=1.2.0"
+      gem.add_dependency "win32console", ">=1.2.0"
 
-    gem.files += FileList['dotnet/*.{dll,exe,config}']
-    gem.test_files = []
+      gem.files += FileList['dotnet/*.{dll,exe,config}']
+      gem.test_files = []
+    end
+    Jeweler::GemcutterTasks.new
   end
-  Jeweler::GemcutterTasks.new
 rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
 end
