@@ -8,20 +8,20 @@ Feature: Tag logic
     """
     Feature: Sample
 
-    @one @three
-    Scenario: Example
-    Given passing
+      @one @three
+      Scenario: Example
+        Given passing
 
-    @one
-    Scenario: Another Example
-    Given passing
+      @one
+      Scenario: Another Example
+        Given passing
 
-    @three
-    Scenario: Yet another Example
-    Given passing
+      @three
+      Scenario: Yet another Example
+        Given passing
 
-    @ignore
-    Scenario: And yet another Example
+      @ignore
+      Scenario: And yet another Example
     """
 
   Scenario: Before hooks ORing
@@ -41,26 +41,26 @@ Feature: Tag logic
     """
     Feature: Sample
 
-    @one @three
-    Scenario: Example
-    boom (RuntimeError)
-    ./features/support/hooks.rb:2:in `Before'
-    Given passing
+      @one @three
+      Scenario: Example
+      boom (RuntimeError)
+      ./features/support/hooks.rb:2:in `Before'
+        Given passing
 
-    @one
-    Scenario: Another Example
-    boom (RuntimeError)
-    ./features/support/hooks.rb:2:in `Before'
-    Given passing
+      @one
+      Scenario: Another Example
+      boom (RuntimeError)
+      ./features/support/hooks.rb:2:in `Before'
+        Given passing
 
-    @three
-    Scenario: Yet another Example
-    boom (RuntimeError)
-    ./features/support/hooks.rb:2:in `Before'
-    Given passing
+      @three
+      Scenario: Yet another Example
+      boom (RuntimeError)
+      ./features/support/hooks.rb:2:in `Before'
+        Given passing
 
-    @ignore
-    Scenario: And yet another Example
+      @ignore
+      Scenario: And yet another Example
 
     Failing Scenarios:
     cucumber features/tagulicious.feature:4 # Scenario: Example

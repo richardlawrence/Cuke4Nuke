@@ -79,6 +79,7 @@
     <Compile Include="Listener.cs" />
     <Compile Include="LogEventArgs.cs" />
     <Compile Include="ObjectFactory.cs" />
+    <Compile Include="PredicateBuilder.cs" />
     <Compile Include="Processor.cs" />
     <Compile Include="Loader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

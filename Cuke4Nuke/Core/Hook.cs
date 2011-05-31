@@ -72,15 +72,33 @@ namespace Cuke4Nuke.Core
 
         public void Invoke(ObjectFactory objectFactory, string[] scenarioTags)
         {
-            if (!HasTags || ScenarioHasMatchingTag(scenarioTags, Tags[0]))
+            if (!HasTags || MatchesTags(scenarioTags))
             {
                 Invoke(objectFactory);
             }
         }
 
-        private bool ScenarioHasMatchingTag(string[] scenarioTags, string hookTag)
+        public bool MatchesTags(string[] scenarioTags)
         {
-            return (new List<string>(scenarioTags)).Contains(hookTag);
+            var predicate = PredicateBuilder.True<List<string>>();
+            foreach (string tag in Tags)
+            {
+                if (tag.Contains(","))
+                {
+                    var nestedPredicate = PredicateBuilder.False<List<string>>();
+                    var orTags = tag.Split(new string[] { ",", ", " }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (string orTag in orTags)
+                    {
+                        nestedPredicate = nestedPredicate.Or(tags => tags.Contains(orTag));
+                    }
+                    predicate = predicate.And(nestedPredicate);
+                }
+                else
+                {
+                    predicate = predicate.And(tags => tags.Contains(tag));
+                }
+            }
+            return !HasTags || predicate.Compile().Invoke(new List<string>(scenarioTags));
         }
     }
 }
