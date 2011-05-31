@@ -10,6 +10,7 @@ namespace Cuke4Nuke.Core
     {
         protected Hook()
         {
+            Tags = new List<string>();
         }
 
         public Hook(MethodInfo method)
@@ -22,9 +23,10 @@ namespace Cuke4Nuke.Core
 
             var hookAttribute = GetHookAttributes(method)[0];
 
+            Tags = new List<string>();
             if (hookAttribute.Tag != null)
             {
-                Tag = Regex.Replace(hookAttribute.Tag, @"^@(.*)$", @"$1");
+                Tags.Add(Regex.Replace(hookAttribute.Tag, @"^@(.*)$", @"$1"));
             }
 
             Method = method;
@@ -32,12 +34,12 @@ namespace Cuke4Nuke.Core
 
         public bool HasTags
         {
-            get { return !string.IsNullOrEmpty(Tag); }
+            get { return Tags.Count > 0; }
         }
 
         public MethodInfo Method { get; protected set; }
 
-        public string Tag { get; set; }
+        public List<string> Tags { get; protected set; }
 
         public static bool IsValidMethod(MethodInfo method)
         {
@@ -70,7 +72,7 @@ namespace Cuke4Nuke.Core
 
         public void Invoke(ObjectFactory objectFactory, string[] scenarioTags)
         {
-            if (!HasTags || ScenarioHasMatchingTag(scenarioTags, Tag))
+            if (!HasTags || ScenarioHasMatchingTag(scenarioTags, Tags[0]))
             {
                 Invoke(objectFactory);
             }

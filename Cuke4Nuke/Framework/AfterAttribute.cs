@@ -7,8 +7,8 @@
         {
         }
 
-        public AfterAttribute(string tag)
-            : base(tag)
+        public AfterAttribute(params string[] tags)
+            : base(tags)
         {
         }
     }

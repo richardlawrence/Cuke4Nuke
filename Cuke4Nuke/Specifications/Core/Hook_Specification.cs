@@ -111,7 +111,7 @@ namespace Cuke4Nuke.Specifications.Core
         {
             var method = Reflection.GetMethod(typeof(ValidHooks), "BeforeWithTag");
             var hook = new Hook(method);
-            Assert.That(hook.Tag, Is.EqualTo("my_tag"));
+            Assert.That(hook.Tags[0], Is.EqualTo("my_tag"));
         }
 
         [Test]
@@ -149,6 +149,9 @@ namespace Cuke4Nuke.Specifications.Core
 
             [Before("@my_tag")]
             public static void BeforeWithTag() { }
+
+            [Before("@my_tag", "@another_tag", "a_third_tag")]
+            public static void BeforeWithMultipleTags() { }
 
             [Before]
             private void ThrowsException()

@@ -7,8 +7,8 @@
         {
         }
 
-        public BeforeAttribute(string tag)
-            : base(tag)
+        public BeforeAttribute(params string[] tags)
+            : base(tags)
         {
         }
     }

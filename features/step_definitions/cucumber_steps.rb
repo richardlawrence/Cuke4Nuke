@@ -67,7 +67,7 @@ Then /^it should (fail|pass)$/ do |success|
   end
 end
 
-Then /^it should (fail|pass) with$/ do |success, output|
+Then /^it should (fail|pass) with:?$/ do |success, output|
   last_stdout.should == output
   Then("it should #{success}")
 end
