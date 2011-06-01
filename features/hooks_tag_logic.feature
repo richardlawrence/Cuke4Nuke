@@ -89,22 +89,22 @@ Feature: Tag logic
     """
     Feature: Sample
 
-    @one @three
-    Scenario: Example
-    boom (RuntimeError)
-    ./features/support/hooks.rb:2:in `Before'
-    Given passing
+      @one @three
+      Scenario: Example
+      boom (RuntimeError)
+      ./features/support/hooks.rb:2:in `Before'
+        Given passing
 
-    @one
-    Scenario: Another Example
-    Given passing
+      @one
+      Scenario: Another Example
+        Given passing
 
-    @three
-    Scenario: Yet another Example
-    Given passing
+      @three
+      Scenario: Yet another Example
+        Given passing
 
-    @ignore
-    Scenario: And yet another Example
+      @ignore
+      Scenario: And yet another Example
 
     Failing Scenarios:
     cucumber features/tagulicious.feature:4 # Scenario: Example
@@ -131,20 +131,20 @@ Feature: Tag logic
     """
     Feature: Sample
 
-    @one @three
-    Scenario: Example
-    Given passing
+      @one @three
+      Scenario: Example
+        Given passing
 
-    @one
-    Scenario: Another Example
-    Given passing
+      @one
+      Scenario: Another Example
+        Given passing
 
-    @three
-    Scenario: Yet another Example
-    Given passing
+      @three
+      Scenario: Yet another Example
+        Given passing
 
-    @ignore
-    Scenario: And yet another Example
+      @ignore
+      Scenario: And yet another Example
 
     4 scenarios (3 undefined, 1 passed)
     3 steps (3 undefined)
@@ -168,26 +168,26 @@ Feature: Tag logic
     """
     Feature: Sample
 
-    @one @three
-    Scenario: Example
-    Given passing
-    boom (RuntimeError)
-    ./features/support/hooks.rb:2:in `After'
+      @one @three
+      Scenario: Example
+        Given passing
+        boom (RuntimeError)
+        ./features/support/hooks.rb:2:in `After'
 
-    @one
-    Scenario: Another Example
-    Given passing
-    boom (RuntimeError)
-    ./features/support/hooks.rb:2:in `After'
+      @one
+      Scenario: Another Example
+        Given passing
+        boom (RuntimeError)
+        ./features/support/hooks.rb:2:in `After'
 
-    @three
-    Scenario: Yet another Example
-    Given passing
-    boom (RuntimeError)
-    ./features/support/hooks.rb:2:in `After'
+      @three
+      Scenario: Yet another Example
+        Given passing
+        boom (RuntimeError)
+        ./features/support/hooks.rb:2:in `After'
 
-    @ignore
-    Scenario: And yet another Example
+      @ignore
+      Scenario: And yet another Example
 
     Failing Scenarios:
     cucumber features/tagulicious.feature:4 # Scenario: Example
@@ -216,22 +216,22 @@ Feature: Tag logic
     """
     Feature: Sample
 
-    @one @three
-    Scenario: Example
-    Given passing
-    boom (RuntimeError)
-    ./features/support/hooks.rb:2:in `After'
+      @one @three
+      Scenario: Example
+        Given passing
+        boom (RuntimeError)
+        ./features/support/hooks.rb:2:in `After'
 
-    @one
-    Scenario: Another Example
-    Given passing
+      @one
+      Scenario: Another Example
+        Given passing
 
-    @three
-    Scenario: Yet another Example
-    Given passing
+      @three
+      Scenario: Yet another Example
+        Given passing
 
-    @ignore
-    Scenario: And yet another Example
+      @ignore
+      Scenario: And yet another Example
 
     Failing Scenarios:
     cucumber features/tagulicious.feature:4 # Scenario: Example

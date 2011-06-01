@@ -111,7 +111,7 @@ namespace Cuke4Nuke.Specifications.Core
         {
             var method = Reflection.GetMethod(typeof(ValidHooks), "BeforeWithTag");
             var hook = new Hook(method);
-            Assert.That(hook.Tags[0], Is.EqualTo("my_tag"));
+            Assert.That(hook.Tags[0], Is.EqualTo("@my_tag"));
         }
 
         [Test]

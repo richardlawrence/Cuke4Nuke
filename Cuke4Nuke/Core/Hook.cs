@@ -23,12 +23,7 @@ namespace Cuke4Nuke.Core
 
             var hookAttribute = GetHookAttributes(method)[0];
 
-            Tags = new List<string>();
-            if (hookAttribute.Tag != null)
-            {
-                Tags.Add(Regex.Replace(hookAttribute.Tag, @"^@(.*)$", @"$1"));
-            }
-
+            Tags = hookAttribute.Tags;
             Method = method;
         }
 
@@ -50,7 +45,7 @@ namespace Cuke4Nuke.Core
 
         private static HookAttribute[] GetHookAttributes(MethodInfo method)
         {
-            return (HookAttribute[]) method.GetCustomAttributes(typeof (HookAttribute), true);
+            return (HookAttribute[])method.GetCustomAttributes(typeof(HookAttribute), true);
         }
 
         public void Invoke(ObjectFactory objectFactory)
@@ -80,6 +75,7 @@ namespace Cuke4Nuke.Core
 
         public bool MatchesTags(string[] scenarioTags)
         {
+            var normalizedScenarioTags = NormalizeTags(new List<string>(scenarioTags));
             var predicate = PredicateBuilder.True<List<string>>();
             foreach (string tag in Tags)
             {
@@ -89,16 +85,28 @@ namespace Cuke4Nuke.Core
                     var orTags = tag.Split(new string[] { ",", ", " }, StringSplitOptions.RemoveEmptyEntries);
                     foreach (string orTag in orTags)
                     {
-                        nestedPredicate = nestedPredicate.Or(tags => tags.Contains(orTag));
+                        var orTagValue = orTag;
+                        nestedPredicate = nestedPredicate.Or(tags => tags.Contains(NormalizeTag(orTagValue)));
                     }
                     predicate = predicate.And(nestedPredicate);
                 }
                 else
                 {
-                    predicate = predicate.And(tags => tags.Contains(tag));
+                    var tagValue = tag;
+                    predicate = predicate.And(tags => tags.Contains(NormalizeTag(tagValue)));
                 }
             }
-            return !HasTags || predicate.Compile().Invoke(new List<string>(scenarioTags));
+            return !HasTags || predicate.Compile().Invoke(normalizedScenarioTags);
+        }
+
+        private string NormalizeTag(string tag)
+        {
+            return Regex.Replace(tag, @"^@(.*)$", @"$1");
+        }
+
+        private List<string> NormalizeTags(List<string> tags)
+        {
+            return tags.ConvertAll(tag => NormalizeTag(tag));
         }
     }
 }
