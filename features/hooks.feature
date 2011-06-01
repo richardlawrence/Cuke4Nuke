@@ -76,8 +76,54 @@ Feature: Run .NET Before and After hooks from Cucumber
         }
       }
       """
-    When I run cucumber -f progress features
-    Then it should fail
+    When I run cucumber -f pretty features
+    Then it should fail with:
+    """
+    foo
+    """
+
+  Scenario: Before hook throws exception
+    Given a file named "features/adding.feature" with:
+      """
+      Feature: Test Feature
+
+        Scenario: Before hook defined
+          Given a passing step
+
+      """
+    And Cuke4Nuke started with a step definition assembly containing:
+      """
+      public class GeneratedSteps
+      {
+        [Before]
+        public void Setup()
+        {
+          throw new Exception("Something is wrong.");
+        }
+
+        [Given(@"^a passing step$")]
+        public void PassingStep()
+        {
+        }
+      }
+      """
+    When I run cucumber -f pretty features
+    Then it should fail with:
+    """
+    Feature: Test Feature
+
+      Scenario: Before hook defined # features/adding.feature:3
+      Something is wrong. (System.Exception from localhost:3901)
+      features/wired.feature:3:in `Before'
+        Given we're all wired # features/wired.feature:4
+
+    Failing Scenarios:
+    cucumber features/wired.feature:3 # Scenario: Wired
+
+    1 scenario (1 failed)
+    1 step (1 skipped)
+
+    """
 
   Scenario: Tagged Before hook (string, positive)
     Given a file named "features/adding.feature" with:
